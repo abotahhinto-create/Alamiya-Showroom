@@ -220,7 +220,7 @@
 <body data-theme="gold">
 
     <!-- الشريط الأحمر للتأكد من التحديث -->
-    <div class="update-bar">تم تحديث الكود - يرجى تسجيل الدخول وحذف السيارات القديمة أولاً</div>
+    <div class="update-bar">تم تحديث الكود بنجاح - إصلاح خطأ الصور الفارغة</div>
 
     <div class="ticker-wrapper" id="ticker-bar">
         <div class="ticker">
@@ -790,7 +790,7 @@
             finally { btn.disabled = false; }
         });
 
-        // بيانات تجريبية بصور مختلفة (محدثة بـ 30 رابط فريد)
+        // بيانات تجريبية بصور مختلفة (محدثة لضمان عدم وجود قيم فارغة)
         const dummyBrands = ["تويوتا", "هوندا", "نيسان", "لكزس", "هيونداي", "كيا", "مرسيدس", "بي إم دبليو", "فورد", "شفروليه"];
         const dummyImagesList = [
             "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800", 
@@ -841,14 +841,29 @@
                     for(let i=1; i<=3; i++) {
                         const newDocRef = doc(collection(db, "cars"));
                         
-                        let imagesForThisCar = [dummyImagesList[imgIndex], dummyImagesList[(imgIndex+1)%30], dummyImagesList[(imgIndex+2)%30]];
+                        // التأكد من أن الصور ليست فارغة
+                        let img1 = dummyImagesList[imgIndex] || dummyImagesList[0];
+                        let img2 = dummyImagesList[(imgIndex+1)%30] || dummyImagesList[1];
+                        let img3 = dummyImagesList[(imgIndex+2)%30] || dummyImagesList[2];
+                        
+                        let imagesForThisCar = [img1, img2, img3];
                         imgIndex += 3;
 
                         batch.set(newDocRef, {
-                            brand: brand, model: `موديل ${i}`, price: `${10000 + (i*5000)} دولار`, plate: `و ه م ${i}`,
-                            status: i % 2 === 0 ? "جديد" : "مستعمل", mileage: i % 2 === 0 ? "0 km" : "50000 km",
-                            fuel: "بنزين", gear: "اوتوماتيك", extColor: "فضي", intColor: "أسود",
-                            isOffer: i === 1, images: imagesForThisCar, isDummy: true, createdAt: new Date()
+                            brand: brand || "غير محدد", 
+                            model: `موديل ${i}`, 
+                            price: `${10000 + (i*5000)} دولار`, 
+                            plate: `و ه م ${i}`,
+                            status: i % 2 === 0 ? "جديد" : "مستعمل", 
+                            mileage: i % 2 === 0 ? "0 km" : "50000 km",
+                            fuel: "بنزين", 
+                            gear: "اوتوماتيك", 
+                            extColor: "فضي", 
+                            intColor: "أسود",
+                            isOffer: i === 1, 
+                            images: imagesForThisCar, 
+                            isDummy: true, 
+                            createdAt: new Date()
                         });
                     }
                 });
