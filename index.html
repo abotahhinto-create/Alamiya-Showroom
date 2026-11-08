@@ -117,12 +117,20 @@
         .hero-content h1 span { color: var(--primary-color); }
         .hero-content p { font-size: 16px; margin-bottom: 25px; text-shadow: 0 1px 5px rgba(0,0,0,0.5);}
 
-        /* البحث */
-        .search-container { margin: 0 5% 30px 5%; display: flex; gap: 15px; background: var(--card-bg); padding: 15px; border-radius: 15px; box-shadow: var(--shadow); align-items: center; border: 1px solid var(--border-color);}
+        /* البحث والفلاتر */
+        .search-container { margin: 0 5% 15px 5%; display: flex; gap: 15px; background: var(--card-bg); padding: 15px; border-radius: 15px; box-shadow: var(--shadow); align-items: center; border: 1px solid var(--border-color);}
         .search-box { flex: 1; position: relative; }
         .search-box i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 18px;}
         .search-input { width: 100%; padding: 15px 45px 15px 15px; border: 2px solid transparent; border-radius: 10px; background: var(--box-bg); color: var(--text-main); font-size: 16px; outline: none; transition: 0.3s;}
         .search-input:focus { border-color: var(--primary-color); background: var(--card-bg);}
+        .filter-select { padding: 12px 15px; border: 2px solid transparent; border-radius: 10px; background: var(--box-bg); color: var(--text-main); font-weight: bold; outline: none; cursor: pointer; font-family: 'Tajawal';}
+        .filter-select:focus { border-color: var(--primary-color); }
+
+        /* فلاتر الماركات */
+        .filter-tabs { display: flex; gap: 10px; margin: 0 5% 20px 5%; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none;}
+        .filter-tabs::-webkit-scrollbar { display: none; }
+        .filter-tab { padding: 8px 20px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 30px; cursor: pointer; white-space: nowrap; font-weight: 600; transition: all 0.3s; box-shadow: var(--shadow);}
+        .filter-tab.active { background: var(--primary-color); color: white; border-color: var(--primary-color); box-shadow: var(--shadow);}
 
         /* أقسام الماركات */
         .brand-section { margin-bottom: 40px; }
@@ -131,7 +139,7 @@
         /* ================= شريط السيارات الأفقي ================= */
         .cars-row { 
             display: flex; 
-            flex-direction: row; /* أفقي */
+            flex-direction: row; 
             overflow-x: auto; 
             gap: 15px; 
             padding: 0 5% 20px 5%; 
@@ -140,10 +148,9 @@
         }
         .cars-row::-webkit-scrollbar { display: none; }
         
-        /* البطاقة الأفقية - العرض ثابت */
         .car-card { 
-            flex: 0 0 auto; /* يمنع التمدد */
-            width: 260px; /* عرض ثابت */
+            flex: 0 0 auto; 
+            width: 260px; 
             height: 160px; 
             background: var(--card-bg); 
             border-radius: 12px; 
@@ -151,7 +158,7 @@
             box-shadow: var(--shadow); 
             border: 1px solid var(--border-color); 
             display: flex; 
-            flex-direction: row; /* اتجاه أفقي */
+            flex-direction: row; 
             position: relative;
             scroll-snap-align: start;
         }
@@ -213,7 +220,7 @@
 <body data-theme="gold">
 
     <!-- الشريط الأحمر للتأكد من التحديث -->
-    <div class="update-bar">تم تحديث الكود بنجاح - نسخة جديدة (أفقي + صور متنوعة)</div>
+    <div class="update-bar">تم تحديث الكود بنجاح - نسخة جديدة (أفقي + صور متنوعة + فلاتر)</div>
 
     <div class="ticker-wrapper" id="ticker-bar">
         <div class="ticker">
@@ -276,7 +283,15 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="text" id="search-text" class="search-input" placeholder="ابحث بالماركة أو الموديل..." onkeyup="filterCars()">
                 </div>
+                <select id="search-status" class="filter-select" onchange="filterCars()">
+                    <option value="all">الكل (جديد ومستعمل)</option>
+                    <option value="جديد">جديد</option>
+                    <option value="مستعمل">مستعمل</option>
+                </select>
             </div>
+
+            <!-- فلاتر الماركات -->
+            <div class="filter-tabs" id="filter-tabs"></div>
 
             <div id="cars-container">
                 <div style="text-align:center; padding: 20px; color:var(--text-muted);" id="loading-text">جاري تحميل السيارات...</div>
@@ -447,7 +462,7 @@
         const secondaryAuth = getAuth(secondaryApp);
 
         let cars = [];
-        let searchTerm = '';
+        let currentFilters = { text: '', status: 'all', brand: 'all' };
         let editingCarId = null;
 
         window.toggleSidebar = function() {
@@ -515,24 +530,49 @@
             cars = [];
             snapshot.forEach((doc) => { cars.push({ id: doc.id, ...doc.data() }); });
             document.getElementById('loading-text').style.display = 'none';
+            generateBrandFilters();
             renderCars();
             if(document.getElementById('tab-manage-cars').classList.contains('active')) searchAdminCars();
         });
 
-        window.filterCars = function() {
-            searchTerm = document.getElementById('search-text').value.toLowerCase();
+        // توليد فلاتر الماركات
+        function generateBrandFilters() {
+            const brands = ['all', ...new Set(cars.map(car => car.brand))];
+            const container = document.getElementById('filter-tabs');
+            container.innerHTML = '';
+            brands.forEach(brand => {
+                const btn = document.createElement('div');
+                btn.className = `filter-tab ${currentFilters.brand === brand ? 'active' : ''}`;
+                btn.innerText = brand === 'all' ? 'كل الماركات' : brand;
+                btn.onclick = () => setBrandFilter(brand, btn);
+                container.appendChild(btn);
+            });
+        }
+
+        window.setBrandFilter = (brand, element) => {
+            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+            element.classList.add('active');
+            currentFilters.brand = brand;
             renderCars();
         }
 
-        // عرض السيارات حسب الماركة (أفقي)
+        window.filterCars = function() {
+            currentFilters.text = document.getElementById('search-text').value.toLowerCase();
+            currentFilters.status = document.getElementById('search-status').value;
+            renderCars();
+        }
+
+        // عرض السيارات حسب الماركة والفلاتر (أفقي)
         window.renderCars = function() {
             const container = document.getElementById('cars-container');
             container.innerHTML = '';
 
-            let filteredCars = cars.filter(car => 
-                car.brand.toLowerCase().includes(searchTerm) || 
-                car.model.toLowerCase().includes(searchTerm)
-            );
+            let filteredCars = cars.filter(car => {
+                const matchText = car.brand.toLowerCase().includes(currentFilters.text) || car.model.toLowerCase().includes(currentFilters.text);
+                const matchStatus = currentFilters.status === 'all' || car.status === currentFilters.status;
+                const matchBrand = currentFilters.brand === 'all' || car.brand === currentFilters.brand;
+                return matchText && matchStatus && matchBrand;
+            });
 
             if (filteredCars.length === 0) {
                 container.innerHTML = '<h3 style="text-align:center; color:var(--text-muted); padding: 20px;">لا توجد سيارات مطابقة.</h3>'; 
@@ -750,39 +790,39 @@
             finally { btn.disabled = false; }
         });
 
-        // بيانات تجريبية بصور مختلفة (تم إضافة 30 رابط صورة مختلف)
+        // بيانات تجريبية بصور مختلفة (30 صورة مختلفة تماماً)
         const dummyBrands = ["تويوتا", "هوندا", "نيسان", "لكزس", "هيونداي", "كيا", "مرسيدس", "بي إم دبليو", "فورد", "شفروليه"];
         const dummyImagesList = [
-            "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1517672651691-24622a91b550?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1485291571150-772bcfc10da5?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800&sat=-100",
-            "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1616422285623-13ff0162193c?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&q=80&w=800"
+            "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800", // Mustang
+            "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=800", // Porsche
+            "https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&q=80&w=800", // Prado
+            "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&q=80&w=800", // Audi
+            "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&q=80&w=800", // Muscle
+            "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&q=80&w=800", // VW
+            "https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&q=80&w=800", // Range Rover
+            "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&q=80&w=800", // Ferrari
+            "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800", // Honda
+            "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&q=80&w=800", // Audi R8
+            "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=800", // SUV
+            "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=800", // BMW
+            "https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&q=80&w=800", // Classic
+            "https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&q=80&w=800", // Lexus
+            "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&q=80&w=800", // Mercedes
+            "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&q=80&w=800", // G-Class
+            "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&q=80&w=800", // Nissan
+            "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=800", // Toyota
+            "https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=800", // Kia
+            "https://images.unsplash.com/photo-1517672651691-24622a91b550?auto=format&fit=crop&q=80&w=800", // Ford
+            "https://images.unsplash.com/photo-1485291571150-772bcfc10da5?auto=format&fit=crop&q=80&w=800", // Jeep
+            "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800&sat=-100", // B&W Car
+            "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&q=80&w=800", // Modern
+            "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&q=80&w=800", // Sports
+            "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=800", // Luxury
+            "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=800", // Classic
+            "https://images.unsplash.com/photo-1616422285623-13ff0162193c?auto=format&fit=crop&q=80&w=800", // Offroad
+            "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&q=80&w=800", // SUV
+            "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&q=80&w=800", // Modern
+            "https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&q=80&w=800"  // Sedan
         ];
 
         window.addDummyData = async () => {
