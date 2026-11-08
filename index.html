@@ -11,39 +11,44 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         /* ================= المتغيرات والثيمات ================= */
         :root {
-            --bg-color: #faf8f5; --card-bg: #ffffff; --text-main: #3e2f24;
-            --text-muted: #8c7765; --primary-color: #c59b27; --primary-hover: #a67f1d;
-            --border-color: #e8dfd3; --box-bg: #fcf9f2; --sidebar-bg: #ffffff; --whatsapp-color: #25d366;
-            --shadow: 0 8px 25px rgba(197, 155, 39, 0.15);
+            --bg-color: #f7f9fc; --card-bg: #ffffff; --text-main: #2c3e50;
+            --text-muted: #7f8c8d; --primary-color: #c59b27; --primary-hover: #a67f1d;
+            --border-color: #e1e8ed; --box-bg: #f8f9fa; --sidebar-bg: #ffffff; --whatsapp-color: #25d366;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --glow: 0 0 20px rgba(197, 155, 39, 0.4);
         }
         
         body[data-theme="royal"] { 
-            --bg-color: #0d0d0d; --card-bg: #1a1a1a; --text-main: #f4e8c1; --text-muted: #b8a77c; 
-            --primary-color: #d4af37; --primary-hover: #b5952f; --border-color: #333333; --box-bg: #222222; 
-            --sidebar-bg: #111111; --shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
+            --bg-color: #0f1115; --card-bg: #1a1d24; --text-main: #f4e8c1; --text-muted: #8e9aab; 
+            --primary-color: #d4af37; --primary-hover: #b5952f; --border-color: #2d3340; --box-bg: #222731; 
+            --sidebar-bg: #15181e; --shadow: 0 10px 30px rgba(0,0,0,0.5);
+            --glow: 0 0 20px rgba(212, 175, 55, 0.3);
         }
 
         body[data-theme="classic"] { 
             --bg-color: #ffffff; --card-bg: #fdfdfd; --text-main: #2c2c2c; --text-muted: #757575; 
             --primary-color: #b8860b; --primary-hover: #996f09; --border-color: #e0e0e0; --box-bg: #f5f5f5; 
-            --sidebar-bg: #fafafa; --shadow: 0 8px 25px rgba(0,0,0,0.08);
+            --sidebar-bg: #fafafa; --shadow: 0 10px 30px rgba(0,0,0,0.05);
+            --glow: 0 0 20px rgba(184, 134, 11, 0.3);
         }
 
         body[data-theme="silver"] { 
             --bg-color: #eef2f5; --card-bg: #ffffff; --text-main: #2c3e50; --text-muted: #7f8c8d; 
             --primary-color: #95a5a6; --primary-hover: #7f8c8d; --border-color: #bdc3c7; --box-bg: #f4f6f7; 
-            --sidebar-bg: #ffffff; --shadow: 0 8px 25px rgba(0,0,0,0.1);
+            --sidebar-bg: #ffffff; --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --glow: 0 0 20px rgba(149, 165, 166, 0.3);
         }
 
         /* ================= الحركات ================= */
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUpToast { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         @keyframes pulseGold { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
         @keyframes carDrive { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100vw); } }
         
@@ -54,89 +59,97 @@
         body { background-color: var(--bg-color); color: var(--text-main); transition: all 0.3s ease; overflow-x: hidden; }
         a { text-decoration: none; color: inherit; }
         
-        /* شريط التحديث الأحمر */
-        .update-bar { background-color: #ff0000; color: white; text-align: center; padding: 5px; font-weight: bold; font-size: 14px; position: fixed; top: 35px; width: 100%; z-index: 1001;}
-
         /* شريط العروض */
-        .ticker-wrapper { background: linear-gradient(90deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); color: #000; padding: 8px 0; overflow: hidden; white-space: nowrap; font-weight: bold; font-size: 14px; position: fixed; top: 0; width: 100%; z-index: 1000;}
-        .ticker { display: inline-block; animation: carDrive 30s linear infinite; }
-        .ticker span { margin: 0 30px; }
+        .ticker-wrapper { background: linear-gradient(90deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); color: #000; padding: 10px 0; overflow: hidden; white-space: nowrap; font-weight: bold; font-size: 14px; position: fixed; top: 0; width: 100%; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}
+        .ticker { display: inline-block; animation: carDrive 35s linear infinite; }
+        .ticker span { margin: 0 30px; display: inline-flex; align-items: center; gap: 8px;}
 
         /* زر تثبيت التطبيق */
-        #installBtn { display: none; position: fixed; top: 65px; width: 100%; background: var(--primary-color); color: #fff; text-align: center; padding: 10px; font-weight: bold; z-index: 1002; cursor: pointer; border: none; font-family: 'Tajawal'; font-size: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.2);}
+        #installBtn { display: none; position: fixed; top: 40px; width: 100%; background: var(--primary-color); color: #fff; text-align: center; padding: 10px; font-weight: bold; z-index: 1002; cursor: pointer; border: none; font-family: 'Tajawal'; font-size: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.2);}
         #installBtn i { margin-left: 8px;}
 
         /* الهيدر */
-        .header-bar { position: fixed; top: 65px; right: 0; width: 100%; height: 65px; background: var(--card-bg); display: flex; justify-content: space-between; align-items: center; padding: 0 20px; z-index: 999; box-shadow: var(--shadow); transition: top 0.3s;}
-        .header-bar .logo { font-size: 22px; font-weight: 800; color: var(--primary-color); display: flex; align-items: center; gap: 10px;}
-        .menu-toggle { background: none; border: none; font-size: 26px; cursor: pointer; color: var(--text-main); }
-        
+        .header-bar { position: fixed; top: 40px; right: 0; width: 100%; height: 70px; background: var(--card-bg); display: flex; justify-content: space-between; align-items: center; padding: 0 20px; z-index: 999; box-shadow: var(--shadow); transition: top 0.3s;}
+        .header-bar .logo { font-size: 24px; font-weight: 900; color: var(--primary-color); display: flex; align-items: center; gap: 10px; letter-spacing: 1px;}
+        .menu-toggle { background: var(--box-bg); border: 1px solid var(--border-color); border-radius: 8px; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; font-size: 20px; cursor: pointer; color: var(--text-main); transition: 0.3s;}
+        .menu-toggle:hover { background: var(--primary-color); color: white; }
+
         /* القائمة الجانبية */
-        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; display: none; backdrop-filter: blur(3px);}
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: none; backdrop-filter: blur(5px);}
         .sidebar-overlay.active { display: block; animation: fadeIn 0.3s;}
         
-        .sidebar { position: fixed; top: 0; right: -320px; width: 300px; height: 100vh; background: var(--sidebar-bg); z-index: 10000; box-shadow: -5px 0 25px rgba(0,0,0,0.2); transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column; overflow: hidden;}
+        .sidebar { position: fixed; top: 0; right: -320px; width: 300px; height: 100vh; background: var(--sidebar-bg); z-index: 10000; box-shadow: -10px 0 30px rgba(0,0,0,0.2); transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column; overflow: hidden;}
         .sidebar.open { right: 0; }
-        .sidebar::before { content: '\f1b9 \f1b9 \f1b9'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 80px; color: var(--box-bg); position: absolute; top: 50%; left: -20px; transform: rotate(-90deg); opacity: 0.5; pointer-events: none; z-index: -1; white-space: nowrap;}
+        .sidebar::before { content: '\f1b9 \f1b9 \f1b9'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 100px; color: var(--box-bg); position: absolute; top: 40%; left: -30px; transform: rotate(-90deg); opacity: 0.7; pointer-events: none; z-index: -1; white-space: nowrap;}
 
-        .sidebar-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid var(--border-color); background: var(--box-bg);}
-        .sidebar .logo { font-size: 20px; font-weight: 800; color: var(--primary-color); }
-        .close-sidebar { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-main); }
+        .sidebar-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid var(--border-color); background: var(--card-bg);}
+        .sidebar .logo { font-size: 22px; font-weight: 900; color: var(--primary-color); }
+        .close-sidebar { background: none; border: none; font-size: 28px; cursor: pointer; color: var(--text-main); transition: 0.3s;}
+        .close-sidebar:hover { color: #dc3545; transform: rotate(90deg);}
         
         .nav-links { display: flex; flex-direction: column; padding: 10px 0; flex: 1; overflow-y: auto;}
-        .nav-links a { padding: 15px 20px; font-weight: 600; font-size: 16px; transition: 0.3s; display: flex; align-items: center; gap: 15px; border-right: 4px solid transparent;}
+        .nav-links a { padding: 15px 20px; font-weight: 700; font-size: 16px; transition: 0.3s; display: flex; align-items: center; gap: 15px; border-right: 4px solid transparent; color: var(--text-main);}
+        .nav-links a i { width: 25px; text-align: center; color: var(--primary-color);}
         .nav-links a:hover, .nav-links a.active { background: var(--box-bg); color: var(--primary-color); border-right-color: var(--primary-color); padding-right: 25px;}
         
-        .designer-card { background: linear-gradient(135deg, var(--card-bg), var(--box-bg)); margin: 15px; padding: 15px; border-radius: 12px; border: 1px solid var(--primary-color); text-align: center; box-shadow: var(--shadow); position: relative; overflow: hidden;}
-        .designer-card .avatar { width: 50px; height: 50px; background: var(--primary-color); color: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 22px; font-weight: bold; margin: 0 auto 10px auto; animation: pulseGold 2s infinite;}
-        .designer-card h4 { font-size: 16px; margin-bottom: 5px; }
-        .designer-card p { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
-        .designer-card a { display: inline-block; background: var(--whatsapp-color); color: white; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold;}
+        /* بطاقة المصمم (محدثة) */
+        .designer-card { 
+            background: linear-gradient(135deg, var(--card-bg) 0%, var(--box-bg) 100%); 
+            margin: 15px; padding: 20px; border-radius: 16px; 
+            border: 1px solid var(--primary-color); 
+            text-align: center; box-shadow: var(--glow); 
+            position: relative; overflow: hidden;
+        }
+        .designer-card::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%); transform: rotate(45deg); pointer-events: none;}
+        .designer-card .avatar { width: 60px; height: 60px; background: var(--primary-color); color: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 26px; font-weight: bold; margin: 0 auto 15px auto; box-shadow: var(--glow);}
+        .designer-card h4 { font-size: 18px; margin-bottom: 5px; color: var(--text-main); font-weight: 800;}
+        .designer-card p { font-size: 13px; color: var(--text-muted); margin-bottom: 15px; font-weight: 500;}
+        .designer-card a { display: inline-flex; align-items: center; gap: 8px; background: var(--whatsapp-color); color: white; padding: 8px 20px; border-radius: 30px; font-size: 14px; font-weight: bold; transition: 0.3s;}
+        .designer-card a:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);}
 
         .theme-switcher { display: flex; gap: 12px; justify-content: center; margin: 15px 0; flex-wrap: wrap;}
         .theme-btn { width: 35px; height: 35px; border-radius: 50%; border: 2px solid var(--border-color); cursor: pointer; transition: transform 0.3s; position: relative;}
         .theme-btn:hover { transform: scale(1.2); }
-        .theme-btn[data-theme-val="gold"] { background: #faf8f5; border-color: #c59b27;}
-        .theme-btn[data-theme-val="royal"] { background: #1a1a1a; border-color: #d4af37;}
-        .theme-btn[data-theme-val="classic"] { background: #ffffff; border-color: #b8860b;}
-        .theme-btn[data-theme-val="silver"] { background: #eef2f5; border-color: #95a5a6;}
-        .theme-btn::after { content: '\f1b9'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: var(--text-main); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 14px;}
+        .theme-btn[data-theme-val="gold"] { background: #c59b27; }
+        .theme-btn[data-theme-val="royal"] { background: #d4af37; }
+        .theme-btn[data-theme-val="classic"] { background: #b8860b; }
+        .theme-btn[data-theme-val="silver"] { background: #95a5a6; }
+        .theme-btn::after { content: '\f1b9'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: #fff; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 14px;}
 
-        .sidebar-footer { padding: 15px; border-top: 1px solid var(--border-color); text-align: center;}
+        .sidebar-footer { padding: 20px; border-top: 1px solid var(--border-color); text-align: center; background: var(--card-bg);}
 
         /* المحتوى الرئيسي */
-        .main-content { margin-top: 130px; padding-bottom: 50px; min-height: 80vh;}
+        .main-content { margin-top: 120px; padding-bottom: 50px; min-height: 80vh;}
         .page { display: none; }
         .page.active { display: block; animation: fadeIn 0.5s ease forwards; }
 
         /* الواجهة الرئيسية */
-        .hero { position: relative; height: 300px; margin: 0 5% 30px 5%; border-radius: 20px; overflow: hidden; background: url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=1200') center/cover; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow);}
-        .hero::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8)); }
-        .hero-content { position: relative; z-index: 2; text-align: center; color: white; animation: slideDown 0.8s ease;}
-        .hero-content h1 { font-size: 36px; font-weight: 800; margin-bottom: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.5);}
+        .hero { position: relative; height: 280px; margin: 0 5% 30px 5%; border-radius: 24px; overflow: hidden; background: url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=1200') center/cover; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow);}
+        .hero::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 100%); }
+        .hero-content { position: relative; z-index: 2; text-align: center; color: white; animation: slideDown 0.8s ease; padding: 0 20px;}
+        .hero-content h1 { font-size: 38px; font-weight: 900; margin-bottom: 15px; text-shadow: 0 4px 15px rgba(0,0,0,0.6);}
         .hero-content h1 span { color: var(--primary-color); }
-        .hero-content p { font-size: 16px; margin-bottom: 25px; text-shadow: 0 1px 5px rgba(0,0,0,0.5);}
+        .hero-content p { font-size: 16px; margin-bottom: 0; text-shadow: 0 2px 5px rgba(0,0,0,0.6); max-width: 500px; margin: 0 auto;}
 
-        /* البحث والفلاتر */
-        .search-container { margin: 0 5% 15px 5%; display: flex; gap: 15px; background: var(--card-bg); padding: 15px; border-radius: 15px; box-shadow: var(--shadow); align-items: center; border: 1px solid var(--border-color);}
-        .search-box { flex: 1; position: relative; }
-        .search-box i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 18px;}
-        .search-input { width: 100%; padding: 15px 45px 15px 15px; border: 2px solid transparent; border-radius: 10px; background: var(--box-bg); color: var(--text-main); font-size: 16px; outline: none; transition: 0.3s;}
-        .search-input:focus { border-color: var(--primary-color); background: var(--card-bg);}
-        .filter-select { padding: 12px 15px; border: 2px solid transparent; border-radius: 10px; background: var(--box-bg); color: var(--text-main); font-weight: bold; outline: none; cursor: pointer; font-family: 'Tajawal';}
+        /* ================= قسم البحث والفلاتر (محدث وواسع) ================= */
+        .search-wrapper { margin: 0 5% 25px 5%; background: var(--card-bg); padding: 20px; border-radius: 20px; box-shadow: var(--shadow); border: 1px solid var(--border-color);}
+        .search-box { position: relative; width: 100%; margin-bottom: 15px;}
+        .search-box i { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--primary-color); font-size: 20px;}
+        .search-input { width: 100%; padding: 16px 55px 16px 20px; border: 2px solid var(--border-color); border-radius: 12px; background: var(--box-bg); color: var(--text-main); font-size: 16px; font-weight: 600; outline: none; transition: 0.3s;}
+        .search-input:focus { border-color: var(--primary-color); box-shadow: 0 0 0 4px rgba(197, 155, 39, 0.1); background: var(--card-bg);}
+        
+        .filters-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;}
+        .filter-select { width: 100%; padding: 14px 15px; border: 2px solid var(--border-color); border-radius: 12px; background: var(--box-bg); color: var(--text-main); font-weight: 700; outline: none; cursor: pointer; font-family: 'Tajawal'; transition: 0.3s; appearance: none; text-align: center;}
         .filter-select:focus { border-color: var(--primary-color); }
-
-        /* فلاتر الماركات */
-        .filter-tabs { display: flex; gap: 10px; margin: 0 5% 20px 5%; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none;}
-        .filter-tabs::-webkit-scrollbar { display: none; }
-        .filter-tab { padding: 8px 20px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 30px; cursor: pointer; white-space: nowrap; font-weight: 600; transition: all 0.3s; box-shadow: var(--shadow);}
-        .filter-tab.active { background: var(--primary-color); color: white; border-color: var(--primary-color); box-shadow: var(--shadow);}
+        .filter-select option { font-weight: bold; padding: 10px;}
 
         /* أقسام الماركات */
         .brand-section { margin-bottom: 40px; }
-        .brand-title { font-size: 22px; font-weight: 800; color: var(--text-main); margin: 0 5% 15px 5%; display: flex; align-items: center; gap: 10px; border-right: 5px solid var(--primary-color); padding-right: 10px;}
+        .brand-title { font-size: 24px; font-weight: 900; color: var(--text-main); margin: 0 5% 20px 5%; display: flex; align-items: center; gap: 12px;}
+        .brand-title::before { content: ''; display: block; width: 6px; height: 30px; background: var(--primary-color); border-radius: 10px;}
+        .brand-title span { color: var(--primary-color); }
         
-        /* ================= شريط السيارات الأفقي (السلايدر) ================= */
+        /* ================= شريط السيارات الأفقي ================= */
         .cars-row { 
             display: flex; 
             flex-direction: row; 
@@ -148,91 +161,125 @@
         }
         .cars-row::-webkit-scrollbar { display: none; }
         
-        /* البطاقة الجديدة: أوسع، الصورة فوق والتفاصيل تحت */
+        /* البطاقة المزينة */
         .car-card { 
             flex: 0 0 auto; 
-            width: 85vw; /* عرض كبير للهاتف */
-            max-width: 320px; /* حد أقصى للكمبيوتر */
-            height: 380px; /* ارتفاع مناسب */
+            width: 85vw; 
+            max-width: 320px; 
+            height: 380px; 
             background: var(--card-bg); 
             border-radius: 20px; 
             overflow: hidden; 
-            box-shadow: var(--shadow); 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06); 
             border: 1px solid var(--border-color); 
             display: flex; 
-            flex-direction: column; /* الصورة فوق والتفاصيل تحت */
+            flex-direction: column; 
             position: relative;
             scroll-snap-align: center;
-            transition: transform 0.3s;
+            transition: all 0.4s ease;
         }
-        .car-card:hover { transform: translateY(-5px); }
+        .car-card:hover { transform: translateY(-8px); box-shadow: var(--glow); border-color: var(--primary-color); }
         
-        .car-images { width: 100%; height: 220px; position: relative; background: #000; overflow: hidden;}
+        .car-images { width: 100%; height: 200px; position: relative; background: #000; overflow: hidden;}
         .car-images img { width: 100%; height: 100%; object-fit: cover; position: absolute; transition: opacity 0.5s; }
         
-        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 6px 10px; cursor: pointer; border-radius: 50%; z-index: 2; font-size: 12px; backdrop-filter: blur(2px);}
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: white; border: none; padding: 6px 10px; cursor: pointer; border-radius: 50%; z-index: 2; font-size: 12px; backdrop-filter: blur(3px); transition: 0.3s;}
+        .slider-btn:hover { background: var(--primary-color); }
         .slider-btn.prev { right: 10px; } .slider-btn.next { left: 10px; }
-        .slider-dots { position: absolute; bottom: 10px; width: 100%; display: flex; justify-content: center; gap: 4px; z-index: 2;}
-        .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: 0.3s;}
+        .slider-dots { position: absolute; bottom: 10px; width: 100%; display: flex; justify-content: center; gap: 5px; z-index: 2;}
+        .dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: 0.3s;}
         .dot.active { background: var(--primary-color); transform: scale(1.3);}
         
-        .offer-badge { position: absolute; top: 15px; right: 15px; background: #ff4757; color: white; padding: 4px 10px; border-radius: 6px; font-weight: bold; font-size: 11px; z-index: 2; animation: pulseGold 2s infinite; box-shadow: 0 2px 10px rgba(255, 71, 87, 0.4);}
+        .offer-badge { position: absolute; top: 15px; right: 15px; background: #ff4757; color: white; padding: 5px 12px; border-radius: 8px; font-weight: bold; font-size: 12px; z-index: 2; animation: pulseGold 2s infinite; box-shadow: 0 4px 10px rgba(255, 71, 87, 0.4); display: flex; align-items: center; gap: 5px;}
 
         .car-details { width: 100%; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; flex: 1;}
-        .car-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 10px;}
-        .car-title { font-size: 16px; font-weight: 800; color: var(--text-main); }
-        .car-price { font-size: 18px; font-weight: 900; color: var(--primary-color); }
-        .car-meta { color: var(--text-muted); font-size: 12px; margin-top: 5px; display: flex; gap: 10px;}
+        .car-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px; margin-bottom: 10px;}
+        .car-title { font-size: 17px; font-weight: 800; color: var(--text-main); line-height: 1.4;}
+        .car-price { font-size: 19px; font-weight: 900; color: var(--primary-color); background: var(--box-bg); padding: 2px 8px; border-radius: 6px;}
+        .car-meta { color: var(--text-muted); font-size: 12px; margin-top: 5px; display: flex; gap: 12px; font-weight: 600;}
         
         .car-specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;}
         .spec-item { background: var(--box-bg); padding: 6px; border-radius: 8px; text-align: center; font-size: 12px; border: 1px solid var(--border-color);}
-        .spec-label { color: var(--text-muted); font-size: 10px; display: block; margin-bottom: 2px; }
-        .spec-value { font-weight: 700; color: var(--text-main); }
+        .spec-label { color: var(--text-muted); font-size: 10px; display: block; margin-bottom: 2px; font-weight: 600;}
+        .spec-value { font-weight: 800; color: var(--text-main); }
         
-        .btn-details { width: 100%; padding: 10px; border-radius: 8px; background: var(--primary-color); color: white; font-weight: bold; text-align: center; border: none; cursor: pointer; font-size: 13px; transition: 0.3s;}
-        .btn-details:hover { background: var(--primary-hover); }
+        .btn-details { width: 100%; padding: 12px; border-radius: 10px; background: var(--primary-color); color: white; font-weight: bold; text-align: center; border: none; cursor: pointer; font-size: 14px; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px;}
+        .btn-details:hover { background: var(--primary-hover); transform: scale(1.02);}
 
         /* النوافذ المنبثقة */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px);}
-        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 20px; width: 95%; max-width: 700px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.4); animation: slideDown 0.4s ease;}
+        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 24px; width: 95%; max-width: 700px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.5); animation: slideDown 0.4s ease;}
         .modal-header { display: flex; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;}
-        .close-btn { background: none; border: none; font-size: 28px; cursor: pointer; color: var(--text-main); transition: 0.2s;}
-        .close-btn:hover { color: #dc3545; transform: rotate(90deg);}
+        .close-btn { background: var(--box-bg); border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 20px; cursor: pointer; color: var(--text-main); transition: 0.2s; display: flex; justify-content: center; align-items: center;}
+        .close-btn:hover { color: #fff; background: #dc3545; transform: rotate(90deg);}
         
         #adminModal .modal-content { max-width: 900px; }
-        .admin-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; overflow-x: auto;}
-        .admin-tab { padding: 10px 20px; cursor: pointer; font-weight: bold; border-radius: 8px; background: var(--box-bg); white-space: nowrap; border: 1px solid var(--border-color);}
-        .admin-tab.active { background: var(--primary-color); color: white; border-color: var(--primary-color);}
+        .admin-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; overflow-x: auto;}
+        .admin-tab { padding: 10px 20px; cursor: pointer; font-weight: bold; border-radius: 10px; background: var(--box-bg); white-space: nowrap; border: 1px solid var(--border-color); transition: 0.3s;}
+        .admin-tab.active { background: var(--primary-color); color: white; border-color: var(--primary-color); box-shadow: var(--glow);}
         .admin-tab-content { display: none; }
-        .admin-tab-content.active { display: block; }
+        .admin-tab-content.active { display: block; animation: fadeIn 0.3s;}
 
         .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px;}
-        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-color); color: var(--text-main); font-family: 'Tajawal'; outline: none;}
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; font-size: 14px;}
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 10px; background: var(--box-bg); color: var(--text-main); font-family: 'Tajawal'; outline: none; font-weight: 600;}
+        .form-group input:focus, .form-group select:focus { border-color: var(--primary-color);}
         
-        .btn-danger { background: #dc3545; color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold;}
-        .btn-success { background: #198754; color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold;}
-        .btn-warning { background: #ffc107; color: #000; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold;}
+        .btn-danger { background: #dc3545; color: white; border: none; padding: 12px 20px; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s;}
+        .btn-danger:hover { background: #c82333; transform: scale(1.02);}
+        .btn-success { background: #198754; color: white; border: none; padding: 12px 20px; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s;}
+        .btn-success:hover { background: #157347; transform: scale(1.02);}
+        .btn-warning { background: #ffc107; color: #000; border: none; padding: 12px 20px; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s;}
 
-        #carDetailsModal .modal-content { max-width: 900px; }
+        /* تفاصيل السيارة */
+        #carDetailsModal .modal-content { max-width: 900px; padding: 0; overflow: hidden;}
+        .details-header-img { width: 100%; height: 300px; object-fit: cover;}
+        .details-body { padding: 30px; }
         .details-gallery { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px;}
-        .details-gallery img { height: 250px; border-radius: 10px; object-fit: cover; }
-        .details-specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; }
+        .details-gallery img { height: 120px; border-radius: 10px; object-fit: cover; cursor: pointer; transition: 0.3s;}
+        .details-gallery img:hover { transform: scale(1.05); box-shadow: var(--shadow);}
+        .details-specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 25px;}
+        
+        /* أزرار التواصل (محدثة) */
+        .contact-actions { display: flex; gap: 15px; margin-top: 20px;}
+        .btn-call, .btn-whatsapp { padding: 15px; border-radius: 12px; text-align: center; font-weight: bold; font-size: 16px; text-decoration: none; flex: 1; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s;}
+        .btn-call { background: var(--primary-color); color: white; }
+        .btn-call:hover { background: var(--primary-hover); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(197, 155, 39, 0.4);}
+        .btn-whatsapp { background: var(--whatsapp-color); color: white; }
+        .btn-whatsapp:hover { background: #1ebe5b; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);}
 
-        .admin-car-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border: 1px solid var(--border-color); margin-bottom: 10px; border-radius: 10px; background: var(--box-bg);}
-        .admin-car-info { font-size: 15px; }
+        .admin-car-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border: 1px solid var(--border-color); margin-bottom: 10px; border-radius: 12px; background: var(--box-bg);}
+        .admin-car-info { font-size: 15px; font-weight: 600;}
         .admin-car-actions { display: flex; gap: 8px; }
 
         .preview-images { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px; }
-        .preview-images img { height: 60px; border-radius: 5px; border: 1px solid var(--border-color); }
+        .preview-images img { height: 60px; border-radius: 8px; border: 1px solid var(--border-color); }
+
+        /* التنبيه العائم (Toast) */
+        .toast-notification {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ff4757, #ff6b81); color: white;
+            padding: 15px 25px; border-radius: 50px; font-weight: bold; font-size: 15px;
+            box-shadow: 0 10px 25px rgba(255, 71, 87, 0.4); z-index: 10005;
+            display: flex; align-items: center; gap: 10px; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer; border: 2px solid rgba(255,255,255,0.3);
+        }
+        .toast-notification.show { transform: translateX(-50%) translateY(0); }
+        .toast-notification i { font-size: 20px; animation: pulseGold 1.5s infinite;}
+
+        /* تعديلات الموبايل */
+        @media (max-width: 768px) {
+            .filters-row { grid-template-columns: 1fr; }
+            .hero-content h1 { font-size: 28px; }
+            .admin-car-item { flex-direction: column; align-items: flex-start; gap: 10px;}
+            .contact-actions { flex-direction: column; }
+        }
     </style>
 </head>
 <body data-theme="gold">
 
-    <div class="update-bar">تم تحديث التصميم - بطاقات أوسع وصور فريدة لكل سيارة</div>
-
     <div class="ticker-wrapper" id="ticker-bar">
-        <div class="ticker">
+        <div class="ticker" id="ticker-content">
             <span>🚗 أهلاً بكم في معرض العالمية - وجهتكم الأولى للسيارات الفاخرة</span>
             <span>🔥 عروض حصرية وأسعار لا تقبل المنافسة</span>
             <span>📞 للتواصل مع الإدارة: 777772778</span>
@@ -240,6 +287,12 @@
     </div>
 
     <button id="installBtn"><i class="fa-solid fa-download"></i> تثبيت التطبيق على جهازك</button>
+
+    <!-- التنبيه العائم -->
+    <div class="toast-notification" id="offerToast" onclick="this.classList.remove('show')">
+        <i class="fa-solid fa-fire"></i>
+        <span>عروض جديدة وصلت! خصومات تصل إلى 20% على السيارات المختارة.</span>
+    </div>
 
     <div class="header-bar" id="header-bar">
         <div class="logo"><i class="fa-solid fa-car-side"></i> العالمية</div>
@@ -260,6 +313,7 @@
             <a id="adminLoginBtn" style="color: var(--primary-color); font-weight: bold; border-top: 1px solid var(--border-color); margin-top: 10px;"><i class="fa-solid fa-user-lock"></i> دخول الإدارة</a>
         </div>
 
+        <!-- بطاقة المصمم المحدثة -->
         <div class="designer-card">
             <div class="avatar">ن</div>
             <h4>نشوان البدري</h4>
@@ -268,7 +322,7 @@
         </div>
 
         <div class="sidebar-footer">
-            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">اختر ثيم الموقع</p>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px; font-weight: bold;">اختر ثيم الموقع</p>
             <div class="theme-switcher">
                 <div class="theme-btn" data-theme-val="gold" title="الذهبي الفاخر"></div>
                 <div class="theme-btn" data-theme-val="royal" title="الأسود الملكي"></div>
@@ -287,38 +341,48 @@
                 </div>
             </section>
 
-            <div class="search-container" id="cars-section">
+            <!-- قسم البحث والفلاتر (محدث وواسع) -->
+            <div class="search-wrapper" id="cars-section">
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="text" id="search-text" class="search-input" placeholder="ابحث بالماركة أو الموديل..." onkeyup="filterCars()">
                 </div>
-                <select id="search-status" class="filter-select" onchange="filterCars()">
-                    <option value="all">الكل (جديد ومستعمل)</option>
-                    <option value="جديد">جديد</option>
-                    <option value="مستعمل">مستعمل</option>
-                </select>
+                <div class="filters-row">
+                    <select id="filter-brand" class="filter-select" onchange="filterCars()">
+                        <option value="all">كل الماركات</option>
+                        <!-- سيتم تعبئتها ديناميكياً -->
+                    </select>
+                    <select id="filter-status" class="filter-select" onchange="filterCars()">
+                        <option value="all">الحالة (الكل)</option>
+                        <option value="جديد">جديد</option>
+                        <option value="مستعمل">مستعمل</option>
+                    </select>
+                    <select id="filter-sort" class="filter-select" onchange="filterCars()">
+                        <option value="default">ترتيب حسب (الافتراضي)</option>
+                        <option value="price-asc">السعر: من الأقل للأعلى</option>
+                        <option value="price-desc">السعر: من الأعلى للأقل</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="filter-tabs" id="filter-tabs"></div>
-
             <div id="cars-container">
-                <div style="text-align:center; padding: 20px; color:var(--text-muted);" id="loading-text">جاري تحميل السيارات...</div>
+                <div style="text-align:center; padding: 30px; color:var(--text-muted); font-weight:bold; font-size:18px;" id="loading-text">جاري تحميل السيارات...</div>
             </div>
         </div>
 
         <div id="page-about" class="page">
-            <div style="background: var(--card-bg); margin: 0 5%; padding: 40px; border-radius: 20px; box-shadow: var(--shadow); text-align: center;">
-                <h2 style="color: var(--primary-color); margin-bottom: 20px;">من نحن</h2>
-                <p style="font-size: 18px; line-height: 1.8; color: var(--text-main); max-width: 800px; margin: 0 auto;">في <b>معرض العالمية لصاحبه فيصل النفيش</b>، نحن لا نبيع السيارات فحسب، بل نبني جسوراً من الثقة مع عملائنا. منذ تأسيسنا، التزمنا بتقديم سيارات ذات جودة عالية وفحص دقيق لضمان سلامتك وراحتك. نتميز بالمصداقية والشفافية التامة في الأسعار.</p>
+            <div style="background: var(--card-bg); margin: 0 5%; padding: 40px; border-radius: 24px; box-shadow: var(--shadow); text-align: center; border: 1px solid var(--border-color);">
+                <h2 style="color: var(--primary-color); margin-bottom: 20px; font-size: 28px;">من نحن</h2>
+                <p style="font-size: 18px; line-height: 1.8; color: var(--text-main); max-width: 800px; margin: 0 auto; font-weight: 500;">في <b>معرض العالمية لصاحبه فيصل النفيش</b>، نحن لا نبيع السيارات فحسب، بل نبني جسوراً من الثقة مع عملائنا. منذ تأسيسنا، التزمنا بتقديم سيارات ذات جودة عالية وفحص دقيق لضمان سلامتك وراحتك. نتميز بالمصداقية والشفافية التامة في الأسعار.</p>
             </div>
         </div>
 
         <div id="page-contact" class="page">
-            <div style="background: var(--card-bg); margin: 0 5%; padding: 40px; border-radius: 20px; box-shadow: var(--shadow); text-align: center;">
-                <h2 style="color: var(--primary-color); margin-bottom: 20px;">اتصل بنا</h2>
-                <p style="font-size: 18px; margin-bottom: 15px;">صاحب المعرض (فيصل النفيش): <b>777772778</b></p>
-                <p style="font-size: 18px; margin-bottom: 30px;">البريد الإلكتروني: info@alamiya.com</p>
-                <a href="https://wa.me/967777772778" target="_blank" style="background: var(--whatsapp-color); color: white; padding: 15px 30px; border-radius: 10px; font-weight: bold; font-size: 18px; text-decoration: none;"><i class="fa-brands fa-whatsapp"></i> تواصل واتساب</a>
+            <div style="background: var(--card-bg); margin: 0 5%; padding: 40px; border-radius: 24px; box-shadow: var(--shadow); text-align: center; border: 1px solid var(--border-color);">
+                <h2 style="color: var(--primary-color); margin-bottom: 20px; font-size: 28px;">اتصل بنا</h2>
+                <p style="font-size: 18px; margin-bottom: 15px; font-weight: bold;">صاحب المعرض (فيصل النفيش): <span style="color: var(--primary-color);">777772778</span></p>
+                <p style="font-size: 18px; margin-bottom: 30px; font-weight: bold;">البريد الإلكتروني: info@alamiya.com</p>
+                <a href="https://wa.me/967777772778" target="_blank" class="btn-whatsapp" style="display: inline-flex; width: auto; padding: 15px 40px; font-size: 18px;"><i class="fa-brands fa-whatsapp"></i> تواصل واتساب</a>
             </div>
         </div>
     </div>
@@ -327,13 +391,13 @@
     <div class="modal" id="loginModal">
         <div class="modal-content" style="max-width: 400px;">
             <div class="modal-header">
-                <h3>دخول الإدارة</h3>
+                <h3 style="font-size: 22px; font-weight: 800;">دخول الإدارة</h3>
                 <button class="close-btn" onclick="closeLogin()">&times;</button>
             </div>
             <form id="loginForm">
                 <div class="form-group"><label>البريد الإلكتروني</label><input type="email" id="login-email" required placeholder="admin@example.com"></div>
                 <div class="form-group"><label>كلمة المرور</label><input type="password" id="login-password" required placeholder="******"></div>
-                <button type="submit" class="btn-success" style="width:100%; padding: 12px;">تسجيل الدخول</button>
+                <button type="submit" class="btn-success" style="width:100%; padding: 15px; font-size: 16px; margin-top: 10px;">تسجيل الدخول</button>
             </form>
         </div>
     </div>
@@ -342,7 +406,7 @@
     <div class="modal" id="adminModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>لوحة التحكم الشاملة</h3>
+                <h3 style="font-size: 22px; font-weight: 800;">لوحة التحكم الشاملة</h3>
                 <button class="close-btn" onclick="closeAdmin()">&times;</button>
             </div>
             
@@ -355,7 +419,7 @@
             </div>
 
             <div id="tab-add-car" class="admin-tab-content active">
-                <h4 style="margin-bottom: 15px; color: var(--primary-color);" id="form-title">إضافة سيارة جديدة</h4>
+                <h4 style="margin-bottom: 20px; color: var(--primary-color); font-size: 18px;" id="form-title">إضافة سيارة جديدة</h4>
                 <form id="addCarForm">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <div class="form-group"><label>الماركة</label>
@@ -370,7 +434,7 @@
                         <div class="form-group"><label>الموديل</label><input type="text" id="add-model" required placeholder="كامري..."></div>
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                        <div class="form-group"><label>السعر</label><input type="text" id="add-price" required placeholder="25,000 دولار"></div>
+                        <div class="form-group"><label>السعر (أرقام فقط للترتيب)</label><input type="number" id="add-price" required placeholder="25000"></div>
                         <div class="form-group"><label>رقم اللوحة</label><input type="text" id="add-plate" required placeholder="1234 أ ب ج"></div>
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
@@ -403,24 +467,24 @@
             </div>
 
             <div id="tab-manage-cars" class="admin-tab-content">
-                <h4 style="margin-bottom: 15px; color: var(--primary-color);">البحث عن سيارة لتعديلها أو حذفها</h4>
+                <h4 style="margin-bottom: 20px; color: var(--primary-color); font-size: 18px;">البحث عن سيارة لتعديلها أو حذفها</h4>
                 <input type="text" id="admin-search-input" class="search-input" placeholder="ابحث بالاسم أو رقم اللوحة..." onkeyup="searchAdminCars()" style="margin-bottom: 20px;">
                 <div id="admin-cars-list" style="max-height: 400px; overflow-y: auto;"></div>
             </div>
 
             <div id="tab-users" class="admin-tab-content">
-                <h4 style="margin-bottom: 15px; color: var(--primary-color);">إضافة مستخدم جديد</h4>
+                <h4 style="margin-bottom: 20px; color: var(--primary-color); font-size: 18px;">إضافة مستخدم جديد</h4>
                 <form id="addUserForm">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <div class="form-group"><label>البريد الإلكتروني</label><input type="email" id="new-user-email" required placeholder="employee@example.com"></div>
                         <div class="form-group"><label>كلمة المرور</label><input type="password" id="new-user-password" required placeholder="******" minlength="6"></div>
                     </div>
-                    <button type="submit" class="search-btn" style="width:100%; padding: 12px;" id="add-user-btn">إضافة المستخدم</button>
+                    <button type="submit" class="btn-success" style="width:100%; padding: 15px; font-size: 16px;" id="add-user-btn">إضافة المستخدم</button>
                 </form>
             </div>
 
             <div id="tab-settings" class="admin-tab-content">
-                <h4 style="margin-bottom: 15px; color: var(--primary-color);">إعدادات البيانات</h4>
+                <h4 style="margin-bottom: 20px; color: var(--primary-color); font-size: 18px;">إعدادات البيانات</h4>
                 <div style="display: flex; gap: 10px; flex-direction: column;">
                     <button class="btn-success" style="padding: 15px; font-size: 16px;" onclick="addDummyData()"><i class="fa-solid fa-database"></i> إضافة 30 سيارة تجريبية (بصور مختلفة)</button>
                     <button class="btn-danger" style="padding: 15px; font-size: 16px;" onclick="deleteDummyData()"><i class="fa-solid fa-trash"></i> حذف جميع السيارات التجريبية</button>
@@ -432,14 +496,24 @@
     <!-- تفاصيل السيارة -->
     <div class="modal" id="carDetailsModal">
         <div class="modal-content">
-            <button class="close-btn" style="position: absolute; top: 15px; left: 15px;" onclick="closeDetails()">&times;</button>
-            <h2 id="details-title" style="color: var(--primary-color); margin-bottom: 5px;"></h2>
-            <h3 id="details-price" style="margin-bottom: 20px;"></h3>
-            <div class="details-gallery" id="details-gallery"></div>
-            <div class="details-specs" id="details-specs"></div>
-            <div class="contact-actions" style="margin-top: 30px;">
-                <a href="tel:777772778" class="btn-contact btn-call" style="padding: 15px; background:var(--primary-color); color:white; border-radius:8px; text-align:center; flex:1; margin-left:10px;"><i class="fa-solid fa-phone"></i> اتصل بالمعرض</a>
-                <a href="https://wa.me/967777772778" target="_blank" class="btn-contact btn-whatsapp" style="padding: 15px; flex:1;"><i class="fa-brands fa-whatsapp"></i> تواصل واتساب</a>
+            <button class="close-btn" style="position: absolute; top: 15px; left: 15px; z-index:10;" onclick="closeDetails()">&times;</button>
+            <img id="details-main-img" class="details-header-img" src="" alt="Car Image">
+            <div class="details-body">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                    <div>
+                        <h2 id="details-title" style="color: var(--primary-color); font-size: 26px; font-weight: 900; margin-bottom: 5px;"></h2>
+                        <div id="details-meta" style="color: var(--text-muted); font-size: 14px; font-weight: 600; display: flex; gap: 15px;"></div>
+                    </div>
+                    <h3 id="details-price" style="font-size: 24px; font-weight: 900; background: var(--box-bg); padding: 5px 15px; border-radius: 10px; color: var(--text-main);"></h3>
+                </div>
+                
+                <div class="details-gallery" id="details-gallery"></div>
+                <div class="details-specs" id="details-specs"></div>
+                
+                <div class="contact-actions">
+                    <a href="tel:777772778" class="btn-call"><i class="fa-solid fa-phone"></i> اتصل بالمعرض</a>
+                    <a href="https://wa.me/967777772778" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> تواصل واتساب</a>
+                </div>
             </div>
         </div>
     </div>
@@ -470,7 +544,7 @@
         const secondaryAuth = getAuth(secondaryApp);
 
         let cars = [];
-        let currentFilters = { text: '', status: 'all', brand: 'all' };
+        let currentFilters = { text: '', status: 'all', brand: 'all', sort: 'default' };
         let editingCarId = null;
 
         window.toggleSidebar = function() {
@@ -538,7 +612,24 @@
             cars = [];
             snapshot.forEach((doc) => { cars.push({ id: doc.id, ...doc.data() }); });
             document.getElementById('loading-text').style.display = 'none';
-            generateBrandFilters();
+            
+            // تحديث شريط العروض بأحدث سيارة مضافة
+            if(cars.length > 0) {
+                const latestCar = cars[0];
+                document.getElementById('ticker-content').innerHTML = `
+                    <span>🚗 أحدث إضافة: ${latestCar.brand} ${latestCar.model} - السعر: ${latestCar.price} دولار</span>
+                    <span>🔥 عروض حصرية وأسعار لا تقبل المنافسة</span>
+                    <span>📞 للتواصل مع الإدارة: 777772778</span>
+                `;
+            }
+
+            // إظهار تنبيه المتصفح بالعروض بعد 3 ثواني من فتح الموقع
+            setTimeout(() => {
+                document.getElementById('offerToast').classList.add('show');
+                setTimeout(() => document.getElementById('offerToast').classList.remove('show'), 7000); // يختفي بعد 7 ثواني
+            }, 3000);
+
+            populateBrandFilter();
             renderCars();
             if(document.getElementById('tab-manage-cars').classList.contains('active')) searchAdminCars();
         }, (error) => {
@@ -546,29 +637,23 @@
             document.getElementById('loading-text').innerText = "خطأ في جلب البيانات: تأكد من صلاحيات القراءة.";
         });
 
-        function generateBrandFilters() {
-            const brands = ['all', ...new Set(cars.map(car => car.brand))];
-            const container = document.getElementById('filter-tabs');
-            container.innerHTML = '';
+        // تعبئة فلتر الماركات بناءً على السيارات الموجودة
+        function populateBrandFilter() {
+            const brands = [...new Set(cars.map(car => car.brand))];
+            const select = document.getElementById('filter-brand');
+            let html = '<option value="all">كل الماركات</option>';
             brands.forEach(brand => {
-                const btn = document.createElement('div');
-                btn.className = `filter-tab ${currentFilters.brand === brand ? 'active' : ''}`;
-                btn.innerText = brand === 'all' ? 'كل الماركات' : brand;
-                btn.onclick = () => setBrandFilter(brand, btn);
-                container.appendChild(btn);
+                html += `<option value="${brand}">${brand}</option>`;
             });
-        }
-
-        window.setBrandFilter = (brand, element) => {
-            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
-            element.classList.add('active');
-            currentFilters.brand = brand;
-            renderCars();
+            select.innerHTML = html;
+            select.value = currentFilters.brand;
         }
 
         window.filterCars = function() {
             currentFilters.text = document.getElementById('search-text').value.toLowerCase();
-            currentFilters.status = document.getElementById('search-status').value;
+            currentFilters.brand = document.getElementById('filter-brand').value;
+            currentFilters.status = document.getElementById('filter-status').value;
+            currentFilters.sort = document.getElementById('filter-sort').value;
             renderCars();
         }
 
@@ -583,8 +668,15 @@
                 return matchText && matchStatus && matchBrand;
             });
 
+            // ترتيب حسب السعر
+            if(currentFilters.sort === 'price-asc') {
+                filteredCars.sort((a, b) => parseInt(a.price) - parseInt(b.price));
+            } else if (currentFilters.sort === 'price-desc') {
+                filteredCars.sort((a, b) => parseInt(b.price) - parseInt(a.price));
+            }
+
             if (filteredCars.length === 0) {
-                container.innerHTML = '<h3 style="text-align:center; color:var(--text-muted); padding: 20px;">لا توجد سيارات مطابقة.</h3>'; 
+                container.innerHTML = '<h3 style="text-align:center; color:var(--text-muted); padding: 30px; font-size: 18px;">لا توجد سيارات مطابقة لبحثك.</h3>'; 
                 return;
             }
 
@@ -600,7 +692,7 @@
 
                 const brandTitle = document.createElement('h2');
                 brandTitle.className = 'brand-title';
-                brandTitle.innerHTML = `<i class="fa-solid fa-angles-left"></i> سيارات ${brand}`;
+                brandTitle.innerHTML = `سيارات <span>${brand}</span>`;
                 brandSection.appendChild(brandTitle);
 
                 const carsRow = document.createElement('div');
@@ -634,7 +726,7 @@
                             </div>
                             <div class="car-meta">
                                 <span><i class="fa-solid fa-gauge"></i> ${car.mileage}</span>
-                                <span><i class="fa-solid fa-hashtag"></i> ${car.plate}</span>
+                                <span><i class="fa-solid fa-tag"></i> ${car.status}</span>
                             </div>
                             <div class="car-specs-grid">
                                 <div class="spec-item"><span class="spec-label">الوقود</span><span class="spec-value">${car.fuel}</span></div>
@@ -678,9 +770,16 @@
         window.openDetails = function(id) {
             const car = cars.find(c => c.id === id);
             if (!car) return;
+            
+            document.getElementById('details-main-img').src = car.images[0];
             document.getElementById('details-title').innerText = `${car.brand} ${car.model}`;
-            document.getElementById('details-price').innerText = `السعر: ${car.price}`;
-            document.getElementById('details-gallery').innerHTML = car.images.map(img => `<img src="${img}">`).join('');
+            document.getElementById('details-price').innerText = `${car.price}`;
+            document.getElementById('details-meta').innerHTML = `
+                <span><i class="fa-solid fa-tag"></i> ${car.status}</span>
+                <span><i class="fa-solid fa-gauge"></i> ${car.mileage}</span>
+            `;
+
+            document.getElementById('details-gallery').innerHTML = car.images.map(img => `<img src="${img}" onclick="document.getElementById('details-main-img').src='${img}'">`).join('');
             document.getElementById('details-specs').innerHTML = `
                 <div class="spec-item"><span class="spec-label">الحالة</span><span class="spec-value">${car.status}</span></div>
                 <div class="spec-item"><span class="spec-label">رقم اللوحة</span><span class="spec-value">${car.plate}</span></div>
@@ -708,7 +807,7 @@
                 div.innerHTML = `
                     <div class="admin-car-info">
                         <strong>${car.brand} ${car.model}</strong><br>
-                        <span style="font-size:12px; color:var(--text-muted);">لوحة: ${car.plate} | السعر: ${car.price}</span>
+                        <span style="font-size:13px; color:var(--text-muted);">لوحة: ${car.plate} | السعر: ${car.price}</span>
                     </div>
                     <div class="admin-car-actions">
                         <button class="btn-warning" onclick="editCar('${car.id}')"><i class="fa-solid fa-pen"></i> تعديل</button>
@@ -803,44 +902,35 @@
             finally { btn.disabled = false; }
         });
 
-        // ================= البيانات التجريبية (صور فريدة لكل سيارة) =================
+        // بيانات تجريبية بصور مختلفة (محدثة بـ 30 رابط فريد)
         const uniqueCarsData = [
             { brand: "تويوتا", model: "كامري", img: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&q=80&w=800" },
             { brand: "تويوتا", model: "لاندكروزر", img: "https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&q=80&w=800" },
             { brand: "تويوتا", model: "كورولا", img: "https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=800" },
-            
             { brand: "هوندا", model: "أكورد", img: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800" },
             { brand: "هوندا", model: "سيفيك", img: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&q=80&w=800" },
             { brand: "هوندا", model: "CR-V", img: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=800" },
-
             { brand: "نيسان", model: "باترول", img: "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&q=80&w=800" },
             { brand: "نيسان", model: "التيما", img: "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&q=80&w=800" },
             { brand: "نيسان", model: "صني", img: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800" },
-
             { brand: "لكزس", model: "ES", img: "https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&q=80&w=800" },
             { brand: "لكزس", model: "LX", img: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&q=80&w=800" },
             { brand: "لكزس", model: "IS", img: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=800" },
-
             { brand: "هيونداي", model: "سوناتا", img: "https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&q=80&w=800" },
             { brand: "هيونداي", model: "توسان", img: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&q=80&w=800" },
             { brand: "هيونداي", model: "أكسنت", img: "https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=800" },
-
             { brand: "كيا", model: "سبورتاج", img: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&q=80&w=800" },
             { brand: "كيا", model: "سيراتو", img: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&q=80&w=800" },
             { brand: "كيا", model: "K5", img: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&q=80&w=800" },
-
             { brand: "مرسيدس", model: "S-Class", img: "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&q=80&w=800" },
             { brand: "مرسيدس", model: "G-Class", img: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&q=80&w=800" },
             { brand: "مرسيدس", model: "C-Class", img: "https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&q=80&w=800" },
-
             { brand: "بي إم دبليو", model: "X5", img: "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=800" },
             { brand: "بي إم دبليو", model: "M4", img: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&q=80&w=800" },
             { brand: "بي إم دبليو", model: "Series 7", img: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=800" },
-
             { brand: "فورد", model: "موستانج", img: "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&q=80&w=800" },
             { brand: "فورد", model: "F-150", img: "https://images.unsplash.com/photo-1485291571150-772bcfc10da5?auto=format&fit=crop&q=80&w=800" },
             { brand: "فورد", model: "تورس", img: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800&sat=-100" },
-
             { brand: "شفروليه", model: "تاهو", img: "https://images.unsplash.com/photo-1517672651691-24622a91b550?auto=format&fit=crop&q=80&w=800" },
             { brand: "شفروليه", model: "كامارو", img: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&q=80&w=800" },
             { brand: "شفروليه", model: "ماليبو", img: "https://images.unsplash.com/photo-1616422285623-13ff0162193c?auto=format&fit=crop&q=80&w=800" }
@@ -856,27 +946,19 @@
             
             try {
                 const batch = writeBatch(db);
-
                 uniqueCarsData.forEach((car, index) => {
                     const newDocRef = doc(collection(db, "cars"));
                     batch.set(newDocRef, {
-                        brand: car.brand, 
-                        model: car.model, 
-                        price: `${15000 + (index * 1000)} دولار`, 
+                        brand: car.brand, model: car.model, 
+                        price: `${15000 + (index * 1000)}`, // سعر رقمي للترتيب
                         plate: `و ه م ${index + 1}`,
                         status: index % 2 === 0 ? "جديد" : "مستعمل", 
-                        mileage: index % 2 === 0 ? "0 km" : "45000 km",
-                        fuel: "بنزين", 
-                        gear: "اوتوماتيك", 
-                        extColor: "فضي", 
-                        intColor: "أسود",
-                        isOffer: index % 3 === 0, 
-                        images: [car.img, car.img, car.img], // نضع نفس الصورة 3 مرات كنسخة احتياطية
-                        isDummy: true, 
-                        createdAt: new Date()
+                        mileage: index % 2 === 0 ? "0" : "45000",
+                        fuel: "بنزين", gear: "اوتوماتيك", extColor: "فضي", intColor: "أسود",
+                        isOffer: index % 3 === 0, images: [car.img, car.img, car.img], 
+                        isDummy: true, createdAt: new Date()
                     });
                 });
-                
                 await batch.commit(); 
                 alert("تمت الإضافة بنجاح! ستظهر السيارات الآن بصور مختلفة تماماً.");
             } catch (error) { 
@@ -931,9 +1013,8 @@
             e.preventDefault();
             deferredPrompt = e;
             installBtn.style.display = 'block';
-            
-            tickerBar.style.top = '65px';
-            headerBar.style.top = '100px';
+            tickerBar.style.top = '45px';
+            headerBar.style.top = '85px';
             mainContent.style.marginTop = '170px';
         });
 
@@ -941,23 +1022,19 @@
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    console.log('User accepted the A2HS prompt');
-                }
                 deferredPrompt = null;
                 installBtn.style.display = 'none';
-                
-                tickerBar.style.top = '35px';
-                headerBar.style.top = '65px';
-                mainContent.style.marginTop = '130px';
+                tickerBar.style.top = '0';
+                headerBar.style.top = '40px';
+                mainContent.style.marginTop = '120px';
             }
         });
         
         window.addEventListener('appinstalled', () => {
             installBtn.style.display = 'none';
-            tickerBar.style.top = '35px';
-            headerBar.style.top = '65px';
-            mainContent.style.marginTop = '130px';
+            tickerBar.style.top = '0';
+            headerBar.style.top = '40px';
+            mainContent.style.marginTop = '120px';
         });
     </script>
 </body>
