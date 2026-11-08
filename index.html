@@ -36,7 +36,6 @@
         @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         @keyframes pulseGold { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
         @keyframes carDrive { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100vw); } }
-        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         /* ================= التنسيقات العامة ================= */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
@@ -183,7 +182,7 @@
         .btn-success:hover { background: #157347; transform: scale(1.02);}
         .btn-warning { background: #ffc107; color: #000; border: none; padding: 12px 20px; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s;}
 
-        /* تفاصيل السيارة */
+        /* ================= تفاصيل السيارة (المحدثة) ================= */
         #carDetailsModal .modal-content { max-width: 900px; padding: 0; overflow: hidden;}
         .details-header-img { width: 100%; height: 300px; object-fit: cover;}
         .details-body { padding: 30px; }
@@ -192,13 +191,24 @@
         .details-gallery img:hover { transform: scale(1.05); box-shadow: var(--shadow);}
         .details-specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 25px;}
         
-        /* أزرار التواصل في التفاصيل */
-        .contact-actions { display: flex; gap: 15px; margin-top: 20px;}
-        .btn-call, .btn-whatsapp { padding: 15px; border-radius: 12px; text-align: center; font-weight: bold; font-size: 16px; text-decoration: none; flex: 1; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s;}
-        .btn-call { background: var(--primary-color); color: white; }
-        .btn-call:hover { background: var(--primary-hover); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(197, 155, 39, 0.4);}
-        .btn-whatsapp { background: var(--whatsapp-color); color: white; }
-        .btn-whatsapp:hover { background: #1ebe5b; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);}
+        /* زر التواصل في أعلى التفاصيل */
+        .whatsapp-action-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #25d366 0%, #128C7E 100%);
+            color: white;
+            font-weight: 900;
+            font-size: 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+            transition: transform 0.3s;
+        }
+        .whatsapp-action-btn:hover { transform: scale(1.02); }
 
         .admin-car-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border: 1px solid var(--border-color); margin-bottom: 10px; border-radius: 12px; background: var(--box-bg);}
         .admin-car-info { font-size: 15px; font-weight: 600;}
@@ -223,7 +233,6 @@
         @media (max-width: 768px) {
             .hero-content h1 { font-size: 28px; }
             .admin-car-item { flex-direction: column; align-items: flex-start; gap: 10px;}
-            .contact-actions { flex-direction: column; }
         }
     </style>
 </head>
@@ -446,12 +455,18 @@
         </div>
     </div>
 
-    <!-- تفاصيل السيارة -->
+    <!-- تفاصيل السيارة (المحدثة) -->
     <div class="modal" id="carDetailsModal">
         <div class="modal-content">
             <button class="close-btn" style="position: absolute; top: 15px; left: 15px; z-index:10;" onclick="closeDetails()">&times;</button>
             <img id="details-main-img" class="details-header-img" src="" alt="Car Image">
             <div class="details-body">
+                <!-- زر التواصل المثبت أعلى التفاصيل -->
+                <a id="whatsapp-btn" href="#" target="_blank" class="whatsapp-action-btn">
+                    <i class="fa-brands fa-whatsapp" style="font-size: 24px;"></i>
+                    تواصل مع صاحب المعرض بخصوص هذه السيارة
+                </a>
+
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
                     <div>
                         <h2 id="details-title" style="color: var(--primary-color); font-size: 26px; font-weight: 900; margin-bottom: 5px;"></h2>
@@ -462,11 +477,6 @@
                 
                 <div class="details-gallery" id="details-gallery"></div>
                 <div class="details-specs" id="details-specs"></div>
-                
-                <div class="contact-actions">
-                    <a href="tel:777772778" class="btn-call"><i class="fa-solid fa-phone"></i> اتصل بالمعرض</a>
-                    <a id="whatsapp-btn" href="#" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> تواصل واتساب</a>
-                </div>
             </div>
         </div>
     </div>
@@ -636,7 +646,6 @@
                 return;
             }
 
-            // عرض السيارات كشريط أفقي واحد إذا كان الفلتر على ماركة معينة
             if (currentFilters.brand !== 'all') {
                 const brandSection = document.createElement('div');
                 brandSection.className = 'brand-section animate-fade';
@@ -655,7 +664,6 @@
                 brandSection.appendChild(carsRow);
                 container.appendChild(brandSection);
             } else {
-                // عرض السيارات مقسمة حسب الماركة
                 const groupedCars = {};
                 filteredCars.forEach(car => {
                     if (!groupedCars[car.brand]) { groupedCars[car.brand] = []; }
