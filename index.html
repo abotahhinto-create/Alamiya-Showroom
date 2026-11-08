@@ -54,7 +54,7 @@
         body { background-color: var(--bg-color); color: var(--text-main); transition: all 0.3s ease; overflow-x: hidden; }
         a { text-decoration: none; color: inherit; }
         
-        /* شريط التحديث الأحمر (للتأكد فقط) */
+        /* شريط التحديث الأحمر */
         .update-bar { background-color: #ff0000; color: white; text-align: center; padding: 5px; font-weight: bold; font-size: 14px; position: fixed; top: 35px; width: 100%; z-index: 1001;}
 
         /* شريط العروض */
@@ -220,7 +220,7 @@
 <body data-theme="gold">
 
     <!-- الشريط الأحمر للتأكد من التحديث -->
-    <div class="update-bar">تم تحديث الكود بنجاح - نسخة جديدة (أفقي + صور متنوعة + فلاتر)</div>
+    <div class="update-bar">تم تحديث الكود بنجاح - نسخة 5 (أفقي + صور فريدة + إصلاح الأخطاء)</div>
 
     <div class="ticker-wrapper" id="ticker-bar">
         <div class="ticker">
@@ -290,7 +290,6 @@
                 </select>
             </div>
 
-            <!-- فلاتر الماركات -->
             <div class="filter-tabs" id="filter-tabs"></div>
 
             <div id="cars-container">
@@ -499,7 +498,7 @@
             try {
                 await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-password').value);
                 closeLogin(); openAdmin(); document.getElementById('loginForm').reset();
-            } catch (error) { alert("خطأ في الدخول. تأكد من البيانات."); }
+            } catch (error) { alert("خطأ في الدخول: " + error.message); }
         });
 
         window.logoutAdmin = async () => { await signOut(auth); closeAdmin(); };
@@ -533,9 +532,11 @@
             generateBrandFilters();
             renderCars();
             if(document.getElementById('tab-manage-cars').classList.contains('active')) searchAdminCars();
+        }, (error) => {
+            console.error("Error fetching cars: ", error);
+            document.getElementById('loading-text').innerText = "خطأ في جلب البيانات: تأكد من صلاحيات القراءة.";
         });
 
-        // توليد فلاتر الماركات
         function generateBrandFilters() {
             const brands = ['all', ...new Set(cars.map(car => car.brand))];
             const container = document.getElementById('filter-tabs');
@@ -562,7 +563,6 @@
             renderCars();
         }
 
-        // عرض السيارات حسب الماركة والفلاتر (أفقي)
         window.renderCars = function() {
             const container = document.getElementById('cars-container');
             container.innerHTML = '';
@@ -708,7 +708,7 @@
 
         window.deleteCar = async function(id) {
             if(!confirm("تأكيد الحذف؟")) return;
-            try { await deleteDoc(doc(db, "cars", id)); alert("تم الحذف."); } catch (error) { alert("حدث خطأ."); }
+            try { await deleteDoc(doc(db, "cars", id)); alert("تم الحذف."); } catch (error) { alert("حدث خطأ: " + error.message); }
         }
 
         window.editCar = function(id) {
@@ -786,47 +786,54 @@
                     await addDoc(carsCollection, carData); alert('تمت الإضافة!');
                 }
                 resetCarForm(); closeAdmin();
-            } catch (error) { alert('حدث خطأ. تأكد من الصلاحيات.'); } 
+            } catch (error) { alert('حدث خطأ: ' + error.message); } 
             finally { btn.disabled = false; }
         });
 
-        // بيانات تجريبية بصور مختلفة (30 صورة مختلفة تماماً)
+        // بيانات تجريبية بصور مختلفة (محدثة بـ 30 رابط فريد)
         const dummyBrands = ["تويوتا", "هوندا", "نيسان", "لكزس", "هيونداي", "كيا", "مرسيدس", "بي إم دبليو", "فورد", "شفروليه"];
         const dummyImagesList = [
-            "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800", // Mustang
-            "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=800", // Porsche
-            "https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&q=80&w=800", // Prado
-            "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&q=80&w=800", // Audi
-            "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&q=80&w=800", // Muscle
-            "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&q=80&w=800", // VW
-            "https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&q=80&w=800", // Range Rover
-            "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&q=80&w=800", // Ferrari
-            "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800", // Honda
-            "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&q=80&w=800", // Audi R8
-            "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=800", // SUV
-            "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=800", // BMW
-            "https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&q=80&w=800", // Classic
-            "https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&q=80&w=800", // Lexus
-            "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&q=80&w=800", // Mercedes
-            "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&q=80&w=800", // G-Class
-            "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&q=80&w=800", // Nissan
-            "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=800", // Toyota
-            "https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=800", // Kia
-            "https://images.unsplash.com/photo-1517672651691-24622a91b550?auto=format&fit=crop&q=80&w=800", // Ford
-            "https://images.unsplash.com/photo-1485291571150-772bcfc10da5?auto=format&fit=crop&q=80&w=800", // Jeep
-            "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800&sat=-100", // B&W Car
-            "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&q=80&w=800", // Modern
-            "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&q=80&w=800", // Sports
-            "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=800", // Luxury
-            "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=800", // Classic
-            "https://images.unsplash.com/photo-1616422285623-13ff0162193c?auto=format&fit=crop&q=80&w=800", // Offroad
-            "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&q=80&w=800", // SUV
-            "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&q=80&w=800", // Modern
-            "https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&q=80&w=800"  // Sedan
+            "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1517672651691-24622a91b550?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1485291571150-772bcfc10da5?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800&sat=-100", 
+            "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1616422285623-13ff0162193c?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&q=80&w=800", 
+            "https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&q=80&w=800"  
         ];
 
         window.addDummyData = async () => {
-            if(!confirm("إضافة 30 سيارة تجريبية بصور مختلفة؟")) return;
+            // التحقق من تسجيل الدخول (هام جداً لحل المشكلة)
+            if (!auth.currentUser) {
+                alert("يجب عليك تسجيل الدخول أولاً لتتمكن من إضافة البيانات. اضغط على 'دخول الإدارة' وسجل دخولك.");
+                return;
+            }
+
+            if(!confirm("سيتم إضافة 30 سيارة. هل أنت متأكد؟ (تأكد من حذف السيارات القديمة أولاً لتجنب التكرار)")) return;
+            
             try {
                 const batch = writeBatch(db);
                 let imgIndex = 0;
@@ -835,7 +842,6 @@
                     for(let i=1; i<=3; i++) {
                         const newDocRef = doc(collection(db, "cars"));
                         
-                        // سحب صورة مختلفة لكل سيارة
                         let imagesForThisCar = [dummyImagesList[imgIndex], dummyImagesList[(imgIndex+1)%30], dummyImagesList[(imgIndex+2)%30]];
                         imgIndex += 3;
 
@@ -847,17 +853,33 @@
                         });
                     }
                 });
-                await batch.commit(); alert("تمت الإضافة بصور متنوعة!");
-            } catch (error) { alert("فشل. تحقق من الصلاحيات."); }
+                await batch.commit(); 
+                alert("تمت الإضافة بنجاح! ستظهر السيارات الآن.");
+            } catch (error) { 
+                alert("حدث خطأ أثناء الإضافة: " + error.message); 
+                console.error(error);
+            }
         };
 
         window.deleteDummyData = async () => {
-            if(!confirm("حذف السيارات التجريبية؟")) return;
-            const q = query(carsCollection, where("isDummy", "==", true));
-            const snapshot = await getDocs(q);
-            const batch = writeBatch(db);
-            snapshot.forEach((doc) => batch.delete(doc.ref));
-            await batch.commit(); alert("تم الحذف!");
+            if (!auth.currentUser) {
+                alert("يجب عليك تسجيل الدخول أولاً للحذف.");
+                return;
+            }
+            if(!confirm("هل أنت متأكد من حذف جميع السيارات التجريبية؟")) return;
+            
+            try {
+                const q = query(carsCollection, where("isDummy", "==", true));
+                const snapshot = await getDocs(q);
+                if (snapshot.empty) { alert("لا توجد سيارات تجريبية لحذفها."); return; }
+                
+                const batch = writeBatch(db);
+                snapshot.forEach((doc) => batch.delete(doc.ref));
+                await batch.commit(); 
+                alert("تم حذف السيارات التجريبية بنجاح!");
+            } catch (error) {
+                alert("حدث خطأ أثناء الحذف: " + error.message);
+            }
         };
 
         document.querySelectorAll('.theme-btn').forEach(btn => {
