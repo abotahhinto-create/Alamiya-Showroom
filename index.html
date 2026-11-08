@@ -415,7 +415,7 @@
                     </div>
 
                     <div class="form-group" style="border: 2px dashed var(--primary-color); padding: 15px; border-radius: 10px; background: var(--box-bg);">
-                        <label style="font-size: 16px; color: var(--primary-color);"><i class="fa-solid fa-cloud-arrow-up"></i> صور السيارة (اختياري - إذا لم ترفع صورة سيتم وضع صورة افتراضية)</label>
+                        <label style="font-size: 16px; color: var(--primary-color);"><i class="fa-solid fa-cloud-arrow-up"></i> صور السيارة (اختياري - سيتم وضع صورة افتراضية إذا لم ترفع)</label>
                         <input type="file" id="car-image-files" multiple accept="image/*" style="border: none; padding: 5px 0;">
                         <div id="edit-images-preview" style="display: none; margin-top: 10px;">
                             <p style="font-size: 12px; color: var(--text-muted);">الصور الحالية:</p>
@@ -423,7 +423,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-success" style="width:100%; padding: 15px; font-size: 16px; margin-top: 10px;" id="submit-btn">إضافة السيارة</button>
+                    <button type="submit" class="btn-success" style="width:100%; padding: 15px; font-size: 16px; margin-top: 10px;" id="submit-btn">حفظ السيارة</button>
                     <button type="button" class="btn-warning" style="width:100%; padding: 15px; font-size: 16px; margin-top: 10px; display:none;" id="cancel-edit-btn" onclick="resetCarForm()">إلغاء التعديل</button>
                 </form>
             </div>
@@ -455,7 +455,7 @@
         </div>
     </div>
 
-    <!-- تفاصيل السيارة (المحدثة) -->
+    <!-- تفاصيل السيارة -->
     <div class="modal" id="carDetailsModal">
         <div class="modal-content">
             <button class="close-btn" style="position: absolute; top: 15px; left: 15px; z-index:10;" onclick="closeDetails()">&times;</button>
@@ -853,17 +853,16 @@
             document.getElementById('cancel-edit-btn').style.display = "none";
         }
 
-        // الحفظ السريع بدون تعليق
+        // الحفظ السريع بدون تعليق (يأخذ أول صورة فقط لتسريع العملية)
         document.getElementById('addCarForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submit-btn'); 
             const originalText = btn.innerText;
-            btn.innerText = "جاري الحفظ..."; btn.disabled = true;
+            btn.innerText = "جاري الحفظ السريع..."; btn.disabled = true;
             
             const files = document.getElementById('car-image-files').files;
             let imageUrls = [];
 
-            // إذا كان تعديل، نحتفظ بالصور القديمة
             if (editingCarId) {
                 const existingCar = cars.find(c => c.id === editingCarId);
                 if (existingCar && existingCar.images && existingCar.images.length > 0) {
@@ -872,16 +871,14 @@
             }
 
             try {
-                // إذا اختار صور جديدة، نرفعها
+                // رفع صورة واحدة فقط لتسريع الحفظ
                 if (files.length > 0) {
-                    for (let i = 0; i < files.length; i++) {
-                        const storageRef = ref(storage, 'cars/' + Date.now() + '_' + files[i].name);
-                        await uploadBytes(storageRef, files[i]);
-                        imageUrls.push(await getDownloadURL(storageRef));
-                    }
+                    const file = files[0]; // نأخذ أول صورة فقط
+                    const storageRef = ref(storage, 'cars/' + Date.now() + '_' + file.name);
+                    await uploadBytes(storageRef, file);
+                    imageUrls.push(await getDownloadURL(storageRef));
                 }
 
-                // إذا لم توجد صور نهائياً، نضع صورة افتراضية
                 if (imageUrls.length === 0) {
                     imageUrls = [defaultImage];
                 }
@@ -912,7 +909,7 @@
                 }
                 resetCarForm(); closeAdmin();
             } catch (error) { 
-                alert('حدث خطأ أثناء الحفظ: ' + error.message); 
+                alert('حدث خطأ أثناء الحفظ. يرجى المحاولة مرة أخرى أو التأكد من الإنترنت.'); 
             } finally { 
                 btn.innerText = originalText; btn.disabled = false; 
             }
