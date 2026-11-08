@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -48,7 +49,6 @@
         /* ================= الحركات ================= */
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes slideUpToast { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         @keyframes pulseGold { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
         @keyframes carDrive { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100vw); } }
         
@@ -92,7 +92,7 @@
         .nav-links a i { width: 25px; text-align: center; color: var(--primary-color);}
         .nav-links a:hover, .nav-links a.active { background: var(--box-bg); color: var(--primary-color); border-right-color: var(--primary-color); padding-right: 25px;}
         
-        /* بطاقة المصمم (محدثة) */
+        /* بطاقة المصمم */
         .designer-card { 
             background: linear-gradient(135deg, var(--card-bg) 0%, var(--box-bg) 100%); 
             margin: 15px; padding: 20px; border-radius: 16px; 
@@ -100,7 +100,6 @@
             text-align: center; box-shadow: var(--glow); 
             position: relative; overflow: hidden;
         }
-        .designer-card::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%); transform: rotate(45deg); pointer-events: none;}
         .designer-card .avatar { width: 60px; height: 60px; background: var(--primary-color); color: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 26px; font-weight: bold; margin: 0 auto 15px auto; box-shadow: var(--glow);}
         .designer-card h4 { font-size: 18px; margin-bottom: 5px; color: var(--text-main); font-weight: 800;}
         .designer-card p { font-size: 13px; color: var(--text-muted); margin-bottom: 15px; font-weight: 500;}
@@ -131,17 +130,17 @@
         .hero-content h1 span { color: var(--primary-color); }
         .hero-content p { font-size: 16px; margin-bottom: 0; text-shadow: 0 2px 5px rgba(0,0,0,0.6); max-width: 500px; margin: 0 auto;}
 
-        /* ================= قسم البحث والفلاتر (محدث وواسع) ================= */
-        .search-wrapper { margin: 0 5% 25px 5%; background: var(--card-bg); padding: 20px; border-radius: 20px; box-shadow: var(--shadow); border: 1px solid var(--border-color);}
+        /* ================= قسم البحث والفلاتر (أفقي وواسع) ================= */
+        .search-wrapper { margin: 0 5% 25px 5%; background: var(--card-bg); padding: 15px; border-radius: 20px; box-shadow: var(--shadow); border: 1px solid var(--border-color);}
         .search-box { position: relative; width: 100%; margin-bottom: 15px;}
         .search-box i { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--primary-color); font-size: 20px;}
         .search-input { width: 100%; padding: 16px 55px 16px 20px; border: 2px solid var(--border-color); border-radius: 12px; background: var(--box-bg); color: var(--text-main); font-size: 16px; font-weight: 600; outline: none; transition: 0.3s;}
         .search-input:focus { border-color: var(--primary-color); box-shadow: 0 0 0 4px rgba(197, 155, 39, 0.1); background: var(--card-bg);}
         
-        .filters-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;}
-        .filter-select { width: 100%; padding: 14px 15px; border: 2px solid var(--border-color); border-radius: 12px; background: var(--box-bg); color: var(--text-main); font-weight: 700; outline: none; cursor: pointer; font-family: 'Tajawal'; transition: 0.3s; appearance: none; text-align: center;}
+        .filters-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none;}
+        .filters-row::-webkit-scrollbar { display: none; }
+        .filter-select { flex: 1; min-width: 140px; padding: 12px 15px; border: 2px solid var(--border-color); border-radius: 12px; background: var(--box-bg); color: var(--text-main); font-weight: 700; outline: none; cursor: pointer; font-family: 'Tajawal'; transition: 0.3s; appearance: none; text-align: center;}
         .filter-select:focus { border-color: var(--primary-color); }
-        .filter-select option { font-weight: bold; padding: 10px;}
 
         /* أقسام الماركات */
         .brand-section { margin-bottom: 40px; }
@@ -240,7 +239,6 @@
         .details-gallery img:hover { transform: scale(1.05); box-shadow: var(--shadow);}
         .details-specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 25px;}
         
-        /* أزرار التواصل (محدثة) */
         .contact-actions { display: flex; gap: 15px; margin-top: 20px;}
         .btn-call, .btn-whatsapp { padding: 15px; border-radius: 12px; text-align: center; font-weight: bold; font-size: 16px; text-decoration: none; flex: 1; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s;}
         .btn-call { background: var(--primary-color); color: white; }
@@ -269,7 +267,6 @@
 
         /* تعديلات الموبايل */
         @media (max-width: 768px) {
-            .filters-row { grid-template-columns: 1fr; }
             .hero-content h1 { font-size: 28px; }
             .admin-car-item { flex-direction: column; align-items: flex-start; gap: 10px;}
             .contact-actions { flex-direction: column; }
@@ -291,7 +288,7 @@
     <!-- التنبيه العائم -->
     <div class="toast-notification" id="offerToast" onclick="this.classList.remove('show')">
         <i class="fa-solid fa-fire"></i>
-        <span>عروض جديدة وصلت! خصومات تصل إلى 20% على السيارات المختارة.</span>
+        <span>عروض جديدة وصلت! خصومات تصل إلى 20%.</span>
     </div>
 
     <div class="header-bar" id="header-bar">
@@ -313,7 +310,6 @@
             <a id="adminLoginBtn" style="color: var(--primary-color); font-weight: bold; border-top: 1px solid var(--border-color); margin-top: 10px;"><i class="fa-solid fa-user-lock"></i> دخول الإدارة</a>
         </div>
 
-        <!-- بطاقة المصمم المحدثة -->
         <div class="designer-card">
             <div class="avatar">ن</div>
             <h4>نشوان البدري</h4>
@@ -341,7 +337,7 @@
                 </div>
             </section>
 
-            <!-- قسم البحث والفلاتر (محدث وواسع) -->
+            <!-- قسم البحث والفلاتر (أفقي) -->
             <div class="search-wrapper" id="cars-section">
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -358,9 +354,9 @@
                         <option value="مستعمل">مستعمل</option>
                     </select>
                     <select id="filter-sort" class="filter-select" onchange="filterCars()">
-                        <option value="default">ترتيب حسب (الافتراضي)</option>
-                        <option value="price-asc">السعر: من الأقل للأعلى</option>
-                        <option value="price-desc">السعر: من الأعلى للأقل</option>
+                        <option value="default">ترتيب حسب</option>
+                        <option value="price-asc">السعر: الأقل للأعلى</option>
+                        <option value="price-desc">السعر: الأعلى للأقل</option>
                     </select>
                 </div>
             </div>
@@ -422,19 +418,21 @@
                 <h4 style="margin-bottom: 20px; color: var(--primary-color); font-size: 18px;" id="form-title">إضافة سيارة جديدة</h4>
                 <form id="addCarForm">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                        <div class="form-group"><label>الماركة</label>
-                            <select id="add-brand">
+                        <div class="form-group">
+                            <label>الماركة (اكتب اسم ماركة جديدة لإضافتها)</label>
+                            <input type="text" id="add-brand" required placeholder="مثال: تويوتا أو شيري..." list="brands-list">
+                            <datalist id="brands-list">
                                 <option value="تويوتا">تويوتا</option><option value="هوندا">هوندا</option>
                                 <option value="نيسان">نيسان</option><option value="لكزس">لكزس</option>
                                 <option value="هيونداي">هيونداي</option><option value="كيا">كيا</option>
                                 <option value="مرسيدس">مرسيدس</option><option value="بي إم دبليو">بي إم دبليو</option>
                                 <option value="فورد">فورد</option><option value="شفروليه">شفروليه</option>
-                            </select>
+                            </datalist>
                         </div>
                         <div class="form-group"><label>الموديل</label><input type="text" id="add-model" required placeholder="كامري..."></div>
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                        <div class="form-group"><label>السعر (أرقام فقط للترتيب)</label><input type="number" id="add-price" required placeholder="25000"></div>
+                        <div class="form-group"><label>السعر (أرقام فقط)</label><input type="number" id="add-price" required placeholder="25000"></div>
                         <div class="form-group"><label>رقم اللوحة</label><input type="text" id="add-plate" required placeholder="1234 أ ب ج"></div>
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
@@ -613,7 +611,6 @@
             snapshot.forEach((doc) => { cars.push({ id: doc.id, ...doc.data() }); });
             document.getElementById('loading-text').style.display = 'none';
             
-            // تحديث شريط العروض بأحدث سيارة مضافة
             if(cars.length > 0) {
                 const latestCar = cars[0];
                 document.getElementById('ticker-content').innerHTML = `
@@ -623,10 +620,9 @@
                 `;
             }
 
-            // إظهار تنبيه المتصفح بالعروض بعد 3 ثواني من فتح الموقع
             setTimeout(() => {
                 document.getElementById('offerToast').classList.add('show');
-                setTimeout(() => document.getElementById('offerToast').classList.remove('show'), 7000); // يختفي بعد 7 ثواني
+                setTimeout(() => document.getElementById('offerToast').classList.remove('show'), 7000);
             }, 3000);
 
             populateBrandFilter();
@@ -637,7 +633,6 @@
             document.getElementById('loading-text').innerText = "خطأ في جلب البيانات: تأكد من صلاحيات القراءة.";
         });
 
-        // تعبئة فلتر الماركات بناءً على السيارات الموجودة
         function populateBrandFilter() {
             const brands = [...new Set(cars.map(car => car.brand))];
             const select = document.getElementById('filter-brand');
@@ -668,7 +663,6 @@
                 return matchText && matchStatus && matchBrand;
             });
 
-            // ترتيب حسب السعر
             if(currentFilters.sort === 'price-asc') {
                 filteredCars.sort((a, b) => parseInt(a.price) - parseInt(b.price));
             } else if (currentFilters.sort === 'price-desc') {
@@ -950,7 +944,7 @@
                     const newDocRef = doc(collection(db, "cars"));
                     batch.set(newDocRef, {
                         brand: car.brand, model: car.model, 
-                        price: `${15000 + (index * 1000)}`, // سعر رقمي للترتيب
+                        price: `${15000 + (index * 1000)}`,
                         plate: `و ه م ${index + 1}`,
                         status: index % 2 === 0 ? "جديد" : "مستعمل", 
                         mileage: index % 2 === 0 ? "0" : "45000",
