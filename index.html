@@ -132,9 +132,8 @@
         
         /* البطاقة الأفقية */
         .car-card { 
-            min-width: 320px; 
-            max-width: 380px; 
-            scroll-snap-align: start; 
+            flex: 0 0 auto; /* يمنع البطاقة من التمدد */
+            width: 320px; /* عرض ثابت للبطاقة */
             background: var(--card-bg); 
             border-radius: 15px; 
             overflow: hidden; 
@@ -145,6 +144,7 @@
             position: relative;
             height: 200px;
             transition: transform 0.3s;
+            scroll-snap-align: start;
         }
         .car-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
         
@@ -208,14 +208,18 @@
         .preview-images { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px; }
         .preview-images img { height: 60px; border-radius: 5px; border: 1px solid var(--border-color); }
 
+        /* تعديلات الموبايل */
         @media (max-width: 768px) {
             .hero-content h1 { font-size: 28px; }
             .search-container { flex-direction: column; }
             .search-box, .filter-select { width: 100%; max-width: 100% !important;}
             .admin-car-item { flex-direction: column; align-items: flex-start; gap: 10px;}
-            .car-card { min-width: 280px; height: 180px;}
+            
+            /* البطاقة الأفقية في الموبايل */
+            .car-card { width: 280px; height: 170px; }
             .car-title { font-size: 14px;}
             .car-price { font-size: 16px;}
+            .car-meta { font-size: 10px;}
         }
     </style>
 </head>
@@ -531,12 +535,11 @@
             renderCars();
         }
 
-        // الدالة الجديدة لعرض السيارات حسب الماركة
+        // عرض السيارات حسب الماركة (أفقي)
         window.renderCars = function() {
             const container = document.getElementById('cars-container');
             container.innerHTML = '';
 
-            // فلترة السيارات بناءً على البحث
             let filteredCars = cars.filter(car => 
                 car.brand.toLowerCase().includes(searchTerm) || 
                 car.model.toLowerCase().includes(searchTerm)
@@ -547,31 +550,24 @@
                 return;
             }
 
-            // تجميع السيارات حسب الماركة (Brand)
             const groupedCars = {};
             filteredCars.forEach(car => {
-                if (!groupedCars[car.brand]) {
-                    groupedCars[car.brand] = [];
-                }
+                if (!groupedCars[car.brand]) { groupedCars[car.brand] = []; }
                 groupedCars[car.brand].push(car);
             });
 
-            // إنشاء قسم لكل ماركة
             for (const brand in groupedCars) {
                 const brandSection = document.createElement('div');
                 brandSection.className = 'brand-section animate-fade';
 
-                // عنوان الماركة
                 const brandTitle = document.createElement('h2');
                 brandTitle.className = 'brand-title';
                 brandTitle.innerHTML = `<i class="fa-solid fa-angles-left"></i> سيارات ${brand}`;
                 brandSection.appendChild(brandTitle);
 
-                // الحاوية الأفقية للسيارات
                 const carsRow = document.createElement('div');
                 carsRow.className = 'cars-row';
 
-                // إضافة السيارات داخل هذا الصف
                 groupedCars[brand].forEach(car => {
                     const card = document.createElement('div');
                     card.className = 'car-card';
@@ -656,7 +652,6 @@
         }
         window.closeDetails = () => document.getElementById('carDetailsModal').style.display = 'none';
 
-        // إدارة السيارات
         window.searchAdminCars = function() {
             const term = document.getElementById('admin-search-input').value.toLowerCase();
             const list = document.getElementById('admin-cars-list');
