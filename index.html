@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>معرض العالمية - لبيع وشراء السيارات الفاخرة</title>
     
-    <!-- إعدادات تطبيق الويب (PWA) -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#c59b27">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3202/3202926.png">
@@ -126,7 +125,7 @@
         .brand-section { margin-bottom: 40px; }
         .brand-title { font-size: 22px; font-weight: 800; color: var(--text-main); margin: 0 5% 15px 5%; display: flex; align-items: center; gap: 10px; border-right: 5px solid var(--primary-color); padding-right: 10px;}
         
-        /* ================= شريط السيارات الأفقي (الحل النهائي) ================= */
+        /* ================= شريط السيارات الأفقي (تم إصلاحه نهائياً) ================= */
         .cars-row { 
             display: flex; 
             overflow-x: auto; 
@@ -140,15 +139,15 @@
         /* البطاقة الأفقية */
         .car-card { 
             flex: 0 0 auto; /* يمنع البطاقة من التمدد */
-            width: 260px; /* عرض ثابت ومناسب للهاتف */
-            height: 160px;
+            width: 280px; /* عرض ثابت للبطاقة */
+            height: 170px; /* ارتفاع ثابت */
             background: var(--card-bg); 
             border-radius: 12px; 
             overflow: hidden; 
             box-shadow: var(--shadow); 
             border: 1px solid var(--border-color); 
             display: flex; 
-            flex-direction: row; /* الترتيب الأفقي (صورة بجانب تفاصيل) */
+            flex-direction: row; /* الصورة بجانب التفاصيل */
             position: relative;
             scroll-snap-align: start;
         }
@@ -164,7 +163,6 @@
         
         .offer-badge { position: absolute; top: 5px; right: 5px; background: #ff4757; color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 9px; z-index: 2;}
 
-        /* تفاصيل السيارة داخل البطاقة */
         .car-details { width: 55%; padding: 10px; display: flex; flex-direction: column; justify-content: space-between;}
         .car-title { font-size: 13px; font-weight: 800; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
         .car-price { font-size: 15px; font-weight: 900; color: var(--primary-color); margin-top: 2px;}
@@ -273,7 +271,6 @@
                 </div>
             </div>
 
-            <!-- هنا سيتم عرض السيارات مقسمة حسب الماركة -->
             <div id="cars-container">
                 <div style="text-align:center; padding: 20px; color:var(--text-muted);" id="loading-text">جاري تحميل السيارات...</div>
             </div>
@@ -395,7 +392,7 @@
             <div id="tab-settings" class="admin-tab-content">
                 <h4 style="margin-bottom: 15px; color: var(--primary-color);">إعدادات البيانات</h4>
                 <div style="display: flex; gap: 10px; flex-direction: column;">
-                    <button class="btn-success" style="padding: 15px; font-size: 16px;" onclick="addDummyData()"><i class="fa-solid fa-database"></i> إضافة 30 سيارة تجريبية</button>
+                    <button class="btn-success" style="padding: 15px; font-size: 16px;" onclick="addDummyData()"><i class="fa-solid fa-database"></i> إضافة 30 سيارة تجريبية (بصور مختلفة)</button>
                     <button class="btn-danger" style="padding: 15px; font-size: 16px;" onclick="deleteDummyData()"><i class="fa-solid fa-trash"></i> حذف جميع السيارات التجريبية</button>
                 </div>
             </div>
@@ -520,7 +517,7 @@
             renderCars();
         }
 
-        // عرض السيارات حسب الماركة (أفقي تماماً)
+        // عرض السيارات حسب الماركة (أفقي)
         window.renderCars = function() {
             const container = document.getElementById('cars-container');
             container.innerHTML = '';
@@ -746,25 +743,64 @@
             finally { btn.disabled = false; }
         });
 
+        // بيانات تجريبية بصور مختلفة (تم إضافة 30 رابط صورة مختلف)
         const dummyBrands = ["تويوتا", "هوندا", "نيسان", "لكزس", "هيونداي", "كيا", "مرسيدس", "بي إم دبليو", "فورد", "شفروليه"];
-        const dummyImages = ["https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&q=80&w=800","https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&q=80&w=800","https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800"];
+        const dummyImagesList = [
+            "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1517672651691-24622a91b550?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1485291571150-772bcfc10da5?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800&sat=-100",
+            "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1616422285623-13ff0162193c?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&q=80&w=800"
+        ];
 
         window.addDummyData = async () => {
-            if(!confirm("إضافة 30 سيارة تجريبية؟")) return;
+            if(!confirm("إضافة 30 سيارة تجريبية بصور مختلفة؟")) return;
             try {
                 const batch = writeBatch(db);
+                let imgIndex = 0;
+
                 dummyBrands.forEach(brand => {
                     for(let i=1; i<=3; i++) {
                         const newDocRef = doc(collection(db, "cars"));
+                        
+                        // سحب صورة مختلفة لكل سيارة
+                        let imagesForThisCar = [dummyImagesList[imgIndex], dummyImagesList[(imgIndex+1)%30], dummyImagesList[(imgIndex+2)%30]];
+                        imgIndex += 3;
+
                         batch.set(newDocRef, {
                             brand: brand, model: `موديل ${i}`, price: `${10000 + (i*5000)} دولار`, plate: `و ه م ${i}`,
                             status: i % 2 === 0 ? "جديد" : "مستعمل", mileage: i % 2 === 0 ? "0 km" : "50000 km",
                             fuel: "بنزين", gear: "اوتوماتيك", extColor: "فضي", intColor: "أسود",
-                            isOffer: i === 1, images: dummyImages, isDummy: true, createdAt: new Date()
+                            isOffer: i === 1, images: imagesForThisCar, isDummy: true, createdAt: new Date()
                         });
                     }
                 });
-                await batch.commit(); alert("تمت الإضافة!");
+                await batch.commit(); alert("تمت الإضافة بصور متنوعة!");
             } catch (error) { alert("فشل. تحقق من الصلاحيات."); }
         };
 
