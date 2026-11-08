@@ -908,74 +908,73 @@
             });
         }
 
+        // ** تعديل جذري: الحفظ أولاً ثم الرفع في الخلفية لتجنب التعليق **
         document.getElementById('addCarForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submit-btn'); 
-            const originalText = btn.innerText;
             btn.innerText = "جاري الحفظ السريع..."; btn.disabled = true;
             
             const files = document.getElementById('car-image-files').files;
-            let imageUrls = [];
+            let initialImages = [defaultImage]; // صورة افتراضية مبدئياً
 
-            // وقت محدد للتحميل (15 ثانية)
-            const uploadPromise = async () => {
-                if (editingCarId) {
-                    const existingCar = cars.find(c => c.id === editingCarId);
-                    if (existingCar && existingCar.images && existingCar.images.length > 0) {
-                        imageUrls = [...existingCar.images];
-                    }
+            // إذا كنا نعدل سيارة، نحتفظ بصورها القديمة
+            if (editingCarId) {
+                const existingCar = cars.find(c => c.id === editingCarId);
+                if (existingCar && existingCar.images && existingCar.images.length > 0) {
+                    initialImages = [...existingCar.images];
                 }
+            }
 
-                if (files.length > 0) {
-                    // نأخذ أول صورة فقط لتسريع العملية
-                    const compressedFile = await compressImage(files[0]);
-                    const storageRef = ref(storage, 'cars/' + Date.now() + '_' + compressedFile.name);
-                    await uploadBytes(storageRef, compressedFile);
-                    imageUrls.push(await getDownloadURL(storageRef));
-                }
-
-                if (imageUrls.length === 0) {
-                    imageUrls = [defaultImage];
-                }
-
-                const carData = {
-                    brand: document.getElementById('add-brand').value, 
-                    model: document.getElementById('add-model').value,
-                    price: document.getElementById('add-price').value, 
-                    plate: document.getElementById('add-plate').value,
-                    status: document.getElementById('add-status').value, 
-                    mileage: document.getElementById('add-mileage').value,
-                    fuel: document.getElementById('add-fuel').value, 
-                    gear: document.getElementById('add-gear').value,
-                    extColor: document.getElementById('add-ext-color').value, 
-                    intColor: document.getElementById('add-int-color').value,
-                    isOffer: document.getElementById('add-is-offer').checked, 
-                    images: imageUrls
-                };
-
-                if (editingCarId) {
-                    await updateDoc(doc(db, "cars", editingCarId), carData);
-                } else {
-                    carData.createdAt = new Date(); 
-                    carData.isDummy = false;
-                    await addDoc(carsCollection, carData); 
-                }
+            const carData = {
+                brand: document.getElementById('add-brand').value, 
+                model: document.getElementById('add-model').value,
+                price: document.getElementById('add-price').value, 
+                plate: document.getElementById('add-plate').value,
+                status: document.getElementById('add-status').value, 
+                mileage: document.getElementById('add-mileage').value,
+                fuel: document.getElementById('add-fuel').value, 
+                gear: document.getElementById('add-gear').value,
+                extColor: document.getElementById('add-ext-color').value, 
+                intColor: document.getElementById('add-int-color').value,
+                isOffer: document.getElementById('add-is-offer').checked, 
+                images: initialImages
             };
 
             try {
-                // تنفيذ الرفع مع مهلة 15 ثانية
-                const timeoutPromise = new Promise((_, reject) => 
-                    setTimeout(() => reject(new Error('انتهت مهلة الاتصال. تأكد من قوة الإنترنت وحجم الصورة.')), 15000)
-                );
-                
-                await Promise.race([uploadPromise(), timeoutPromise]);
+                let docRef;
+                if (editingCarId) {
+                    docRef = doc(db, "cars", editingCarId);
+                    await updateDoc(docRef, carData);
+                } else {
+                    carData.createdAt = new Date(); 
+                    carData.isDummy = false;
+                    docRef = await addDoc(carsCollection, carData); 
+                }
 
-                alert('تمت الإضافة بنجاح!');
+                // إغلاق اللوحة فوراً وإظهار رسالة نجاح
+                alert('تم حفظ بيانات السيارة بنجاح! (سيتم رفع الصورة في الخلفية)');
                 resetCarForm(); closeAdmin();
+
+                // الآن نقوم برفع الصورة في الخلفية وتحديث السيارة
+                if (files.length > 0) {
+                    try {
+                        const compressedFile = await compressImage(files[0]);
+                        const storageRef = ref(storage, 'cars/' + Date.now() + '_' + compressedFile.name);
+                        await uploadBytes(storageRef, compressedFile);
+                        const imageUrl = await getDownloadURL(storageRef);
+                        
+                        // تحديث السيارة بالصورة الجديدة
+                        await updateDoc(docRef, { images: [imageUrl] });
+                        console.log("تم رفع الصورة بنجاح في الخلفية");
+                    } catch (uploadError) {
+                        console.error("فشل رفع الصورة في الخلفية، ستبقى الصورة الافتراضية.", uploadError);
+                    }
+                }
+
             } catch (error) { 
-                alert('حدث خطأ: ' + error.message); 
+                alert('حدث خطأ أثناء حفظ البيانات: ' + error.message); 
             } finally { 
-                btn.innerText = originalText; btn.disabled = false; 
+                btn.innerText = "إضافة السيارة"; btn.disabled = false; 
             }
         });
 
