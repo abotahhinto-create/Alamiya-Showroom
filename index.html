@@ -220,7 +220,7 @@
 <body data-theme="gold">
 
     <!-- الشريط الأحمر للتأكد من التحديث -->
-    <div class="update-bar">تم تحديث الكود بنجاح - نسخة 5 (أفقي + صور فريدة + إصلاح الأخطاء)</div>
+    <div class="update-bar">تم تحديث الكود - يرجى تسجيل الدخول وحذف السيارات القديمة أولاً</div>
 
     <div class="ticker-wrapper" id="ticker-bar">
         <div class="ticker">
@@ -826,7 +826,6 @@
         ];
 
         window.addDummyData = async () => {
-            // التحقق من تسجيل الدخول (هام جداً لحل المشكلة)
             if (!auth.currentUser) {
                 alert("يجب عليك تسجيل الدخول أولاً لتتمكن من إضافة البيانات. اضغط على 'دخول الإدارة' وسجل دخولك.");
                 return;
