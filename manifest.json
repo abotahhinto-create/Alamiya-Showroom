@@ -1,1 +1,18 @@
-
+{
+  "name": "معرض العالمية للسيارات",
+  "short_name": "العالمية",
+  "description": "معرض العالمية لبيع وشراء السيارات الفاخرة",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#faf8f5",
+  "theme_color": "#c59b27",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3202/3202926.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
