@@ -17,10 +17,10 @@
     <style>
         /* ================= المتغيرات والثيمات ================= */
         :root {
-            --bg-color: #f7f9fc; --card-bg: #ffffff; --text-main: #2c3e50;
+            --bg-color: #f4f7f6; --card-bg: #ffffff; --text-main: #2c3e50;
             --text-muted: #7f8c8d; --primary-color: #c59b27; --primary-hover: #a67f1d;
             --border-color: #e1e8ed; --box-bg: #f8f9fa; --sidebar-bg: #ffffff; --whatsapp-color: #25d366;
-            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --shadow: 0 8px 30px rgba(0,0,0,0.06);
             --glow: 0 0 20px rgba(197, 155, 39, 0.4);
         }
         
@@ -31,27 +31,12 @@
             --glow: 0 0 20px rgba(212, 175, 55, 0.3);
         }
 
-        body[data-theme="classic"] { 
-            --bg-color: #ffffff; --card-bg: #fdfdfd; --text-main: #2c2c2c; --text-muted: #757575; 
-            --primary-color: #b8860b; --primary-hover: #996f09; --border-color: #e0e0e0; --box-bg: #f5f5f5; 
-            --sidebar-bg: #fafafa; --shadow: 0 10px 30px rgba(0,0,0,0.05);
-            --glow: 0 0 20px rgba(184, 134, 11, 0.3);
-        }
-
-        body[data-theme="silver"] { 
-            --bg-color: #eef2f5; --card-bg: #ffffff; --text-main: #2c3e50; --text-muted: #7f8c8d; 
-            --primary-color: #95a5a6; --primary-hover: #7f8c8d; --border-color: #bdc3c7; --box-bg: #f4f6f7; 
-            --sidebar-bg: #ffffff; --shadow: 0 10px 30px rgba(0,0,0,0.1);
-            --glow: 0 0 20px rgba(149, 165, 166, 0.3);
-        }
-
         /* ================= الحركات ================= */
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         @keyframes pulseGold { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
         @keyframes carDrive { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100vw); } }
-        
-        .animate-fade { animation: fadeIn 0.5s ease forwards; }
+        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         /* ================= التنسيقات العامة ================= */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
@@ -63,13 +48,9 @@
         .ticker { display: inline-block; animation: carDrive 35s linear infinite; }
         .ticker span { margin: 0 30px; display: inline-flex; align-items: center; gap: 8px;}
 
-        /* زر تثبيت التطبيق */
-        #installBtn { display: none; position: fixed; top: 40px; width: 100%; background: var(--primary-color); color: #fff; text-align: center; padding: 10px; font-weight: bold; z-index: 1002; cursor: pointer; border: none; font-family: 'Tajawal'; font-size: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.2);}
-        #installBtn i { margin-left: 8px;}
-
         /* الهيدر */
-        .header-bar { position: fixed; top: 40px; right: 0; width: 100%; height: 70px; background: var(--card-bg); display: flex; justify-content: space-between; align-items: center; padding: 0 20px; z-index: 999; box-shadow: var(--shadow); transition: top 0.3s;}
-        .header-bar .logo { font-size: 24px; font-weight: 900; color: var(--primary-color); display: flex; align-items: center; gap: 10px; letter-spacing: 1px;}
+        .header-bar { position: fixed; top: 40px; right: 0; width: 100%; height: 70px; background: var(--card-bg); display: flex; justify-content: space-between; align-items: center; padding: 0 20px; z-index: 999; box-shadow: var(--shadow);}
+        .header-bar .logo { font-size: 24px; font-weight: 900; color: var(--primary-color); display: flex; align-items: center; gap: 10px;}
         .menu-toggle { background: var(--box-bg); border: 1px solid var(--border-color); border-radius: 8px; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; font-size: 20px; cursor: pointer; color: var(--text-main); transition: 0.3s;}
         .menu-toggle:hover { background: var(--primary-color); color: white; }
 
@@ -79,8 +60,6 @@
         
         .sidebar { position: fixed; top: 0; right: -320px; width: 300px; height: 100vh; background: var(--sidebar-bg); z-index: 10000; box-shadow: -10px 0 30px rgba(0,0,0,0.2); transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column; overflow: hidden;}
         .sidebar.open { right: 0; }
-        .sidebar::before { content: '\f1b9 \f1b9 \f1b9'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 100px; color: var(--box-bg); position: absolute; top: 40%; left: -30px; transform: rotate(-90deg); opacity: 0.7; pointer-events: none; z-index: -1; white-space: nowrap;}
-
         .sidebar-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid var(--border-color); background: var(--card-bg);}
         .sidebar .logo { font-size: 22px; font-weight: 900; color: var(--primary-color); }
         .close-sidebar { background: none; border: none; font-size: 28px; cursor: pointer; color: var(--text-main); transition: 0.3s;}
@@ -91,14 +70,7 @@
         .nav-links a i { width: 25px; text-align: center; color: var(--primary-color);}
         .nav-links a:hover, .nav-links a.active { background: var(--box-bg); color: var(--primary-color); border-right-color: var(--primary-color); padding-right: 25px;}
         
-        /* بطاقة المصمم */
-        .designer-card { 
-            background: linear-gradient(135deg, var(--card-bg) 0%, var(--box-bg) 100%); 
-            margin: 15px; padding: 20px; border-radius: 16px; 
-            border: 1px solid var(--primary-color); 
-            text-align: center; box-shadow: var(--glow); 
-            position: relative; overflow: hidden;
-        }
+        .designer-card { background: linear-gradient(135deg, var(--card-bg) 0%, var(--box-bg) 100%); margin: 15px; padding: 20px; border-radius: 16px; border: 1px solid var(--primary-color); text-align: center; box-shadow: var(--glow);}
         .designer-card .avatar { width: 60px; height: 60px; background: var(--primary-color); color: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 26px; font-weight: bold; margin: 0 auto 15px auto; box-shadow: var(--glow);}
         .designer-card h4 { font-size: 18px; margin-bottom: 5px; color: var(--text-main); font-weight: 800;}
         .designer-card p { font-size: 13px; color: var(--text-muted); margin-bottom: 15px; font-weight: 500;}
@@ -129,8 +101,8 @@
         .hero-content h1 span { color: var(--primary-color); }
         .hero-content p { font-size: 16px; margin-bottom: 0; text-shadow: 0 2px 5px rgba(0,0,0,0.6); max-width: 500px; margin: 0 auto;}
 
-        /* ================= قسم البحث والفلاتر (أفقي وواسع) ================= */
-        .search-wrapper { margin: 0 5% 25px 5%; background: var(--card-bg); padding: 15px; border-radius: 20px; box-shadow: var(--shadow); border: 1px solid var(--border-color);}
+        /* ================= قسم البحث والفلاتر ================= */
+        .search-wrapper { margin: 0 5% 25px 5%; background: var(--card-bg); padding: 20px; border-radius: 20px; box-shadow: var(--shadow); border: 1px solid var(--border-color);}
         .search-box { position: relative; width: 100%; margin-bottom: 15px;}
         .search-box i { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--primary-color); font-size: 20px;}
         .search-input { width: 100%; padding: 16px 55px 16px 20px; border: 2px solid var(--border-color); border-radius: 12px; background: var(--box-bg); color: var(--text-main); font-size: 16px; font-weight: 600; outline: none; transition: 0.3s;}
@@ -141,41 +113,23 @@
         .filter-select { flex: 1; min-width: 140px; padding: 12px 15px; border: 2px solid var(--border-color); border-radius: 12px; background: var(--box-bg); color: var(--text-main); font-weight: 700; outline: none; cursor: pointer; font-family: 'Tajawal'; transition: 0.3s; appearance: none; text-align: center;}
         .filter-select:focus { border-color: var(--primary-color); }
 
+        /* شريط الماركات الأفقي */
+        .brands-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 15px 5%; scrollbar-width: none;}
+        .brands-scroll::-webkit-scrollbar { display: none; }
+        .brand-btn { padding: 10px 20px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 30px; white-space: nowrap; font-weight: bold; cursor: pointer; transition: 0.3s; color: var(--text-main); box-shadow: var(--shadow);}
+        .brand-btn:hover, .brand-btn.active { background: var(--primary-color); color: white; border-color: var(--primary-color); box-shadow: var(--glow);}
+
         /* أقسام الماركات */
         .brand-section { margin-bottom: 40px; }
         .brand-title { font-size: 24px; font-weight: 900; color: var(--text-main); margin: 0 5% 20px 5%; display: flex; align-items: center; gap: 12px;}
         .brand-title::before { content: ''; display: block; width: 6px; height: 30px; background: var(--primary-color); border-radius: 10px;}
-        .brand-title span { color: var(--primary-color); }
         
         /* ================= شريط السيارات الأفقي ================= */
-        .cars-row { 
-            display: flex; 
-            flex-direction: row; 
-            overflow-x: auto; 
-            gap: 20px; 
-            padding: 10px 5% 30px 5%; 
-            scroll-snap-type: x mandatory; 
-            scrollbar-width: none;
-        }
+        .cars-row { display: flex; flex-direction: row; overflow-x: auto; gap: 20px; padding: 10px 5% 30px 5%; scroll-snap-type: x mandatory; scrollbar-width: none;}
         .cars-row::-webkit-scrollbar { display: none; }
         
         /* البطاقة المزينة */
-        .car-card { 
-            flex: 0 0 auto; 
-            width: 85vw; 
-            max-width: 320px; 
-            height: 380px; 
-            background: var(--card-bg); 
-            border-radius: 20px; 
-            overflow: hidden; 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.06); 
-            border: 1px solid var(--border-color); 
-            display: flex; 
-            flex-direction: column; 
-            position: relative;
-            scroll-snap-align: center;
-            transition: all 0.4s ease;
-        }
+        .car-card { flex: 0 0 auto; width: 85vw; max-width: 320px; height: 380px; background: var(--card-bg); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.06); border: 1px solid var(--border-color); display: flex; flex-direction: column; position: relative; scroll-snap-align: center; transition: all 0.4s ease;}
         .car-card:hover { transform: translateY(-8px); box-shadow: var(--glow); border-color: var(--primary-color); }
         
         .car-images { width: 100%; height: 200px; position: relative; background: #000; overflow: hidden;}
@@ -256,14 +210,14 @@
         /* التنبيه العائم (Toast) */
         .toast-notification {
             position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px);
-            background: linear-gradient(135deg, #ff4757, #ff6b81); color: white;
+            background: rgba(26, 29, 36, 0.95); color: #f4e8c1; border: 1px solid var(--primary-color);
             padding: 15px 25px; border-radius: 50px; font-weight: bold; font-size: 15px;
-            box-shadow: 0 10px 25px rgba(255, 71, 87, 0.4); z-index: 10005;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 10005;
             display: flex; align-items: center; gap: 10px; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer; border: 2px solid rgba(255,255,255,0.3);
+            cursor: pointer; backdrop-filter: blur(10px);
         }
         .toast-notification.show { transform: translateX(-50%) translateY(0); }
-        .toast-notification i { font-size: 20px; animation: pulseGold 1.5s infinite;}
+        .toast-notification i { font-size: 20px; color: var(--primary-color); animation: pulseGold 1.5s infinite;}
 
         /* تعديلات الموبايل */
         @media (max-width: 768px) {
@@ -283,12 +237,10 @@
         </div>
     </div>
 
-    <button id="installBtn"><i class="fa-solid fa-download"></i> تثبيت التطبيق على جهازك</button>
-
-    <!-- التنبيه العائم -->
+    <!-- التنبيه العائم بتصميم فاخر -->
     <div class="toast-notification" id="offerToast" onclick="this.classList.remove('show')">
-        <i class="fa-solid fa-fire"></i>
-        <span>عروض جديدة وصلت! خصومات تصل إلى 20%.</span>
+        <i class="fa-solid fa-crown"></i>
+        <span>عروض حصرية وصلت! تفقد أحدث السيارات الآن.</span>
     </div>
 
     <div class="header-bar" id="header-bar">
@@ -344,10 +296,6 @@
                     <input type="text" id="search-text" class="search-input" placeholder="ابحث بالماركة أو الموديل..." onkeyup="filterCars()">
                 </div>
                 <div class="filters-row">
-                    <select id="filter-brand" class="filter-select" onchange="filterCars()">
-                        <option value="all">كل الماركات</option>
-                        <!-- سيتم تعبئتها ديناميكياً -->
-                    </select>
                     <select id="filter-status" class="filter-select" onchange="filterCars()">
                         <option value="all">الحالة (الكل)</option>
                         <option value="جديد">جديد</option>
@@ -355,10 +303,17 @@
                     </select>
                     <select id="filter-sort" class="filter-select" onchange="filterCars()">
                         <option value="default">ترتيب حسب</option>
-                        <option value="price-asc">السعر: الأقل للأعلى</option>
-                        <option value="price-desc">السعر: الأعلى للأقل</option>
+                        <option value="price-asc">الأقل سعراً</option>
+                        <option value="price-desc">الأعلى سعراً</option>
+                        <option value="mileage-asc">الأقل ممشى</option>
                     </select>
                 </div>
+            </div>
+
+            <!-- شريط أزرار الماركات الأفقي -->
+            <div class="brands-scroll" id="brands-scroll">
+                <button class="brand-btn active" onclick="setBrandFilter('all', this)">كل الماركات</button>
+                <!-- سيتم تعبئتها ديناميكياً -->
             </div>
 
             <div id="cars-container">
@@ -510,7 +465,7 @@
                 
                 <div class="contact-actions">
                     <a href="tel:777772778" class="btn-call"><i class="fa-solid fa-phone"></i> اتصل بالمعرض</a>
-                    <a href="https://wa.me/967777772778" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> تواصل واتساب</a>
+                    <a id="whatsapp-btn" href="#" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> تواصل واتساب</a>
                 </div>
             </div>
         </div>
@@ -625,7 +580,7 @@
                 setTimeout(() => document.getElementById('offerToast').classList.remove('show'), 7000);
             }, 3000);
 
-            populateBrandFilter();
+            populateBrandsScroll();
             renderCars();
             if(document.getElementById('tab-manage-cars').classList.contains('active')) searchAdminCars();
         }, (error) => {
@@ -633,20 +588,25 @@
             document.getElementById('loading-text').innerText = "خطأ في جلب البيانات: تأكد من صلاحيات القراءة.";
         });
 
-        function populateBrandFilter() {
+        function populateBrandsScroll() {
             const brands = [...new Set(cars.map(car => car.brand))];
-            const select = document.getElementById('filter-brand');
-            let html = '<option value="all">كل الماركات</option>';
+            const container = document.getElementById('brands-scroll');
+            let html = `<button class="brand-btn ${currentFilters.brand === 'all' ? 'active' : ''}" onclick="setBrandFilter('all', this)">كل الماركات</button>`;
             brands.forEach(brand => {
-                html += `<option value="${brand}">${brand}</option>`;
+                html += `<button class="brand-btn ${currentFilters.brand === brand ? 'active' : ''}" onclick="setBrandFilter('${brand}', this)">${brand}</button>`;
             });
-            select.innerHTML = html;
-            select.value = currentFilters.brand;
+            container.innerHTML = html;
+        }
+
+        window.setBrandFilter = function(brand, element) {
+            document.querySelectorAll('.brand-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            currentFilters.brand = brand;
+            renderCars();
         }
 
         window.filterCars = function() {
             currentFilters.text = document.getElementById('search-text').value.toLowerCase();
-            currentFilters.brand = document.getElementById('filter-brand').value;
             currentFilters.status = document.getElementById('filter-status').value;
             currentFilters.sort = document.getElementById('filter-sort').value;
             renderCars();
@@ -667,6 +627,8 @@
                 filteredCars.sort((a, b) => parseInt(a.price) - parseInt(b.price));
             } else if (currentFilters.sort === 'price-desc') {
                 filteredCars.sort((a, b) => parseInt(b.price) - parseInt(a.price));
+            } else if (currentFilters.sort === 'mileage-asc') {
+                filteredCars.sort((a, b) => parseInt(a.mileage) - parseInt(b.mileage));
             }
 
             if (filteredCars.length === 0) {
@@ -674,67 +636,91 @@
                 return;
             }
 
-            const groupedCars = {};
-            filteredCars.forEach(car => {
-                if (!groupedCars[car.brand]) { groupedCars[car.brand] = []; }
-                groupedCars[car.brand].push(car);
-            });
-
-            for (const brand in groupedCars) {
+            // عرض السيارات كشريط أفقي واحد إذا كان الفلتر على ماركة معينة
+            if (currentFilters.brand !== 'all') {
                 const brandSection = document.createElement('div');
                 brandSection.className = 'brand-section animate-fade';
-
                 const brandTitle = document.createElement('h2');
                 brandTitle.className = 'brand-title';
-                brandTitle.innerHTML = `سيارات <span>${brand}</span>`;
+                brandTitle.innerHTML = `سيارات <span>${currentFilters.brand}</span>`;
                 brandSection.appendChild(brandTitle);
 
                 const carsRow = document.createElement('div');
                 carsRow.className = 'cars-row';
 
-                groupedCars[brand].forEach(car => {
-                    const card = document.createElement('div');
-                    card.className = 'car-card';
-                    
-                    let imgArray = Array.isArray(car.images) ? car.images : [car.images];
-                    let imagesHtml = imgArray.map((img, index) => 
-                        `<img src="${img}" class="car-img-${car.id}" style="opacity: ${index === 0 ? 1 : 0}; z-index: ${index === 0 ? 1 : 0};" alt="${car.model}">`
-                    ).join('');
-                    let dotsHtml = imgArray.map((_, index) => 
-                        `<div class="dot ${index === 0 ? 'active' : ''}" onclick="goToImage('${car.id}', ${index})"></div>`
-                    ).join('');
-                    const offerBadge = car.isOffer ? `<div class="offer-badge"><i class="fa-solid fa-fire"></i> عرض</div>` : '';
-
-                    card.innerHTML = `
-                        <div class="car-images">
-                            ${offerBadge}
-                            ${imgArray.length > 1 ? `<button class="slider-btn prev" onclick="changeImage('${car.id}', -1)"><i class="fa-solid fa-chevron-right"></i></button>` : ''}
-                            ${imagesHtml}
-                            ${imgArray.length > 1 ? `<button class="slider-btn next" onclick="changeImage('${car.id}', 1)"><i class="fa-solid fa-chevron-left"></i></button>` : ''}
-                            ${imgArray.length > 1 ? `<div class="slider-dots">${dotsHtml}</div>` : ''}
-                        </div>
-                        <div class="car-details">
-                            <div class="car-header">
-                                <div class="car-title">${car.brand} ${car.model}</div>
-                                <div class="car-price">${car.price}</div>
-                            </div>
-                            <div class="car-meta">
-                                <span><i class="fa-solid fa-gauge"></i> ${car.mileage}</span>
-                                <span><i class="fa-solid fa-tag"></i> ${car.status}</span>
-                            </div>
-                            <div class="car-specs-grid">
-                                <div class="spec-item"><span class="spec-label">الوقود</span><span class="spec-value">${car.fuel}</span></div>
-                                <div class="spec-item"><span class="spec-label">ناقل الحركة</span><span class="spec-value">${car.gear}</span></div>
-                            </div>
-                            <button class="btn-details" onclick="openDetails('${car.id}')"><i class="fa-solid fa-circle-info"></i> التفاصيل</button>
-                        </div>
-                    `;
-                    carsRow.appendChild(card);
+                filteredCars.forEach(car => {
+                    carsRow.appendChild(createCarCard(car));
                 });
 
                 brandSection.appendChild(carsRow);
                 container.appendChild(brandSection);
+            } else {
+                // عرض السيارات مقسمة حسب الماركة
+                const groupedCars = {};
+                filteredCars.forEach(car => {
+                    if (!groupedCars[car.brand]) { groupedCars[car.brand] = []; }
+                    groupedCars[car.brand].push(car);
+                });
+
+                for (const brand in groupedCars) {
+                    const brandSection = document.createElement('div');
+                    brandSection.className = 'brand-section animate-fade';
+                    const brandTitle = document.createElement('h2');
+                    brandTitle.className = 'brand-title';
+                    brandTitle.innerHTML = `سيارات <span>${brand}</span>`;
+                    brandSection.appendChild(brandTitle);
+
+                    const carsRow = document.createElement('div');
+                    carsRow.className = 'cars-row';
+
+                    groupedCars[brand].forEach(car => {
+                        carsRow.appendChild(createCarCard(car));
+                    });
+
+                    brandSection.appendChild(carsRow);
+                    container.appendChild(brandSection);
+                }
             }
+        }
+
+        function createCarCard(car) {
+            const card = document.createElement('div');
+            card.className = 'car-card';
+            
+            let imgArray = Array.isArray(car.images) ? car.images : [car.images];
+            let imagesHtml = imgArray.map((img, index) => 
+                `<img src="${img}" class="car-img-${car.id}" style="opacity: ${index === 0 ? 1 : 0}; z-index: ${index === 0 ? 1 : 0};" alt="${car.model}">`
+            ).join('');
+            let dotsHtml = imgArray.map((_, index) => 
+                `<div class="dot ${index === 0 ? 'active' : ''}" onclick="goToImage('${car.id}', ${index})"></div>`
+            ).join('');
+            const offerBadge = car.isOffer ? `<div class="offer-badge"><i class="fa-solid fa-fire"></i> عرض</div>` : '';
+
+            card.innerHTML = `
+                <div class="car-images">
+                    ${offerBadge}
+                    ${imgArray.length > 1 ? `<button class="slider-btn prev" onclick="changeImage('${car.id}', -1)"><i class="fa-solid fa-chevron-right"></i></button>` : ''}
+                    ${imagesHtml}
+                    ${imgArray.length > 1 ? `<button class="slider-btn next" onclick="changeImage('${car.id}', 1)"><i class="fa-solid fa-chevron-left"></i></button>` : ''}
+                    ${imgArray.length > 1 ? `<div class="slider-dots">${dotsHtml}</div>` : ''}
+                </div>
+                <div class="car-details">
+                    <div class="car-header">
+                        <div class="car-title">${car.brand} ${car.model}</div>
+                        <div class="car-price">${car.price}</div>
+                    </div>
+                    <div class="car-meta">
+                        <span><i class="fa-solid fa-gauge"></i> ${car.mileage}</span>
+                        <span><i class="fa-solid fa-tag"></i> ${car.status}</span>
+                    </div>
+                    <div class="car-specs-grid">
+                        <div class="spec-item"><span class="spec-label">الوقود</span><span class="spec-value">${car.fuel}</span></div>
+                        <div class="spec-item"><span class="spec-label">ناقل الحركة</span><span class="spec-value">${car.gear}</span></div>
+                    </div>
+                    <button class="btn-details" onclick="openDetails('${car.id}')"><i class="fa-solid fa-circle-info"></i> التفاصيل</button>
+                </div>
+            `;
+            return card;
         }
 
         window.changeImage = function(carId, direction) {
@@ -772,6 +758,9 @@
                 <span><i class="fa-solid fa-tag"></i> ${car.status}</span>
                 <span><i class="fa-solid fa-gauge"></i> ${car.mileage}</span>
             `;
+
+            // تحديث رابط الواتساب ليحمل اسم السيارة
+            document.getElementById('whatsapp-btn').href = `https://wa.me/967777772778?text=مرحباً، أستفسر عن سيارة ${car.brand} ${car.model} المعروضة في الموقع.`;
 
             document.getElementById('details-gallery').innerHTML = car.images.map(img => `<img src="${img}" onclick="document.getElementById('details-main-img').src='${img}'">`).join('');
             document.getElementById('details-specs').innerHTML = `
@@ -986,49 +975,6 @@
             btn.addEventListener('click', () => {
                 document.body.setAttribute('data-theme', btn.getAttribute('data-theme-val'));
             });
-        });
-
-        // ================= كود تطبيق PWA =================
-        let deferredPrompt;
-        const installBtn = document.getElementById('installBtn');
-        const tickerBar = document.getElementById('ticker-bar');
-        const headerBar = document.getElementById('header-bar');
-        const mainContent = document.getElementById('main-content');
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(registration => console.log('ServiceWorker registered'))
-                    .catch(err => console.log('ServiceWorker registration failed: ', err));
-            });
-        }
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installBtn.style.display = 'block';
-            tickerBar.style.top = '45px';
-            headerBar.style.top = '85px';
-            mainContent.style.marginTop = '170px';
-        });
-
-        installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                deferredPrompt = null;
-                installBtn.style.display = 'none';
-                tickerBar.style.top = '0';
-                headerBar.style.top = '40px';
-                mainContent.style.marginTop = '120px';
-            }
-        });
-        
-        window.addEventListener('appinstalled', () => {
-            installBtn.style.display = 'none';
-            tickerBar.style.top = '0';
-            headerBar.style.top = '40px';
-            mainContent.style.marginTop = '120px';
         });
     </script>
 </body>
