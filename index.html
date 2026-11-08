@@ -126,51 +126,51 @@
         .brand-section { margin-bottom: 40px; }
         .brand-title { font-size: 22px; font-weight: 800; color: var(--text-main); margin: 0 5% 15px 5%; display: flex; align-items: center; gap: 10px; border-right: 5px solid var(--primary-color); padding-right: 10px;}
         
-        /* شريط السيارات الأفقي */
-        .cars-row { display: flex; overflow-x: auto; gap: 20px; padding: 0 5% 20px 5%; scroll-snap-type: x mandatory; scrollbar-width: none;}
+        /* ================= شريط السيارات الأفقي (الحل النهائي) ================= */
+        .cars-row { 
+            display: flex; 
+            overflow-x: auto; 
+            gap: 15px; 
+            padding: 0 5% 20px 5%; 
+            scroll-snap-type: x mandatory; 
+            scrollbar-width: none;
+        }
         .cars-row::-webkit-scrollbar { display: none; }
         
         /* البطاقة الأفقية */
         .car-card { 
             flex: 0 0 auto; /* يمنع البطاقة من التمدد */
-            width: 320px; /* عرض ثابت للبطاقة */
+            width: 260px; /* عرض ثابت ومناسب للهاتف */
+            height: 160px;
             background: var(--card-bg); 
-            border-radius: 15px; 
+            border-radius: 12px; 
             overflow: hidden; 
             box-shadow: var(--shadow); 
             border: 1px solid var(--border-color); 
             display: flex; 
-            flex-direction: row; /* اتجاه أفقي */
+            flex-direction: row; /* الترتيب الأفقي (صورة بجانب تفاصيل) */
             position: relative;
-            height: 200px;
-            transition: transform 0.3s;
             scroll-snap-align: start;
         }
-        .car-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
         
-        .car-images { width: 40%; position: relative; background: #000; overflow: hidden;}
+        .car-images { width: 45%; position: relative; background: #000; overflow: hidden;}
         .car-images img { width: 100%; height: 100%; object-fit: cover; position: absolute; transition: opacity 0.5s; }
-        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 5px 8px; cursor: pointer; border-radius: 50%; z-index: 2; backdrop-filter: blur(3px); font-size: 12px;}
-        .slider-btn:hover { background: var(--primary-color); }
-        .slider-btn.prev { right: 5px; } .slider-btn.next { left: 5px; }
+        
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.4); color: white; border: none; padding: 4px 7px; cursor: pointer; border-radius: 50%; z-index: 2; font-size: 10px;}
+        .slider-btn.prev { right: 3px; } .slider-btn.next { left: 3px; }
         .slider-dots { position: absolute; bottom: 5px; width: 100%; display: flex; justify-content: center; gap: 3px; z-index: 2;}
-        .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: 0.3s;}
+        .dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: 0.3s;}
         .dot.active { background: var(--primary-color); transform: scale(1.3);}
         
-        .offer-badge { position: absolute; top: 10px; right: 10px; background: #ff4757; color: white; padding: 3px 8px; border-radius: 5px; font-weight: bold; font-size: 10px; z-index: 2; animation: pulseGold 2s infinite;}
+        .offer-badge { position: absolute; top: 5px; right: 5px; background: #ff4757; color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 9px; z-index: 2;}
 
-        .car-details { width: 60%; padding: 15px; display: flex; flex-direction: column; justify-content: space-between;}
-        .car-header { display: flex; flex-direction: column; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 10px;}
-        .car-title { font-size: 16px; font-weight: 800; color: var(--text-main); }
-        .car-price { font-size: 18px; font-weight: 900; color: var(--primary-color); margin-top: 5px;}
-        .car-meta { color: var(--text-muted); font-size: 11px; margin-top: 5px; display: flex; gap: 10px;}
+        /* تفاصيل السيارة داخل البطاقة */
+        .car-details { width: 55%; padding: 10px; display: flex; flex-direction: column; justify-content: space-between;}
+        .car-title { font-size: 13px; font-weight: 800; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+        .car-price { font-size: 15px; font-weight: 900; color: var(--primary-color); margin-top: 2px;}
+        .car-meta { color: var(--text-muted); font-size: 10px; margin-top: 5px; display: flex; flex-direction: column; gap: 2px;}
         
-        .car-specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;}
-        .spec-item { background: var(--box-bg); padding: 5px; border-radius: 5px; text-align: center; }
-        .spec-label { color: var(--text-muted); font-size: 9px; display: block; margin-bottom: 2px; }
-        .spec-value { font-weight: 700; font-size: 11px; color: var(--text-main); }
-
-        .btn-details { width: 100%; padding: 8px; border-radius: 5px; background: var(--primary-color); color: white; font-weight: bold; text-align: center; border: none; cursor: pointer; font-size: 12px; transition: 0.3s;}
+        .btn-details { width: 100%; padding: 5px; border-radius: 5px; background: var(--primary-color); color: white; font-weight: bold; text-align: center; border: none; cursor: pointer; font-size: 11px; transition: 0.3s;}
         .btn-details:hover { background: var(--primary-hover); }
 
         /* النوافذ المنبثقة */
@@ -190,7 +190,6 @@
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px;}
         .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-color); color: var(--text-main); font-family: 'Tajawal'; outline: none;}
-        .form-group input:focus, .form-group select:focus { border-color: var(--primary-color);}
         
         .btn-danger { background: #dc3545; color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold;}
         .btn-success { background: #198754; color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold;}
@@ -207,20 +206,6 @@
 
         .preview-images { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px; }
         .preview-images img { height: 60px; border-radius: 5px; border: 1px solid var(--border-color); }
-
-        /* تعديلات الموبايل */
-        @media (max-width: 768px) {
-            .hero-content h1 { font-size: 28px; }
-            .search-container { flex-direction: column; }
-            .search-box, .filter-select { width: 100%; max-width: 100% !important;}
-            .admin-car-item { flex-direction: column; align-items: flex-start; gap: 10px;}
-            
-            /* البطاقة الأفقية في الموبايل */
-            .car-card { width: 280px; height: 170px; }
-            .car-title { font-size: 14px;}
-            .car-price { font-size: 16px;}
-            .car-meta { font-size: 10px;}
-        }
     </style>
 </head>
 <body data-theme="gold">
@@ -535,7 +520,7 @@
             renderCars();
         }
 
-        // عرض السيارات حسب الماركة (أفقي)
+        // عرض السيارات حسب الماركة (أفقي تماماً)
         window.renderCars = function() {
             const container = document.getElementById('cars-container');
             container.innerHTML = '';
@@ -593,10 +578,10 @@
                             <div class="car-header">
                                 <div class="car-title">${car.brand} ${car.model}</div>
                                 <div class="car-price">${car.price}</div>
-                                <div class="car-meta">
-                                    <span><i class="fa-solid fa-gauge"></i> ${car.mileage}</span>
-                                    <span><i class="fa-solid fa-hashtag"></i> ${car.plate}</span>
-                                </div>
+                            </div>
+                            <div class="car-meta">
+                                <span><i class="fa-solid fa-gauge"></i> ${car.mileage}</span>
+                                <span><i class="fa-solid fa-hashtag"></i> ${car.plate}</span>
                             </div>
                             <button class="btn-details" onclick="openDetails('${car.id}')"><i class="fa-solid fa-circle-info"></i> التفاصيل</button>
                         </div>
