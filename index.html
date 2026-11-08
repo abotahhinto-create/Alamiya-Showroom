@@ -57,6 +57,7 @@
         @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         @keyframes pulseGold { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
         @keyframes carDrive { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100vw); } }
+        @keyframes bgMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
         .animate-fade { animation: fadeIn 0.5s ease forwards; }
         .animate-slide { animation: slideDown 0.5s ease forwards; }
@@ -68,21 +69,28 @@
         
         /* شريط العروض */
         .ticker-wrapper { background: var(--primary-color); color: #fff; padding: 8px 0; overflow: hidden; white-space: nowrap; font-weight: bold; font-size: 14px; position: fixed; top: 0; width: 100%; z-index: 1000;}
-        body[data-theme="gold"] .ticker-wrapper, body[data-theme="royal"] .ticker-wrapper { color: #000; background: linear-gradient(90deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); }
+        body[data-theme="gold"] .ticker-wrapper, body[data-theme="royal"] .ticker-wrapper { color: #000; background: linear-gradient(90deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); background-size: 300% 300%; animation: bgMove 5s ease infinite; }
         .ticker { display: inline-block; animation: carDrive 30s linear infinite; }
         .ticker span { margin: 0 30px; }
 
+        /* زر تثبيت التطبيق العلوي */
+        #installBtn { display: none; position: fixed; top: 35px; width: 100%; background: var(--primary-color); color: #fff; text-align: center; padding: 10px; font-weight: bold; z-index: 1002; cursor: pointer; border: none; font-family: 'Tajawal'; font-size: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.2);}
+        #installBtn i { margin-left: 8px;}
+
         /* ================= القائمة الجانبية ================= */
-        .header-bar { position: fixed; top: 35px; right: 0; width: 100%; height: 65px; background: var(--card-bg); display: flex; justify-content: space-between; align-items: center; padding: 0 20px; z-index: 999; box-shadow: var(--shadow);}
+        .header-bar { position: fixed; top: 35px; right: 0; width: 100%; height: 65px; background: var(--card-bg); display: flex; justify-content: space-between; align-items: center; padding: 0 20px; z-index: 999; box-shadow: var(--shadow); transition: top 0.3s;}
         .header-bar .logo { font-size: 22px; font-weight: 800; color: var(--primary-color); display: flex; align-items: center; gap: 10px;}
         .menu-toggle { background: none; border: none; font-size: 26px; cursor: pointer; color: var(--text-main); }
         
         .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; display: none; backdrop-filter: blur(3px);}
         .sidebar-overlay.active { display: block; animation: fadeIn 0.3s;}
         
-        .sidebar { position: fixed; top: 0; right: -320px; width: 300px; height: 100vh; background: var(--sidebar-bg); z-index: 10000; box-shadow: -5px 0 25px rgba(0,0,0,0.2); transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column;}
+        .sidebar { position: fixed; top: 0; right: -320px; width: 300px; height: 100vh; background: var(--sidebar-bg); z-index: 10000; box-shadow: -5px 0 25px rgba(0,0,0,0.2); transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column; overflow: hidden;}
         .sidebar.open { right: 0; }
         
+        /* ثيمات متحركة في خلفية القائمة */
+        .sidebar::before { content: '\f1b9 \f1b9 \f1b9'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 80px; color: var(--box-bg); position: absolute; top: 50%; left: -20px; transform: rotate(-90deg); opacity: 0.5; pointer-events: none; z-index: -1; white-space: nowrap;}
+
         .sidebar-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid var(--border-color); background: var(--box-bg);}
         .sidebar .logo { font-size: 20px; font-weight: 800; color: var(--primary-color); }
         .close-sidebar { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-main); }
@@ -91,7 +99,8 @@
         .nav-links a { padding: 15px 20px; font-weight: 600; font-size: 16px; transition: 0.3s; display: flex; align-items: center; gap: 15px; border-right: 4px solid transparent;}
         .nav-links a:hover, .nav-links a.active { background: var(--box-bg); color: var(--primary-color); border-right-color: var(--primary-color); padding-right: 25px;}
         
-        .designer-card { background: linear-gradient(135deg, var(--card-bg), var(--box-bg)); margin: 15px; padding: 15px; border-radius: 12px; border: 1px solid var(--primary-color); text-align: center; box-shadow: var(--shadow);}
+        .designer-card { background: linear-gradient(135deg, var(--card-bg), var(--box-bg)); margin: 15px; padding: 15px; border-radius: 12px; border: 1px solid var(--primary-color); text-align: center; box-shadow: var(--shadow); position: relative; overflow: hidden;}
+        .designer-card::after { content: '\f1b9'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; bottom: -10px; right: -10px; font-size: 60px; color: var(--primary-color); opacity: 0.1;}
         .designer-card .avatar { width: 50px; height: 50px; background: var(--primary-color); color: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 22px; font-weight: bold; margin: 0 auto 10px auto; animation: pulseGold 2s infinite;}
         .designer-card h4 { font-size: 16px; margin-bottom: 5px; }
         .designer-card p { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
@@ -107,10 +116,6 @@
         .theme-btn::after { content: '\f1b9'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: var(--text-main); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 14px;}
 
         .sidebar-footer { padding: 15px; border-top: 1px solid var(--border-color); text-align: center;}
-        .sidebar-footer button { width: 100%; padding: 12px; background: var(--primary-color); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;}
-        
-        /* زر تثبيت التطبيق */
-        #installBtn { display: none; position: fixed; bottom: 20px; left: 20px; background: var(--whatsapp-color); color: white; padding: 12px 20px; border-radius: 30px; font-weight: bold; border: none; cursor: pointer; z-index: 1000; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); animation: pulseGold 2s infinite;}
 
         /* ================= المحتوى الرئيسي ================= */
         .main-content { margin-top: 100px; padding-bottom: 50px; min-height: 80vh;}
@@ -131,19 +136,24 @@
         .search-box i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 18px;}
         .search-input { width: 100%; padding: 15px 45px 15px 15px; border: 2px solid transparent; border-radius: 10px; background: var(--box-bg); color: var(--text-main); font-size: 16px; outline: none; transition: 0.3s;}
         .search-input:focus { border-color: var(--primary-color); background: var(--card-bg);}
-        .filter-select { padding: 15px; border: 2px solid transparent; border-radius: 10px; background: var(--box-bg); color: var(--text-main); font-weight: bold; outline: none; cursor: pointer;}
-        .filter-select:focus { border-color: var(--primary-color); }
 
-        .filter-tabs { display: flex; gap: 10px; margin: 0 5% 20px 5%; overflow-x: auto; padding-bottom: 5px; }
+        /* الفلاتر الأفقية */
+        .filter-tabs { display: flex; gap: 10px; margin: 0 5% 20px 5%; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none;}
+        .filter-tabs::-webkit-scrollbar { display: none; }
         .filter-tab { padding: 8px 20px; background: var(--box-bg); border: 1px solid var(--border-color); border-radius: 30px; cursor: pointer; white-space: nowrap; font-weight: 600; transition: all 0.3s; }
         .filter-tab.active { background: var(--primary-color); color: white; border-color: var(--primary-color); box-shadow: var(--shadow);}
 
-        .cars-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 25px; margin: 0 5%; }
+        /* ================= شبكة السيارات الأفقية (Carousel) ================= */
+        .cars-slider-container { margin: 0 5%; position: relative;}
+        .cars-slider { display: flex; overflow-x: auto; gap: 20px; padding-bottom: 20px; scroll-snap-type: x mandatory; scrollbar-width: thin;}
+        .cars-slider::-webkit-scrollbar { height: 8px; }
+        .cars-slider::-webkit-scrollbar-track { background: var(--box-bg); border-radius: 10px;}
+        .cars-slider::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 10px;}
         
-        .car-card { background: var(--card-bg); border-radius: 15px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--border-color); transition: transform 0.3s, box-shadow 0.3s; display: flex; flex-direction: column; height: 100%; position: relative; cursor: pointer;}
+        .car-card { min-width: 350px; max-width: 350px; scroll-snap-align: start; background: var(--card-bg); border-radius: 15px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--border-color); transition: transform 0.3s, box-shadow 0.3s; display: flex; flex-direction: column; position: relative;}
         .car-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.15); }
         
-        .car-images { width: 100%; height: 220px; position: relative; background: #000; overflow: hidden;}
+        .car-images { width: 100%; height: 200px; position: relative; background: #000; overflow: hidden;}
         .car-images img { width: 100%; height: 100%; object-fit: cover; position: absolute; transition: opacity 0.5s; }
         .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 50%; z-index: 2; backdrop-filter: blur(3px); transition: 0.3s;}
         .slider-btn:hover { background: var(--primary-color); }
@@ -156,9 +166,9 @@
 
         .car-details { padding: 20px; display: flex; flex-direction: column; flex: 1;}
         .car-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 15px;}
-        .car-title { font-size: 22px; font-weight: 800; color: var(--text-main); }
-        .car-price { font-size: 24px; font-weight: 900; color: var(--primary-color); }
-        .car-meta { color: var(--text-muted); font-size: 14px; margin-top: 5px; display: flex; gap: 15px;}
+        .car-title { font-size: 20px; font-weight: 800; color: var(--text-main); }
+        .car-price { font-size: 22px; font-weight: 900; color: var(--primary-color); }
+        .car-meta { color: var(--text-muted); font-size: 13px; margin-top: 5px; display: flex; gap: 15px;}
         
         .car-specs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px;}
         .spec-item { background: var(--box-bg); padding: 8px; border-radius: 8px; text-align: center; border: 1px solid var(--border-color); }
@@ -206,7 +216,7 @@
         .preview-images img { height: 60px; border-radius: 5px; border: 1px solid var(--border-color); }
 
         @media (max-width: 768px) {
-            .cars-grid { grid-template-columns: 1fr; }
+            .car-card { min-width: 280px; }
             .hero-content h1 { font-size: 28px; }
             .search-container { flex-direction: column; }
             .search-box, .filter-select { width: 100%; max-width: 100% !important;}
@@ -216,7 +226,10 @@
 </head>
 <body data-theme="gold">
 
-    <div class="ticker-wrapper">
+    <!-- زر تثبيت التطبيق (يظهر في الأعلى) -->
+    <button id="installBtn"><i class="fa-solid fa-download"></i> تثبيت التطبيق على جهازك</button>
+
+    <div class="ticker-wrapper" id="ticker-bar">
         <div class="ticker">
             <span>🚗 أهلاً بكم في معرض العالمية - وجهتكم الأولى للسيارات الفاخرة</span>
             <span>🔥 عروض حصرية وأسعار لا تقبل المنافسة</span>
@@ -224,7 +237,7 @@
         </div>
     </div>
 
-    <div class="header-bar">
+    <div class="header-bar" id="header-bar">
         <div class="logo"><i class="fa-solid fa-car-side"></i> العالمية</div>
         <button class="menu-toggle" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
     </div>
@@ -261,9 +274,7 @@
         </div>
     </div>
 
-    <button id="installBtn"><i class="fa-solid fa-download"></i> تثبيت التطبيق</button>
-
-    <div class="main-content">
+    <div class="main-content" id="main-content">
         <div id="page-home" class="page active">
             <section class="hero">
                 <div class="hero-content">
@@ -286,10 +297,14 @@
                 </select>
             </div>
 
+            <!-- الفلاتر الأفقية -->
             <div class="filter-tabs" id="filter-tabs"></div>
 
-            <div class="cars-grid" id="cars-container">
-                <div style="text-align:center; padding: 20px; grid-column: 1/-1; color:var(--text-muted);" id="loading-text">جاري تحميل السيارات...</div>
+            <!-- شريط السيارات الأفقي (السلايدر) -->
+            <div class="cars-slider-container">
+                <div class="cars-slider" id="cars-container">
+                    <div style="text-align:center; padding: 20px; width: 100%; color:var(--text-muted);" id="loading-text">جاري تحميل السيارات...</div>
+                </div>
             </div>
         </div>
 
@@ -562,7 +577,7 @@
             });
 
             if (filtered.length === 0) {
-                container.innerHTML = '<h3 style="text-align:center; grid-column:1/-1; color:var(--text-muted); padding: 20px;">لا توجد سيارات.</h3>'; return;
+                container.innerHTML = '<h3 style="text-align:center; width:100%; color:var(--text-muted); padding: 20px;">لا توجد سيارات.</h3>'; return;
             }
 
             filtered.forEach(car => {
@@ -602,7 +617,7 @@
                             <div class="spec-item"><span class="spec-label">ناقل الحركة</span><span class="spec-value">${car.gear}</span></div>
                         </div>
                         <div class="contact-actions">
-                            <button class="btn-contact btn-details" onclick="openDetails('${car.id}')"><i class="fa-solid fa-circle-info"></i> تفاصيل السيارة</button>
+                            <button class="btn-contact btn-details" onclick="openDetails('${car.id}')"><i class="fa-solid fa-circle-info"></i> تفاصيل</button>
                             <a href="https://wa.me/967777772778?text=مرحباً، أستفسر عن سيارة ${car.brand} ${car.model}" target="_blank" class="btn-contact btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> واتساب</a>
                         </div>
                     </div>
@@ -810,11 +825,28 @@
         // ================= كود تطبيق PWA =================
         let deferredPrompt;
         const installBtn = document.getElementById('installBtn');
+        const tickerBar = document.getElementById('ticker-bar');
+        const headerBar = document.getElementById('header-bar');
+        const mainContent = document.getElementById('main-content');
+
+        // التحقق من دعم PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => console.log('ServiceWorker registered'))
+                    .catch(err => console.log('ServiceWorker registration failed: ', err));
+            });
+        }
 
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
             installBtn.style.display = 'block';
+            
+            // تعديل المسافات لكي لا يغطي الزر على المحتوى
+            tickerBar.style.top = '45px';
+            headerBar.style.top = '80px';
+            mainContent.style.marginTop = '150px';
         });
 
         installBtn.addEventListener('click', async () => {
@@ -826,16 +858,21 @@
                 }
                 deferredPrompt = null;
                 installBtn.style.display = 'none';
+                
+                // إعادة المسافات لطبيعتها
+                tickerBar.style.top = '0';
+                headerBar.style.top = '35px';
+                mainContent.style.marginTop = '100px';
             }
         });
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(registration => console.log('ServiceWorker registered'))
-                    .catch(err => console.log('ServiceWorker registration failed: ', err));
-            });
-        }
+        
+        // إخفاء الزر إذا كان التطبيق مثبتاً مسبقاً
+        window.addEventListener('appinstalled', () => {
+            installBtn.style.display = 'none';
+            tickerBar.style.top = '0';
+            headerBar.style.top = '35px';
+            mainContent.style.marginTop = '100px';
+        });
     </script>
 </body>
 </html>
