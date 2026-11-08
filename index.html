@@ -3,59 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>معرض العالمية - لبيع وشراء السيارات</title>
+    <title>معرض العالمية - لبيع وشراء السيارات الفاخرة</title>
+    
+    <!-- إعدادات تطبيق الويب (PWA) -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#c59b27">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3202/3202926.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* ================= المتغيرات والثيمات ================= */
+        /* ================= المتغيرات والثيمات الفاخرة ================= */
         :root {
-            /* الثيم الافتراضي: أزرق حديث */
-            --bg-color: #f0f2f5; --card-bg: #ffffff; --text-main: #1a1a1a;
+            --bg-color: #faf8f5; --card-bg: #ffffff; --text-main: #1a1a1a;
             --text-muted: #666666; --primary-color: #0d6efd; --primary-hover: #0b5ed7;
             --border-color: #e4e6eb; --box-bg: #f8f9fa; --sidebar-bg: #ffffff; --whatsapp-color: #25d366;
-            --shadow: 0 4px 15px rgba(0,0,0,0.05);
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
         
-        /* 1. الثيم الداكن */
-        body[data-theme="dark"] { 
-            --bg-color: #121212; --card-bg: #1e1e1e; --text-main: #ffffff; --text-muted: #aaaaaa; 
-            --primary-color: #3b82f6; --primary-hover: #2563eb; --border-color: #333333; --box-bg: #2a2a2a; 
-            --sidebar-bg: #1a1a1a; --shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-        
-        /* 2. الثيم الملكي (أسود وذهبي) */
-        body[data-theme="royal"] { 
-            --bg-color: #0a0a0a; --card-bg: #1a1a1a; --text-main: #f8e7b9; --text-muted: #c9b98c; 
-            --primary-color: #d4af37; --primary-hover: #b5952f; --border-color: #333333; --box-bg: #222222; 
-            --sidebar-bg: #111111; --shadow: 0 4px 15px rgba(212, 175, 55, 0.1);
-        }
-
-        /* 3. الثيم الكربوني (رمادي رياضي) */
-        body[data-theme="carbon"] { 
-            --bg-color: #e5e5e5; --card-bg: #ffffff; --text-main: #2d3436; --text-muted: #636e72; 
-            --primary-color: #b2bec3; --primary-hover: #dfe6e9; --border-color: #b2bec3; --box-bg: #f5f6fa; 
-            --sidebar-bg: #2d3436; --shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        body[data-theme="carbon"] header, body[data-theme="carbon"] .sidebar { color: white; }
-        body[data-theme="carbon"] .nav-links a { color: #dfe6e9; }
-        body[data-theme="carbon"] .theme-btn-main, body[data-theme="carbon"] .sidebar .logo { color: white; }
-
-        /* 4. الثيم الذهبي الفاخر */
+        /* 1. الذهبي الفاخر (الافتراضي) */
         body[data-theme="gold"] { 
-            --bg-color: #faf8f5; --card-bg: #ffffff; --text-main: #4a3b32; --text-muted: #8b7355; 
-            --primary-color: #c5a059; --primary-hover: #b08d45; --border-color: #e8dfd3; --box-bg: #f5f0e6; 
-            --sidebar-bg: #fffdfa; --shadow: 0 4px 15px rgba(197, 160, 89, 0.15);
+            --bg-color: #faf8f5; --card-bg: #ffffff; --text-main: #3e2f24; --text-muted: #8c7765; 
+            --primary-color: #c59b27; --primary-hover: #a67f1d; --border-color: #e8dfd3; --box-bg: #fcf9f2; 
+            --sidebar-bg: #ffffff; --shadow: 0 10px 30px rgba(197, 155, 39, 0.15);
+        }
+        
+        /* 2. الأسود الملكي */
+        body[data-theme="royal"] { 
+            --bg-color: #0d0d0d; --card-bg: #1a1a1a; --text-main: #f4e8c1; --text-muted: #b8a77c; 
+            --primary-color: #d4af37; --primary-hover: #b5952f; --border-color: #333333; --box-bg: #222222; 
+            --sidebar-bg: #111111; --shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
         }
 
-        /* ================= الحركات والأنميشن ================= */
+        /* 3. الأبيض الذهبي (Classic Gold) */
+        body[data-theme="classic"] { 
+            --bg-color: #ffffff; --card-bg: #fdfdfd; --text-main: #2c2c2c; --text-muted: #757575; 
+            --primary-color: #b8860b; --primary-hover: #996f09; --border-color: #e0e0e0; --box-bg: #f5f5f5; 
+            --sidebar-bg: #fafafa; --shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        /* 4. الفضي الحديث */
+        body[data-theme="silver"] { 
+            --bg-color: #eef2f5; --card-bg: #ffffff; --text-main: #2c3e50; --text-muted: #7f8c8d; 
+            --primary-color: #95a5a6; --primary-hover: #7f8c8d; --border-color: #bdc3c7; --box-bg: #f4f6f7; 
+            --sidebar-bg: #ffffff; --shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* ================= الحركات ================= */
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-        @keyframes scroll-left { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes pulseGold { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
+        @keyframes carDrive { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100vw); } }
         
         .animate-fade { animation: fadeIn 0.5s ease forwards; }
-        .animate-slide { animation: slideInRight 0.4s ease forwards; }
+        .animate-slide { animation: slideDown 0.5s ease forwards; }
 
         /* ================= التنسيقات العامة ================= */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
@@ -63,104 +67,117 @@
         a { text-decoration: none; color: inherit; }
         
         /* شريط العروض */
-        .ticker-wrapper { background-color: var(--primary-color); color: white; padding: 8px 0; overflow: hidden; white-space: nowrap; font-weight: 500; font-size: 14px; position: fixed; top: 0; width: 100%; z-index: 1000;}
-        .ticker { display: inline-block; animation: scroll-left 25s linear infinite; }
+        .ticker-wrapper { background: var(--primary-color); color: #fff; padding: 8px 0; overflow: hidden; white-space: nowrap; font-weight: bold; font-size: 14px; position: fixed; top: 0; width: 100%; z-index: 1000;}
+        body[data-theme="gold"] .ticker-wrapper, body[data-theme="royal"] .ticker-wrapper { color: #000; background: linear-gradient(90deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); }
+        .ticker { display: inline-block; animation: carDrive 30s linear infinite; }
         .ticker span { margin: 0 30px; }
-        body[data-theme="royal"] .ticker-wrapper { background-color: #d4af37; color: #000; }
 
-        /* ================= القائمة الجانبية (Sidebar) ================= */
-        .header-bar { position: fixed; top: 35px; right: 0; width: 100%; height: 60px; background: var(--card-bg); display: flex; justify-content: space-between; align-items: center; padding: 0 20px; z-index: 999; box-shadow: var(--shadow);}
-        .header-bar .logo { font-size: 20px; font-weight: 800; color: var(--primary-color); }
-        .menu-toggle { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-main); }
+        /* ================= القائمة الجانبية ================= */
+        .header-bar { position: fixed; top: 35px; right: 0; width: 100%; height: 65px; background: var(--card-bg); display: flex; justify-content: space-between; align-items: center; padding: 0 20px; z-index: 999; box-shadow: var(--shadow);}
+        .header-bar .logo { font-size: 22px; font-weight: 800; color: var(--primary-color); display: flex; align-items: center; gap: 10px;}
+        .menu-toggle { background: none; border: none; font-size: 26px; cursor: pointer; color: var(--text-main); }
         
-        .sidebar { position: fixed; top: 0; right: -300px; width: 280px; height: 100vh; background: var(--sidebar-bg); z-index: 10000; box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: right 0.4s ease; display: flex; flex-direction: column; padding-top: 20px;}
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; display: none; backdrop-filter: blur(3px);}
+        .sidebar-overlay.active { display: block; animation: fadeIn 0.3s;}
+        
+        .sidebar { position: fixed; top: 0; right: -320px; width: 300px; height: 100vh; background: var(--sidebar-bg); z-index: 10000; box-shadow: -5px 0 25px rgba(0,0,0,0.2); transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column;}
         .sidebar.open { right: 0; }
-        .sidebar-header { display: flex; justify-content: space-between; align-items: center; padding: 0 20px 20px 20px; border-bottom: 1px solid var(--border-color); }
-        .sidebar .logo { font-size: 22px; font-weight: 800; color: var(--primary-color); }
-        .close-sidebar { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-main); }
-        .nav-links { display: flex; flex-direction: column; padding: 20px 0; flex: 1;}
-        .nav-links a { padding: 15px 25px; font-weight: 500; font-size: 16px; transition: 0.3s; border-right: 4px solid transparent; display: flex; align-items: center; gap: 15px;}
-        .nav-links a:hover, .nav-links a.active { background: var(--box-bg); color: var(--primary-color); border-right-color: var(--primary-color); }
-        .sidebar-footer { padding: 20px; border-top: 1px solid var(--border-color); text-align: center;}
         
-        .theme-switcher { display: flex; gap: 10px; justify-content: center; margin-top: 15px;}
-        .theme-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: transform 0.2s; }
-        .theme-btn:hover { transform: scale(1.2); }
-        .theme-btn[data-theme-val="light"] { background: #0d6efd; }
-        .theme-btn[data-theme-val="dark"] { background: #333; }
-        .theme-btn[data-theme-val="royal"] { background: #111; border-color: #d4af37; }
-        .theme-btn[data-theme-val="carbon"] { background: #2d3436; }
-        .theme-btn[data-theme-val="gold"] { background: #c5a059; }
+        .sidebar-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid var(--border-color); background: var(--box-bg);}
+        .sidebar .logo { font-size: 20px; font-weight: 800; color: var(--primary-color); }
+        .close-sidebar { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-main); }
+        
+        .nav-links { display: flex; flex-direction: column; padding: 10px 0; flex: 1; overflow-y: auto;}
+        .nav-links a { padding: 15px 20px; font-weight: 600; font-size: 16px; transition: 0.3s; display: flex; align-items: center; gap: 15px; border-right: 4px solid transparent;}
+        .nav-links a:hover, .nav-links a.active { background: var(--box-bg); color: var(--primary-color); border-right-color: var(--primary-color); padding-right: 25px;}
+        
+        .designer-card { background: linear-gradient(135deg, var(--card-bg), var(--box-bg)); margin: 15px; padding: 15px; border-radius: 12px; border: 1px solid var(--primary-color); text-align: center; box-shadow: var(--shadow);}
+        .designer-card .avatar { width: 50px; height: 50px; background: var(--primary-color); color: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 22px; font-weight: bold; margin: 0 auto 10px auto; animation: pulseGold 2s infinite;}
+        .designer-card h4 { font-size: 16px; margin-bottom: 5px; }
+        .designer-card p { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+        .designer-card a { display: inline-block; background: var(--whatsapp-color); color: white; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold;}
 
-        /* المحتوى */
-        .main-content { margin-top: 95px; padding-bottom: 50px;}
-        .page { display: none; min-height: 70vh; }
+        .theme-switcher { display: flex; gap: 12px; justify-content: center; margin: 15px 0; flex-wrap: wrap;}
+        .theme-btn { width: 35px; height: 35px; border-radius: 50%; border: 2px solid var(--border-color); cursor: pointer; transition: transform 0.3s; position: relative;}
+        .theme-btn:hover { transform: scale(1.2); }
+        .theme-btn[data-theme-val="gold"] { background: #faf8f5; border-color: #c59b27;}
+        .theme-btn[data-theme-val="royal"] { background: #1a1a1a; border-color: #d4af37;}
+        .theme-btn[data-theme-val="classic"] { background: #ffffff; border-color: #b8860b;}
+        .theme-btn[data-theme-val="silver"] { background: #eef2f5; border-color: #95a5a6;}
+        .theme-btn::after { content: '\f1b9'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: var(--text-main); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 14px;}
+
+        .sidebar-footer { padding: 15px; border-top: 1px solid var(--border-color); text-align: center;}
+        .sidebar-footer button { width: 100%; padding: 12px; background: var(--primary-color); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;}
+        
+        /* زر تثبيت التطبيق */
+        #installBtn { display: none; position: fixed; bottom: 20px; left: 20px; background: var(--whatsapp-color); color: white; padding: 12px 20px; border-radius: 30px; font-weight: bold; border: none; cursor: pointer; z-index: 1000; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); animation: pulseGold 2s infinite;}
+
+        /* ================= المحتوى الرئيسي ================= */
+        .main-content { margin-top: 100px; padding-bottom: 50px; min-height: 80vh;}
+        .page { display: none; }
         .page.active { display: block; animation: fadeIn 0.5s ease forwards; }
 
-        /* قسم الهيرو */
-        .hero { text-align: center; padding: 50px 20px; background: linear-gradient(135deg, var(--box-bg) 0%, var(--bg-color) 100%); border-radius: 15px; margin: 0 5% 30px 5%;}
-        .hero h1 { font-size: 34px; margin-bottom: 15px; color: var(--text-main); }
-        .hero p { font-size: 18px; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+        .hero { position: relative; height: 350px; margin: 0 5% 30px 5%; border-radius: 20px; overflow: hidden; background: url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=1200') center/cover; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow);}
+        .hero::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8)); }
+        .hero-content { position: relative; z-index: 2; text-align: center; color: white; animation: slideDown 0.8s ease;}
+        .hero-content h1 { font-size: 40px; font-weight: 800; margin-bottom: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.5);}
+        .hero-content h1 span { color: var(--primary-color); }
+        .hero-content p { font-size: 18px; margin-bottom: 25px; text-shadow: 0 1px 5px rgba(0,0,0,0.5);}
+        .hero-btn { background: var(--primary-color); color: white; padding: 12px 30px; border-radius: 30px; font-weight: bold; font-size: 16px; border: none; cursor: pointer; transition: 0.3s; text-decoration: none;}
+        .hero-btn:hover { background: var(--primary-hover); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);}
 
-        /* الأقسام الثابتة */
-        .static-section { background: var(--card-bg); margin: 0 5% 40px 5%; padding: 40px 20px; border-radius: 15px; box-shadow: var(--shadow); text-align: center; }
-        .static-section h2 { color: var(--primary-color); margin-bottom: 20px; font-size: 28px;}
-        .static-section p { font-size: 16px; line-height: 1.8; color: var(--text-main); max-width: 800px; margin: 0 auto 15px auto;}
-
-        /* البحث والفلاتر */
-        .search-section { background-color: var(--card-bg); margin: 0 5% 20px 5%; padding: 20px; border-radius: 15px; box-shadow: var(--shadow); }
-        .search-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        .search-input { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--box-bg); color: var(--text-main); font-size: 15px; outline: none; transition: border 0.3s; }
-        .search-input:focus { border-color: var(--primary-color); }
-        .search-btn { background: var(--primary-color); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: background 0.3s; }
-        .search-btn:hover { background: var(--primary-hover); }
+        .search-container { margin: 0 5% 30px 5%; display: flex; gap: 15px; background: var(--card-bg); padding: 15px; border-radius: 15px; box-shadow: var(--shadow); align-items: center; border: 1px solid var(--border-color);}
+        .search-box { flex: 1; position: relative; }
+        .search-box i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 18px;}
+        .search-input { width: 100%; padding: 15px 45px 15px 15px; border: 2px solid transparent; border-radius: 10px; background: var(--box-bg); color: var(--text-main); font-size: 16px; outline: none; transition: 0.3s;}
+        .search-input:focus { border-color: var(--primary-color); background: var(--card-bg);}
+        .filter-select { padding: 15px; border: 2px solid transparent; border-radius: 10px; background: var(--box-bg); color: var(--text-main); font-weight: bold; outline: none; cursor: pointer;}
+        .filter-select:focus { border-color: var(--primary-color); }
 
         .filter-tabs { display: flex; gap: 10px; margin: 0 5% 20px 5%; overflow-x: auto; padding-bottom: 5px; }
-        .filter-tab { padding: 8px 20px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; cursor: pointer; white-space: nowrap; font-weight: 500; transition: all 0.3s; }
-        .filter-tab.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+        .filter-tab { padding: 8px 20px; background: var(--box-bg); border: 1px solid var(--border-color); border-radius: 30px; cursor: pointer; white-space: nowrap; font-weight: 600; transition: all 0.3s; }
+        .filter-tab.active { background: var(--primary-color); color: white; border-color: var(--primary-color); box-shadow: var(--shadow);}
 
-        /* ================= بطاقات السيارات (تصميم أفقي) ================= */
-        .cars-container { margin: 0 5%; display: flex; flex-direction: column; gap: 25px; }
-        .car-card { display: flex; background: var(--card-bg); border-radius: 15px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--border-color); transition: transform 0.3s; position: relative; height: 280px;}
-        .car-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .cars-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 25px; margin: 0 5%; }
         
-        /* السلايدر */
-        .car-images { width: 45%; position: relative; background: #000; overflow: hidden;}
-        .car-images img { width: 100%; height: 100%; object-fit: cover; position: absolute; transition: opacity 0.4s; }
-        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 10px 12px; cursor: pointer; border-radius: 50%; z-index: 2; backdrop-filter: blur(3px);}
+        .car-card { background: var(--card-bg); border-radius: 15px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--border-color); transition: transform 0.3s, box-shadow 0.3s; display: flex; flex-direction: column; height: 100%; position: relative; cursor: pointer;}
+        .car-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.15); }
+        
+        .car-images { width: 100%; height: 220px; position: relative; background: #000; overflow: hidden;}
+        .car-images img { width: 100%; height: 100%; object-fit: cover; position: absolute; transition: opacity 0.5s; }
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 50%; z-index: 2; backdrop-filter: blur(3px); transition: 0.3s;}
+        .slider-btn:hover { background: var(--primary-color); }
         .slider-btn.prev { right: 10px; } .slider-btn.next { left: 10px; }
         .slider-dots { position: absolute; bottom: 10px; width: 100%; display: flex; justify-content: center; gap: 5px; z-index: 2;}
-        .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: 0.3s;}
-        .dot.active { background: var(--primary-color); transform: scale(1.2);}
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: 0.3s;}
+        .dot.active { background: var(--primary-color); transform: scale(1.3);}
         
-        .offer-badge { position: absolute; top: 15px; right: 15px; background: #ff4757; color: white; padding: 6px 12px; border-radius: 5px; font-weight: bold; font-size: 13px; z-index: 2; animation: pulse 2s infinite; box-shadow: 0 2px 10px rgba(255, 71, 87, 0.4);}
+        .offer-badge { position: absolute; top: 15px; right: 15px; background: #ff4757; color: white; padding: 5px 12px; border-radius: 5px; font-weight: bold; font-size: 12px; z-index: 2; animation: pulseGold 2s infinite;}
 
-        /* تفاصيل البطاقة */
-        .car-details { width: 55%; padding: 25px; display: flex; flex-direction: column; justify-content: space-between; }
-        .car-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
-        .car-title { font-size: 24px; font-weight: 800; color: var(--text-main); }
-        .car-price { font-size: 26px; font-weight: 900; color: var(--primary-color); }
+        .car-details { padding: 20px; display: flex; flex-direction: column; flex: 1;}
+        .car-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 15px;}
+        .car-title { font-size: 22px; font-weight: 800; color: var(--text-main); }
+        .car-price { font-size: 24px; font-weight: 900; color: var(--primary-color); }
         .car-meta { color: var(--text-muted); font-size: 14px; margin-top: 5px; display: flex; gap: 15px;}
         
-        .car-specs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0;}
-        .spec-item { background: var(--box-bg); padding: 10px; border-radius: 8px; text-align: center; border: 1px solid var(--border-color); }
-        .spec-label { color: var(--text-muted); font-size: 12px; display: block; margin-bottom: 5px; }
-        .spec-value { font-weight: 700; font-size: 14px; color: var(--text-main); }
+        .car-specs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px;}
+        .spec-item { background: var(--box-bg); padding: 8px; border-radius: 8px; text-align: center; border: 1px solid var(--border-color); }
+        .spec-label { color: var(--text-muted); font-size: 11px; display: block; margin-bottom: 3px; }
+        .spec-value { font-weight: 700; font-size: 13px; color: var(--text-main); }
 
-        .contact-actions { display: flex; gap: 10px; }
-        .btn-contact { flex: 1; padding: 12px; border-radius: 8px; text-align: center; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s; border: none; cursor: pointer; font-size: 15px;}
+        .contact-actions { display: flex; gap: 10px; margin-top: auto;}
+        .btn-contact { flex: 1; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s; border: none; cursor: pointer; font-size: 14px;}
         .btn-whatsapp { background: var(--whatsapp-color); color: white; } .btn-whatsapp:hover { background: #1ebe5b; }
-        .btn-details { background: var(--box-bg); color: var(--text-main); border: 1px solid var(--border-color); } .btn-details:hover { background: var(--border-color); }
+        .btn-details { background: var(--primary-color); color: white; } .btn-details:hover { background: var(--primary-hover); }
 
         /* النوافذ المنبثقة */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px);}
-        .modal-content { background: var(--card-bg); padding: 30px; border-radius: 20px; width: 95%; max-width: 700px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.3); animation: fadeIn 0.3s ease;}
+        .modal-content { background: var(--card-bg); padding: 30px; border-radius: 20px; width: 95%; max-width: 700px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.4); animation: slideDown 0.4s ease;}
         .modal-header { display: flex; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;}
         .close-btn { background: none; border: none; font-size: 28px; cursor: pointer; color: var(--text-main); transition: 0.2s;}
         .close-btn:hover { color: #dc3545; transform: rotate(90deg);}
         
-        /* لوحة التحكم الواسعة */
-        #adminModal .modal-content { max-width: 1000px; }
+        #adminModal .modal-content { max-width: 900px; }
         .admin-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; overflow-x: auto;}
         .admin-tab { padding: 10px 20px; cursor: pointer; font-weight: bold; border-radius: 8px; background: var(--box-bg); white-space: nowrap; border: 1px solid var(--border-color);}
         .admin-tab.active { background: var(--primary-color); color: white; border-color: var(--primary-color);}
@@ -176,13 +193,11 @@
         .btn-success { background: #198754; color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold;}
         .btn-warning { background: #ffc107; color: #000; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold;}
 
-        /* تفاصيل السيارة */
         #carDetailsModal .modal-content { max-width: 900px; }
         .details-gallery { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px;}
-        .details-gallery img { height: 200px; border-radius: 10px; object-fit: cover; }
+        .details-gallery img { height: 250px; border-radius: 10px; object-fit: cover; }
         .details-specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; }
 
-        /* نتائج بحث الإدارة */
         .admin-car-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border: 1px solid var(--border-color); margin-bottom: 10px; border-radius: 10px; background: var(--box-bg);}
         .admin-car-info { font-size: 15px; }
         .admin-car-actions { display: flex; gap: 8px; }
@@ -191,18 +206,15 @@
         .preview-images img { height: 60px; border-radius: 5px; border: 1px solid var(--border-color); }
 
         @media (max-width: 768px) {
-            .car-card { flex-direction: column; height: auto; }
-            .car-images { width: 100%; height: 250px; }
-            .car-details { width: 100%; padding: 15px;}
-            .car-title { font-size: 20px;}
-            .car-price { font-size: 22px;}
-            .car-specs-grid { grid-template-columns: 1fr 1fr; }
-            .search-grid { grid-template-columns: 1fr; }
+            .cars-grid { grid-template-columns: 1fr; }
+            .hero-content h1 { font-size: 28px; }
+            .search-container { flex-direction: column; }
+            .search-box, .filter-select { width: 100%; max-width: 100% !important;}
             .admin-car-item { flex-direction: column; align-items: flex-start; gap: 10px;}
         }
     </style>
 </head>
-<body data-theme="light">
+<body data-theme="gold">
 
     <div class="ticker-wrapper">
         <div class="ticker">
@@ -212,97 +224,89 @@
         </div>
     </div>
 
-    <!-- الهيدر -->
     <div class="header-bar">
         <div class="logo"><i class="fa-solid fa-car-side"></i> العالمية</div>
         <button class="menu-toggle" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
     </div>
 
-    <!-- القائمة الجانبية -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <div class="logo"><i class="fa-solid fa-car-side"></i> العالمية</div>
             <button class="close-sidebar" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></button>
         </div>
+        
         <div class="nav-links">
             <a onclick="showPage('home'); toggleSidebar()" class="active" id="nav-home"><i class="fa-solid fa-house"></i> الرئيسية</a>
             <a onclick="showPage('about'); toggleSidebar()" id="nav-about"><i class="fa-solid fa-circle-info"></i> من نحن</a>
-            <a onclick="showPage('services'); toggleSidebar()" id="nav-services"><i class="fa-solid fa-gears"></i> خدماتنا</a>
             <a onclick="showPage('contact'); toggleSidebar()" id="nav-contact"><i class="fa-solid fa-envelope"></i> اتصل بنا</a>
-            <a id="adminLoginBtn" style="color: var(--primary-color); font-weight: bold; margin-top: auto; border-top: 1px solid var(--border-color);"><i class="fa-solid fa-user-lock"></i> دخول الإدارة</a>
+            <a id="adminLoginBtn" style="color: var(--primary-color); font-weight: bold; border-top: 1px solid var(--border-color); margin-top: 10px;"><i class="fa-solid fa-user-lock"></i> دخول الإدارة</a>
         </div>
+
+        <div class="designer-card">
+            <div class="avatar">ن</div>
+            <h4>نشوان البدري</h4>
+            <p>مصمم ومطور الموقع</p>
+            <a href="https://wa.me/967771713275" target="_blank"><i class="fa-brands fa-whatsapp"></i> تواصل: 771713275</a>
+        </div>
+
         <div class="sidebar-footer">
-            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">تغيير المظهر (الثيمات)</p>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">اختر ثيم الموقع</p>
             <div class="theme-switcher">
-                <div class="theme-btn" data-theme-val="light" title="أزرق حديث"></div>
-                <div class="theme-btn" data-theme-val="dark" title="داكن"></div>
-                <div class="theme-btn" data-theme-val="royal" title="أسود ملكي"></div>
-                <div class="theme-btn" data-theme-val="carbon" title="رمادي رياضي"></div>
-                <div class="theme-btn" data-theme-val="gold" title="ذهبي فاخر"></div>
+                <div class="theme-btn" data-theme-val="gold" title="الذهبي الفاخر"></div>
+                <div class="theme-btn" data-theme-val="royal" title="الأسود الملكي"></div>
+                <div class="theme-btn" data-theme-val="classic" title="الأبيض الذهبي"></div>
+                <div class="theme-btn" data-theme-val="silver" title="الفضي الحديث"></div>
             </div>
         </div>
     </div>
 
-    <!-- المحتوى الرئيسي -->
+    <button id="installBtn"><i class="fa-solid fa-download"></i> تثبيت التطبيق</button>
+
     <div class="main-content">
-        <!-- الصفحة الرئيسية -->
         <div id="page-home" class="page active">
             <section class="hero">
-                <h1>اكتشف سيارتك المثالية مع <span style="color: var(--primary-color);">العالمية</span></h1>
-                <p>نقدم لك أفضل السيارات العالمية بأعلى معايير الجودة والمصداقية.</p>
+                <div class="hero-content">
+                    <h1>اكتشف الفخامة مع <span>العالمية</span></h1>
+                    <p>أفضل السيارات العالمية بأعلى معايير الجودة والمصداقية.</p>
+                    <a href="#cars-section" class="hero-btn">تصفح السيارات الآن <i class="fa-solid fa-arrow-down"></i></a>
+                </div>
             </section>
 
-            <div class="search-section">
-                <div class="search-grid">
-                    <input type="text" id="search-text" class="search-input" placeholder="ابحث بالماركة أو الموديل">
-                    <input type="text" id="search-plate" class="search-input" placeholder="ابحث برقم اللوحة">
-                    <select id="search-status" class="search-input">
-                        <option value="all">جميع السيارات</option>
-                        <option value="جديد">سيارات جديدة</option>
-                        <option value="مستعمل">سيارات مستعملة</option>
-                    </select>
-                    <button class="search-btn" onclick="filterCars()"><i class="fa-solid fa-search"></i> بحث</button>
+            <div class="search-container" id="cars-section">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="search-text" class="search-input" placeholder="ابحث بالماركة أو الموديل..." onkeyup="filterCars()">
                 </div>
+                <input type="text" id="search-plate" class="search-input" placeholder="رقم اللوحة..." style="max-width: 200px;" onkeyup="filterCars()">
+                <select id="search-status" class="filter-select" onchange="filterCars()">
+                    <option value="all">الكل</option>
+                    <option value="جديد">جديد</option>
+                    <option value="مستعمل">مستعمل</option>
+                </select>
             </div>
 
             <div class="filter-tabs" id="filter-tabs"></div>
 
-            <div class="cars-container" id="cars-container">
-                <div style="text-align:center; padding: 20px; color:var(--text-muted);" id="loading-text">جاري تحميل السيارات...</div>
+            <div class="cars-grid" id="cars-container">
+                <div style="text-align:center; padding: 20px; grid-column: 1/-1; color:var(--text-muted);" id="loading-text">جاري تحميل السيارات...</div>
             </div>
         </div>
 
-        <!-- صفحة من نحن -->
         <div id="page-about" class="page">
-            <section class="static-section">
-                <h2>من نحن</h2>
-                <p>في <b>معرض العالمية لصاحبه فيصل النفيش</b>، نحن لا نبيع السيارات فحسب، بل نبني جسوراً من الثقة مع عملائنا. منذ تأسيسنا، التزمنا بتقديم سيارات ذات جودة عالية وفحص دقيق لضمان سلامتك وراحتك.</p>
-                <p>نتميز بالمصداقية في التعامل والشفافية التامة في الأسعار. فريقنا من الخبراء مستعد لمساعدتك في اختيار السيارة التي تناسب احتياجاتك وميزانيتك.</p>
-            </section>
+            <div style="background: var(--card-bg); margin: 0 5%; padding: 40px; border-radius: 20px; box-shadow: var(--shadow); text-align: center;">
+                <h2 style="color: var(--primary-color); margin-bottom: 20px;">من نحن</h2>
+                <p style="font-size: 18px; line-height: 1.8; color: var(--text-main); max-width: 800px; margin: 0 auto;">في <b>معرض العالمية لصاحبه فيصل النفيش</b>، نحن لا نبيع السيارات فحسب، بل نبني جسوراً من الثقة مع عملائنا. منذ تأسيسنا، التزمنا بتقديم سيارات ذات جودة عالية وفحص دقيق لضمان سلامتك وراحتك. نتميز بالمصداقية والشفافية التامة في الأسعار.</p>
+            </div>
         </div>
 
-        <!-- صفحة خدماتنا -->
-        <div id="page-services" class="page">
-            <section class="static-section">
-                <h2>خدماتنا</h2>
-                <p>نقدم في معرض العالمية مجموعة متكاملة من الخدمات لتلبية جميع احتياجاتك:</p>
-                <div style="display: flex; justify-content: center; gap: 30px; margin-top: 30px; flex-wrap: wrap;">
-                    <div style="text-align:center;"><i class="fa-solid fa-car" style="font-size:40px; color:var(--primary-color); margin-bottom:10px;"></i><br>بيع وشراء</div>
-                    <div style="text-align:center;"><i class="fa-solid fa-money-check-dollar" style="font-size:40px; color:var(--primary-color); margin-bottom:10px;"></i><br>تقسيط وتمويل</div>
-                    <div style="text-align:center;"><i class="fa-solid fa-wrench" style="font-size:40px; color:var(--primary-color); margin-bottom:10px;"></i><br>فحص فني</div>
-                </div>
-            </section>
-        </div>
-
-        <!-- صفحة اتصل بنا -->
         <div id="page-contact" class="page">
-            <section class="static-section">
-                <h2>اتصل بنا</h2>
-                <p>صاحب المعرض (فيصل النفيش): <b>777772778</b></p>
-                <p>البريد الإلكتروني: info@alamiya.com</p>
-                <br>
-                <a href="https://wa.me/967777772778" target="_blank" class="btn-whatsapp" style="display: inline-block; padding: 12px 25px; border-radius: 8px; font-weight: bold; text-decoration: none;"><i class="fa-brands fa-whatsapp"></i> تواصل واتساب</a>
-            </section>
+            <div style="background: var(--card-bg); margin: 0 5%; padding: 40px; border-radius: 20px; box-shadow: var(--shadow); text-align: center;">
+                <h2 style="color: var(--primary-color); margin-bottom: 20px;">اتصل بنا</h2>
+                <p style="font-size: 18px; margin-bottom: 15px;">صاحب المعرض (فيصل النفيش): <b>777772778</b></p>
+                <p style="font-size: 18px; margin-bottom: 30px;">البريد الإلكتروني: info@alamiya.com</p>
+                <a href="https://wa.me/967777772778" target="_blank" style="background: var(--whatsapp-color); color: white; padding: 15px 30px; border-radius: 10px; font-weight: bold; font-size: 18px; text-decoration: none;"><i class="fa-brands fa-whatsapp"></i> تواصل واتساب</a>
+            </div>
         </div>
     </div>
 
@@ -316,7 +320,7 @@
             <form id="loginForm">
                 <div class="form-group"><label>البريد الإلكتروني</label><input type="email" id="login-email" required placeholder="admin@example.com"></div>
                 <div class="form-group"><label>كلمة المرور</label><input type="password" id="login-password" required placeholder="******"></div>
-                <button type="submit" class="search-btn" style="width:100%;">تسجيل الدخول</button>
+                <button type="submit" class="btn-success" style="width:100%; padding: 12px;">تسجيل الدخول</button>
             </form>
         </div>
     </div>
@@ -337,7 +341,6 @@
                 <button class="btn-danger" style="margin-right: auto;" onclick="logoutAdmin()">خروج</button>
             </div>
 
-            <!-- تبويب: إضافة سيارة -->
             <div id="tab-add-car" class="admin-tab-content active">
                 <h4 style="margin-bottom: 15px; color: var(--primary-color);" id="form-title">إضافة سيارة جديدة</h4>
                 <form id="addCarForm">
@@ -376,7 +379,7 @@
                         <label style="font-size: 16px; color: var(--primary-color);"><i class="fa-solid fa-cloud-arrow-up"></i> صور السيارة (اختر من جهازك)</label>
                         <input type="file" id="car-image-files" multiple accept="image/*" style="border: none; padding: 5px 0;">
                         <div id="edit-images-preview" style="display: none; margin-top: 10px;">
-                            <p style="font-size: 12px; color: var(--text-muted);">الصور الحالية (سيتم الاحتفاظ بها):</p>
+                            <p style="font-size: 12px; color: var(--text-muted);">الصور الحالية:</p>
                             <div id="current-images-list" class="preview-images"></div>
                         </div>
                     </div>
@@ -386,16 +389,14 @@
                 </form>
             </div>
 
-            <!-- تبويب: إدارة السيارات -->
             <div id="tab-manage-cars" class="admin-tab-content">
                 <h4 style="margin-bottom: 15px; color: var(--primary-color);">البحث عن سيارة لتعديلها أو حذفها</h4>
                 <input type="text" id="admin-search-input" class="search-input" placeholder="ابحث بالاسم أو رقم اللوحة..." onkeyup="searchAdminCars()" style="margin-bottom: 20px;">
                 <div id="admin-cars-list" style="max-height: 400px; overflow-y: auto;"></div>
             </div>
 
-            <!-- تبويب: إدارة المستخدمين -->
             <div id="tab-users" class="admin-tab-content">
-                <h4 style="margin-bottom: 15px; color: var(--primary-color);">إضافة مستخدم جديد (موظف)</h4>
+                <h4 style="margin-bottom: 15px; color: var(--primary-color);">إضافة مستخدم جديد</h4>
                 <form id="addUserForm">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <div class="form-group"><label>البريد الإلكتروني</label><input type="email" id="new-user-email" required placeholder="employee@example.com"></div>
@@ -405,7 +406,6 @@
                 </form>
             </div>
 
-            <!-- تبويب: الإعدادات -->
             <div id="tab-settings" class="admin-tab-content">
                 <h4 style="margin-bottom: 15px; color: var(--primary-color);">إعدادات البيانات</h4>
                 <div style="display: flex; gap: 10px; flex-direction: column;">
@@ -460,9 +460,9 @@
         let currentFilters = { text: '', plate: '', status: 'all', brand: 'all' };
         let editingCarId = null;
 
-        // ================= التنقل =================
         window.toggleSidebar = function() {
             document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('active');
         }
 
         window.showPage = function(pageId) {
@@ -473,7 +473,6 @@
             window.scrollTo(0, 0);
         }
 
-        // ================= تسجيل الدخول =================
         onAuthStateChanged(auth, (user) => {
             const btn = document.getElementById('adminLoginBtn');
             if (user) {
@@ -500,7 +499,6 @@
 
         window.logoutAdmin = async () => { await signOut(auth); closeAdmin(); };
 
-        // ================= التبويبات =================
         window.switchAdminTab = function(tabId) {
             document.querySelectorAll('.admin-tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.admin-tab').forEach(btn => btn.classList.remove('active'));
@@ -509,7 +507,6 @@
             if(tabId === 'manage-cars') searchAdminCars();
         }
 
-        // ================= المستخدمين =================
         document.getElementById('addUserForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('add-user-btn');
@@ -523,7 +520,6 @@
             finally { btn.innerText = "إضافة المستخدم"; btn.disabled = false; }
         });
 
-        // ================= البيانات =================
         const q = query(carsCollection, orderBy("createdAt", "desc"));
         onSnapshot(q, (snapshot) => {
             cars = [];
@@ -566,32 +562,27 @@
             });
 
             if (filtered.length === 0) {
-                container.innerHTML = '<h3 style="text-align:center; color:var(--text-muted); padding: 20px;">لا توجد سيارات.</h3>'; return;
+                container.innerHTML = '<h3 style="text-align:center; grid-column:1/-1; color:var(--text-muted); padding: 20px;">لا توجد سيارات.</h3>'; return;
             }
 
             filtered.forEach(car => {
                 const card = document.createElement('div');
                 card.className = 'car-card animate-fade';
-                
                 let imgArray = Array.isArray(car.images) ? car.images : [car.images];
-                
-                // بناء السلايدر
                 let imagesHtml = imgArray.map((img, index) => 
                     `<img src="${img}" class="car-img-${car.id}" style="opacity: ${index === 0 ? 1 : 0}; z-index: ${index === 0 ? 1 : 0};" alt="${car.model}">`
                 ).join('');
-                
                 let dotsHtml = imgArray.map((_, index) => 
                     `<div class="dot ${index === 0 ? 'active' : ''}" onclick="goToImage('${car.id}', ${index})"></div>`
                 ).join('');
-
                 const offerBadge = car.isOffer ? `<div class="offer-badge"><i class="fa-solid fa-fire"></i> عرض</div>` : '';
 
                 card.innerHTML = `
-                    <div class="car-images">
+                    <div class="car-images" onclick="openDetails('${car.id}')">
                         ${offerBadge}
-                        ${imgArray.length > 1 ? `<button class="slider-btn prev" onclick="changeImage('${car.id}', -1)"><i class="fa-solid fa-chevron-right"></i></button>` : ''}
+                        ${imgArray.length > 1 ? `<button class="slider-btn prev" onclick="event.stopPropagation(); changeImage('${car.id}', -1)"><i class="fa-solid fa-chevron-right"></i></button>` : ''}
                         ${imagesHtml}
-                        ${imgArray.length > 1 ? `<button class="slider-btn next" onclick="changeImage('${car.id}', 1)"><i class="fa-solid fa-chevron-left"></i></button>` : ''}
+                        ${imgArray.length > 1 ? `<button class="slider-btn next" onclick="event.stopPropagation(); changeImage('${car.id}', 1)"><i class="fa-solid fa-chevron-left"></i></button>` : ''}
                         ${imgArray.length > 1 ? `<div class="slider-dots">${dotsHtml}</div>` : ''}
                     </div>
                     <div class="car-details">
@@ -611,7 +602,7 @@
                             <div class="spec-item"><span class="spec-label">ناقل الحركة</span><span class="spec-value">${car.gear}</span></div>
                         </div>
                         <div class="contact-actions">
-                            <button class="btn-contact btn-details" onclick="openDetails('${car.id}')"><i class="fa-solid fa-circle-info"></i> تفاصيل</button>
+                            <button class="btn-contact btn-details" onclick="openDetails('${car.id}')"><i class="fa-solid fa-circle-info"></i> تفاصيل السيارة</button>
                             <a href="https://wa.me/967777772778?text=مرحباً، أستفسر عن سيارة ${car.brand} ${car.model}" target="_blank" class="btn-contact btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> واتساب</a>
                         </div>
                     </div>
@@ -640,11 +631,8 @@
                 img.style.opacity = index === newIndex ? '1' : '0'; 
                 img.style.zIndex = index === newIndex ? '1' : '0'; 
             });
-            // تحديث النقاط
             const dots = document.querySelectorAll(`.car-card:has(.car-img-${carId}) .dot`);
-            dots.forEach((dot, index) => {
-                dot.className = index === newIndex ? 'dot active' : 'dot';
-            });
+            dots.forEach((dot, index) => { dot.className = index === newIndex ? 'dot active' : 'dot'; });
         }
 
         window.filterCars = function() {
@@ -673,7 +661,6 @@
         }
         window.closeDetails = () => document.getElementById('carDetailsModal').style.display = 'none';
 
-        // ================= إدارة السيارات =================
         window.searchAdminCars = function() {
             const term = document.getElementById('admin-search-input').value.toLowerCase();
             const list = document.getElementById('admin-cars-list');
@@ -741,7 +728,6 @@
             document.getElementById('cancel-edit-btn').style.display = "none";
         }
 
-        // ================= الحفظ =================
         document.getElementById('addCarForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submit-btn'); btn.innerText = "جاري الحفظ..."; btn.disabled = true;
@@ -784,7 +770,6 @@
             finally { btn.disabled = false; }
         });
 
-        // ================= تجريبي =================
         const dummyBrands = ["تويوتا", "هوندا", "نيسان", "لكزس", "هيونداي", "كيا", "مرسيدس", "بي إم دبليو", "فورد", "شفروليه"];
         const dummyImages = ["https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&q=80&w=800","https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&q=80&w=800","https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800"];
 
@@ -816,12 +801,41 @@
             await batch.commit(); alert("تم الحذف!");
         };
 
-        // تفعيل الثيمات
         document.querySelectorAll('.theme-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.body.setAttribute('data-theme', btn.getAttribute('data-theme-val'));
             });
         });
+
+        // ================= كود تطبيق PWA =================
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'block';
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    console.log('User accepted the A2HS prompt');
+                }
+                deferredPrompt = null;
+                installBtn.style.display = 'none';
+            }
+        });
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => console.log('ServiceWorker registered'))
+                    .catch(err => console.log('ServiceWorker registration failed: ', err));
+            });
+        }
     </script>
 </body>
 </html>
