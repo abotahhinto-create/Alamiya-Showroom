@@ -417,7 +417,7 @@
                     <!-- تصميم جديد لرفع الصور ليكون أسرع -->
                     <div class="form-group" style="border: 2px dashed var(--primary-color); padding: 20px; border-radius: 12px; background: var(--box-bg); text-align: center;">
                         <label style="font-size: 16px; color: var(--primary-color); font-weight: bold; margin-bottom: 10px; display: block;">
-                            <i class="fa-solid fa-cloud-arrow-up"></i> صور السيارة (يتم ضغطها تلقائياً لتسريع الرفع)
+                            <i class="fa-solid fa-cloud-arrow-up"></i> صور السيارة (يتم ضغطها وحفظها تلقائياً)
                         </label>
                         <input type="file" id="car-image-files" multiple accept="image/*" style="display: none;">
                         <label for="car-image-files" style="display: inline-block; background: var(--card-bg); border: 1px solid var(--border-color); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">
@@ -492,7 +492,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, getDocs, where, writeBatch, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDHf67bTiV8PULyU_mMSNRjBjC5lB1dr1w",
@@ -506,7 +505,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
-        const storage = getStorage(app);
         const carsCollection = collection(db, "cars");
 
         const secondaryApp = initializeApp(firebaseConfig, "SecondaryApp");
@@ -860,7 +858,6 @@
             document.getElementById('file-name-display').innerText = "لم يتم اختيار ملفات (اختياري)";
         }
 
-        // عرض اسم الصورة عند اختيارها
         document.getElementById('car-image-files').addEventListener('change', function(e) {
             const fileNameDisplay = document.getElementById('file-name-display');
             if (this.files.length > 0) {
@@ -874,8 +871,8 @@
             }
         });
 
-        // دالة ضغط الصور قبل الرفع
-        async function compressImage(file, maxSizeMB = 4) {
+        // دالة ضغط الصورة وتحويلها إلى Base64
+        async function compressToBase64(file) {
             return new Promise((resolve) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
@@ -887,8 +884,8 @@
                         let width = img.width;
                         let height = img.height;
                         
-                        // تصغير الأبعاد لتوفير المساحة
-                        const MAX_WIDTH = 1200;
+                        // تصغير الأبعاد لضمان عدم تجاوز حجم Firestore (1 ميجا)
+                        const MAX_WIDTH = 600; 
                         if (width > MAX_WIDTH) {
                             height = Math.round((height * MAX_WIDTH) / width);
                             width = MAX_WIDTH;
@@ -899,80 +896,67 @@
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, width, height);
                         
-                        // ضغط الجودة
-                        canvas.toBlob((blob) => {
-                            resolve(new File([blob], file.name, { type: 'image/jpeg' }));
-                        }, 'image/jpeg', 0.7); // جودة 70% (توازن ممتاز بين الحجم والوضوح)
+                        // ضغط الجودة بشدة (0.5) لضمان الحجم الصغير
+                        resolve(canvas.toDataURL('image/jpeg', 0.5)); 
                     };
                 };
             });
         }
 
-        // ** تعديل جذري: الحفظ أولاً ثم الرفع في الخلفية لتجنب التعليق **
         document.getElementById('addCarForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submit-btn'); 
             btn.innerText = "جاري الحفظ السريع..."; btn.disabled = true;
             
             const files = document.getElementById('car-image-files').files;
-            let initialImages = [defaultImage]; // صورة افتراضية مبدئياً
+            let imageUrls = [];
 
             // إذا كنا نعدل سيارة، نحتفظ بصورها القديمة
             if (editingCarId) {
                 const existingCar = cars.find(c => c.id === editingCarId);
                 if (existingCar && existingCar.images && existingCar.images.length > 0) {
-                    initialImages = [...existingCar.images];
+                    imageUrls = [...existingCar.images];
                 }
             }
 
-            const carData = {
-                brand: document.getElementById('add-brand').value, 
-                model: document.getElementById('add-model').value,
-                price: document.getElementById('add-price').value, 
-                plate: document.getElementById('add-plate').value,
-                status: document.getElementById('add-status').value, 
-                mileage: document.getElementById('add-mileage').value,
-                fuel: document.getElementById('add-fuel').value, 
-                gear: document.getElementById('add-gear').value,
-                extColor: document.getElementById('add-ext-color').value, 
-                intColor: document.getElementById('add-int-color').value,
-                isOffer: document.getElementById('add-is-offer').checked, 
-                images: initialImages
-            };
-
             try {
-                let docRef;
+                // إذا اختار صورة، يتم ضغطها وتحويلها لنص Base64
+                if (files.length > 0) {
+                    const base64Image = await compressToBase64(files[0]);
+                    imageUrls = [base64Image]; // نضع الصورة الجديدة
+                }
+
+                if (imageUrls.length === 0) {
+                    imageUrls = [defaultImage];
+                }
+
+                const carData = {
+                    brand: document.getElementById('add-brand').value, 
+                    model: document.getElementById('add-model').value,
+                    price: document.getElementById('add-price').value, 
+                    plate: document.getElementById('add-plate').value,
+                    status: document.getElementById('add-status').value, 
+                    mileage: document.getElementById('add-mileage').value,
+                    fuel: document.getElementById('add-fuel').value, 
+                    gear: document.getElementById('add-gear').value,
+                    extColor: document.getElementById('add-ext-color').value, 
+                    intColor: document.getElementById('add-int-color').value,
+                    isOffer: document.getElementById('add-is-offer').checked, 
+                    images: imageUrls
+                };
+
                 if (editingCarId) {
-                    docRef = doc(db, "cars", editingCarId);
-                    await updateDoc(docRef, carData);
+                    await updateDoc(doc(db, "cars", editingCarId), carData);
+                    alert('تم حفظ التعديلات بنجاح!');
                 } else {
                     carData.createdAt = new Date(); 
                     carData.isDummy = false;
-                    docRef = await addDoc(carsCollection, carData); 
+                    await addDoc(carsCollection, carData); 
+                    alert('تمت إضافة السيارة بنجاح!');
                 }
-
-                // إغلاق اللوحة فوراً وإظهار رسالة نجاح
-                alert('تم حفظ بيانات السيارة بنجاح! (سيتم رفع الصورة في الخلفية)');
                 resetCarForm(); closeAdmin();
-
-                // الآن نقوم برفع الصورة في الخلفية وتحديث السيارة
-                if (files.length > 0) {
-                    try {
-                        const compressedFile = await compressImage(files[0]);
-                        const storageRef = ref(storage, 'cars/' + Date.now() + '_' + compressedFile.name);
-                        await uploadBytes(storageRef, compressedFile);
-                        const imageUrl = await getDownloadURL(storageRef);
-                        
-                        // تحديث السيارة بالصورة الجديدة
-                        await updateDoc(docRef, { images: [imageUrl] });
-                        console.log("تم رفع الصورة بنجاح في الخلفية");
-                    } catch (uploadError) {
-                        console.error("فشل رفع الصورة في الخلفية، ستبقى الصورة الافتراضية.", uploadError);
-                    }
-                }
-
             } catch (error) { 
-                alert('حدث خطأ أثناء حفظ البيانات: ' + error.message); 
+                alert('حدث خطأ أثناء الحفظ: ' + error.message); 
             } finally { 
                 btn.innerText = "إضافة السيارة"; btn.disabled = false; 
             }
