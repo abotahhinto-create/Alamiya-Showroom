@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -239,6 +238,7 @@
         .details-gallery img:hover { transform: scale(1.05); box-shadow: var(--shadow);}
         .details-specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 25px;}
         
+        /* أزرار التواصل في التفاصيل */
         .contact-actions { display: flex; gap: 15px; margin-top: 20px;}
         .btn-call, .btn-whatsapp { padding: 15px; border-radius: 12px; text-align: center; font-weight: bold; font-size: 16px; text-decoration: none; flex: 1; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s;}
         .btn-call { background: var(--primary-color); color: white; }
@@ -337,7 +337,7 @@
                 </div>
             </section>
 
-            <!-- قسم البحث والفلاتر (أفقي) -->
+            <!-- قسم البحث والفلاتر -->
             <div class="search-wrapper" id="cars-section">
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -767,7 +767,7 @@
             
             document.getElementById('details-main-img').src = car.images[0];
             document.getElementById('details-title').innerText = `${car.brand} ${car.model}`;
-            document.getElementById('details-price').innerText = `${car.price}`;
+            document.getElementById('details-price').innerText = `${car.price} دولار`;
             document.getElementById('details-meta').innerHTML = `
                 <span><i class="fa-solid fa-tag"></i> ${car.status}</span>
                 <span><i class="fa-solid fa-gauge"></i> ${car.mileage}</span>
