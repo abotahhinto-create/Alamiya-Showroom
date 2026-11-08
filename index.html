@@ -414,10 +414,17 @@
                         <label><input type="checkbox" id="add-is-offer" style="width: auto; margin-left: 5px;"> عرض خاص (تظهر شارة نار)</label>
                     </div>
 
-                    <div class="form-group" style="border: 2px dashed var(--primary-color); padding: 15px; border-radius: 10px; background: var(--box-bg);">
-                        <label style="font-size: 16px; color: var(--primary-color);"><i class="fa-solid fa-cloud-arrow-up"></i> صور السيارة (اختياري - سيتم وضع صورة افتراضية إذا لم ترفع)</label>
-                        <input type="file" id="car-image-files" multiple accept="image/*" style="border: none; padding: 5px 0;">
-                        <div id="edit-images-preview" style="display: none; margin-top: 10px;">
+                    <!-- تصميم جديد لرفع الصور ليكون أسرع -->
+                    <div class="form-group" style="border: 2px dashed var(--primary-color); padding: 20px; border-radius: 12px; background: var(--box-bg); text-align: center;">
+                        <label style="font-size: 16px; color: var(--primary-color); font-weight: bold; margin-bottom: 10px; display: block;">
+                            <i class="fa-solid fa-cloud-arrow-up"></i> صور السيارة (يتم ضغطها تلقائياً لتسريع الرفع)
+                        </label>
+                        <input type="file" id="car-image-files" multiple accept="image/*" style="display: none;">
+                        <label for="car-image-files" style="display: inline-block; background: var(--card-bg); border: 1px solid var(--border-color); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">
+                            اختيار الملفات
+                        </label>
+                        <p id="file-name-display" style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">لم يتم اختيار ملفات (اختياري)</p>
+                        <div id="edit-images-preview" style="display: none; margin-top: 10px; justify-content: center;">
                             <p style="font-size: 12px; color: var(--text-muted);">الصور الحالية:</p>
                             <div id="current-images-list" class="preview-images"></div>
                         </div>
@@ -461,7 +468,6 @@
             <button class="close-btn" style="position: absolute; top: 15px; left: 15px; z-index:10;" onclick="closeDetails()">&times;</button>
             <img id="details-main-img" class="details-header-img" src="" alt="Car Image">
             <div class="details-body">
-                <!-- زر التواصل المثبت أعلى التفاصيل -->
                 <a id="whatsapp-btn" href="#" target="_blank" class="whatsapp-action-btn">
                     <i class="fa-brands fa-whatsapp" style="font-size: 24px;"></i>
                     تواصل مع صاحب المعرض بخصوص هذه السيارة
@@ -851,9 +857,57 @@
             document.getElementById('submit-btn').innerText = "إضافة السيارة";
             document.getElementById('submit-btn').className = "btn-success";
             document.getElementById('cancel-edit-btn').style.display = "none";
+            document.getElementById('file-name-display').innerText = "لم يتم اختيار ملفات (اختياري)";
         }
 
-        // الحفظ السريع بدون تعليق (يأخذ أول صورة فقط لتسريع العملية)
+        // عرض اسم الصورة عند اختيارها
+        document.getElementById('car-image-files').addEventListener('change', function(e) {
+            const fileNameDisplay = document.getElementById('file-name-display');
+            if (this.files.length > 0) {
+                fileNameDisplay.innerText = `تم اختيار ${this.files.length} صورة`;
+                fileNameDisplay.style.color = 'var(--primary-color)';
+                fileNameDisplay.style.fontWeight = 'bold';
+            } else {
+                fileNameDisplay.innerText = "لم يتم اختيار ملفات (اختياري)";
+                fileNameDisplay.style.color = 'var(--text-muted)';
+                fileNameDisplay.style.fontWeight = 'normal';
+            }
+        });
+
+        // دالة ضغط الصور قبل الرفع
+        async function compressImage(file, maxSizeMB = 4) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
+                        
+                        // تصغير الأبعاد لتوفير المساحة
+                        const MAX_WIDTH = 1200;
+                        if (width > MAX_WIDTH) {
+                            height = Math.round((height * MAX_WIDTH) / width);
+                            width = MAX_WIDTH;
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        // ضغط الجودة
+                        canvas.toBlob((blob) => {
+                            resolve(new File([blob], file.name, { type: 'image/jpeg' }));
+                        }, 'image/jpeg', 0.7); // جودة 70% (توازن ممتاز بين الحجم والوضوح)
+                    };
+                };
+            });
+        }
+
         document.getElementById('addCarForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submit-btn'); 
@@ -863,19 +917,20 @@
             const files = document.getElementById('car-image-files').files;
             let imageUrls = [];
 
-            if (editingCarId) {
-                const existingCar = cars.find(c => c.id === editingCarId);
-                if (existingCar && existingCar.images && existingCar.images.length > 0) {
-                    imageUrls = [...existingCar.images];
+            // وقت محدد للتحميل (15 ثانية)
+            const uploadPromise = async () => {
+                if (editingCarId) {
+                    const existingCar = cars.find(c => c.id === editingCarId);
+                    if (existingCar && existingCar.images && existingCar.images.length > 0) {
+                        imageUrls = [...existingCar.images];
+                    }
                 }
-            }
 
-            try {
-                // رفع صورة واحدة فقط لتسريع الحفظ
                 if (files.length > 0) {
-                    const file = files[0]; // نأخذ أول صورة فقط
-                    const storageRef = ref(storage, 'cars/' + Date.now() + '_' + file.name);
-                    await uploadBytes(storageRef, file);
+                    // نأخذ أول صورة فقط لتسريع العملية
+                    const compressedFile = await compressImage(files[0]);
+                    const storageRef = ref(storage, 'cars/' + Date.now() + '_' + compressedFile.name);
+                    await uploadBytes(storageRef, compressedFile);
                     imageUrls.push(await getDownloadURL(storageRef));
                 }
 
@@ -900,16 +955,25 @@
 
                 if (editingCarId) {
                     await updateDoc(doc(db, "cars", editingCarId), carData);
-                    alert('تم حفظ التعديلات بنجاح!');
                 } else {
                     carData.createdAt = new Date(); 
                     carData.isDummy = false;
                     await addDoc(carsCollection, carData); 
-                    alert('تمت إضافة السيارة بنجاح!');
                 }
+            };
+
+            try {
+                // تنفيذ الرفع مع مهلة 15 ثانية
+                const timeoutPromise = new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error('انتهت مهلة الاتصال. تأكد من قوة الإنترنت وحجم الصورة.')), 15000)
+                );
+                
+                await Promise.race([uploadPromise(), timeoutPromise]);
+
+                alert('تمت الإضافة بنجاح!');
                 resetCarForm(); closeAdmin();
             } catch (error) { 
-                alert('حدث خطأ أثناء الحفظ. يرجى المحاولة مرة أخرى أو التأكد من الإنترنت.'); 
+                alert('حدث خطأ: ' + error.message); 
             } finally { 
                 btn.innerText = originalText; btn.disabled = false; 
             }
