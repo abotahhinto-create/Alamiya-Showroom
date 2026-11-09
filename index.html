@@ -17,7 +17,6 @@
     <style>
         /* ================= المتغيرات والثيمات ================= */
         :root {
-            /* الثيم الذهبي (الافتراضي) */
             --bg-color: #f4f7f6; --card-bg: #ffffff; --text-main: #2c3e50;
             --text-muted: #7f8c8d; --primary-color: #c59b27; --primary-hover: #a67f1d;
             --border-color: #e1e8ed; --box-bg: #f8f9fa; --sidebar-bg: #ffffff; --whatsapp-color: #25d366;
@@ -27,7 +26,6 @@
         }
         
         body[data-theme="royal"] { 
-            /* الثيم الملكي */
             --bg-color: #0f1115; --card-bg: #1a1d24; --text-main: #f4e8c1; --text-muted: #8e9aab; 
             --primary-color: #d4af37; --primary-hover: #b5952f; --border-color: #2d3340; --box-bg: #222731; 
             --sidebar-bg: #15181e; --shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -36,7 +34,6 @@
         }
 
         body[data-theme="emerald"] { 
-            /* الثيم الزمردي الجديد */
             --bg-color: #061a16; --card-bg: #0c2b23; --text-main: #e2f5f0; --text-muted: #85b5a9; 
             --primary-color: #20c997; --primary-hover: #1ba87e; --border-color: #164d40; --box-bg: #10382e; 
             --sidebar-bg: #09211b; --shadow: 0 10px 30px rgba(0,0,0,0.6);
@@ -139,7 +136,7 @@
         .cars-row { display: flex; flex-direction: row; overflow-x: auto; gap: 20px; padding: 10px 5% 30px 5%; scroll-snap-type: x mandatory; scrollbar-width: none;}
         .cars-row::-webkit-scrollbar { display: none; }
         
-        /* البطاقة المزينة (التصميم الجديد) */
+        /* البطاقة المزينة */
         .car-card { flex: 0 0 auto; width: 85vw; max-width: 340px; height: auto; background: var(--card-bg); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.06); border: 1px solid var(--border-color); display: flex; flex-direction: column; position: relative; scroll-snap-align: center; transition: all 0.4s ease;}
         .car-card:hover { transform: translateY(-8px); box-shadow: var(--glow); border-color: var(--primary-color); }
         
@@ -153,14 +150,16 @@
         .dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: 0.3s;}
         .dot.active { background: var(--primary-color); transform: scale(1.3);}
         
-        /* وسم العرض ووسم السيارة */
         .offer-badge { position: absolute; top: 15px; right: 15px; background: #ff4757; color: white; padding: 5px 12px; border-radius: 8px; font-weight: bold; font-size: 12px; z-index: 2; animation: pulseGold 2s infinite; box-shadow: 0 4px 10px rgba(255, 71, 87, 0.4); display: flex; align-items: center; gap: 5px;}
         .car-tag { position: absolute; top: 15px; left: 15px; background: var(--tag-bg); color: var(--tag-text); padding: 5px 12px; border-radius: 8px; font-weight: bold; font-size: 12px; z-index: 2; box-shadow: 0 4px 10px rgba(0,0,0,0.2);}
 
         .car-details { width: 100%; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; flex: 1;}
         .car-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px dashed var(--border-color); padding-bottom: 12px; margin-bottom: 12px;}
+        
+        /* تنسيق اسم السيارة وسنة الصنع في البطاقة */
         .car-title { font-size: 18px; font-weight: 900; color: var(--text-main); line-height: 1.4;}
         .car-title span { font-size: 14px; color: var(--primary-color); display: block; margin-top: 4px; font-weight: 700;}
+        
         .car-price { font-size: 20px; font-weight: 900; color: var(--primary-color); background: var(--box-bg); padding: 4px 10px; border-radius: 8px; border: 1px solid var(--border-color);}
         .car-meta { color: var(--text-muted); font-size: 13px; margin-top: 5px; display: flex; gap: 15px; font-weight: 600;}
         
@@ -391,7 +390,7 @@
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <div class="form-group">
                             <label>اسم السيارة (الماركة)</label>
-                            <input type="text" id="add-brand" required placeholder="مثال: تويوتا كورولا أو شيري" list="brands-list">
+                            <input type="text" id="add-brand" required placeholder="مثال: تويوتا كورولا" list="brands-list">
                             <datalist id="brands-list">
                                 <option value="تويوتا">تويوتا</option><option value="هوندا">هوندا</option>
                                 <option value="نيسان">نيسان</option><option value="لكزس">لكزس</option>
@@ -465,7 +464,7 @@
             <div id="tab-settings" class="admin-tab-content">
                 <h4 style="margin-bottom: 20px; color: var(--primary-color); font-size: 18px;">إعدادات البيانات</h4>
                 <div style="display: flex; gap: 10px; flex-direction: column;">
-                    <button class="btn-success" style="padding: 15px; font-size: 16px;" onclick="addDummyData()"><i class="fa-solid fa-database"></i> إضافة 30 سيارة تجريبية (بصور مختلفة)</button>
+                    <button class="btn-success" style="padding: 15px; font-size: 16px;" onclick="addDummyData()"><i class="fa-solid fa-database"></i> إضافة 30 سيارة تجريبية (بصور وسنوات صنع)</button>
                     <button class="btn-danger" style="padding: 15px; font-size: 16px;" onclick="deleteDummyData()"><i class="fa-solid fa-trash"></i> حذف جميع السيارات التجريبية</button>
                 </div>
             </div>
@@ -594,7 +593,7 @@
             if(cars.length > 0) {
                 const latestCar = cars[0];
                 document.getElementById('ticker-content').innerHTML = `
-                    <span>🚗 أحدث إضافة: ${latestCar.brand} ${latestCar.year || ''} - السعر: ${latestCar.price} دولار</span>
+                    <span>🚗 أحدث إضافة: ${latestCar.brand} ${latestCar.year ? '(موديل ' + latestCar.year + ')' : ''} - السعر: ${latestCar.price} دولار</span>
                     <span>🔥 عروض حصرية وأسعار لا تقبل المنافسة</span>
                     <span>📞 للتواصل مع الإدارة: 777772778</span>
                 `;
@@ -720,7 +719,7 @@
             
             const offerBadge = car.isOffer ? `<div class="offer-badge"><i class="fa-solid fa-fire"></i> عرض</div>` : '';
             const tagBadge = car.tag ? `<div class="car-tag">${car.tag}</div>` : '';
-            const yearText = car.year ? `<span>موديل ${car.year}</span>` : '';
+            const yearText = car.year ? `<span><i class="fa-solid fa-calendar-days"></i> موديل ${car.year}</span>` : '';
 
             card.innerHTML = `
                 <div class="car-images">
@@ -780,12 +779,13 @@
             
             let mainImg = (car.images && car.images.length > 0) ? car.images[0] : defaultImage;
             document.getElementById('details-main-img').src = mainImg;
-            document.getElementById('details-title').innerText = `${car.brand} ${car.year ? '(موديل ' + car.year + ')' : ''}`;
+            document.getElementById('details-title').innerText = `${car.brand}`;
             document.getElementById('details-price').innerText = `${car.price} دولار`;
+            
             document.getElementById('details-meta').innerHTML = `
                 <span><i class="fa-solid fa-tag"></i> ${car.status}</span>
                 <span><i class="fa-solid fa-gauge"></i> ${car.mileage} كم</span>
-                ${car.tag ? `<span><i class="fa-solid fa-star"></i> ${car.tag}</span>` : ''}
+                <span><i class="fa-solid fa-calendar-days"></i> موديل ${car.year || 'غير محدد'}</span>
             `;
 
             document.getElementById('whatsapp-btn').href = `https://wa.me/967777772778?text=مرحباً، أستفسر عن سيارة ${car.brand} ${car.year || ''} المعروضة في الموقع.`;
@@ -795,7 +795,7 @@
             document.getElementById('details-specs').innerHTML = `
                 <div class="spec-item"><span class="spec-label">الحالة</span><span class="spec-value">${car.status}</span></div>
                 <div class="spec-item"><span class="spec-label">رقم اللوحة</span><span class="spec-value">${car.plate}</span></div>
-                <div class="spec-item"><span class="spec-label">الموديل</span><span class="spec-value">${car.year || 'غير محدد'}</span></div>
+                <div class="spec-item"><span class="spec-label">الموديل (السنة)</span><span class="spec-value">${car.year || 'غير محدد'}</span></div>
                 <div class="spec-item"><span class="spec-label">الممشى</span><span class="spec-value">${car.mileage} كم</span></div>
                 <div class="spec-item"><span class="spec-label">الوقود</span><span class="spec-value">${car.fuel}</span></div>
                 <div class="spec-item"><span class="spec-label">ناقل الحركة</span><span class="spec-value">${car.gear}</span></div>
@@ -929,7 +929,6 @@
             const files = document.getElementById('car-image-files').files;
             let imageUrls = [];
 
-            // إذا كنا نعدل سيارة، نحتفظ بصورها القديمة
             if (editingCarId) {
                 const existingCar = cars.find(c => c.id === editingCarId);
                 if (existingCar && existingCar.images && existingCar.images.length > 0) {
@@ -938,10 +937,9 @@
             }
 
             try {
-                // إذا اختار صورة، يتم ضغطها وتحويلها لنص Base64
                 if (files.length > 0) {
                     const base64Image = await compressToBase64(files[0]);
-                    imageUrls = [base64Image]; // نضع الصورة الجديدة
+                    imageUrls = [base64Image];
                 }
 
                 if (imageUrls.length === 0) {
@@ -1039,7 +1037,7 @@
                     });
                 });
                 await batch.commit(); 
-                alert("تمت الإضافة بنجاح! ستظهر السيارات الآن بصور مختلفة تماماً.");
+                alert("تمت الإضافة بنجاح! ستظهر السيارات الآن بصور مختلفة وسنوات صنع.");
             } catch (error) { 
                 alert("حدث خطأ أثناء الإضافة: " + error.message); 
                 console.error(error);
