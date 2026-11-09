@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>معرض العالمية - لبيع وشراء السيارات الفاخرة</title>
+    <title>معرض العالمية للبيع وشراء السيارات</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#c59b27">
@@ -17,18 +17,31 @@
     <style>
         /* ================= المتغيرات والثيمات ================= */
         :root {
+            /* الثيم الذهبي (الافتراضي) */
             --bg-color: #f4f7f6; --card-bg: #ffffff; --text-main: #2c3e50;
             --text-muted: #7f8c8d; --primary-color: #c59b27; --primary-hover: #a67f1d;
             --border-color: #e1e8ed; --box-bg: #f8f9fa; --sidebar-bg: #ffffff; --whatsapp-color: #25d366;
             --shadow: 0 8px 30px rgba(0,0,0,0.06);
             --glow: 0 0 20px rgba(197, 155, 39, 0.4);
+            --tag-bg: #ff4757; --tag-text: white;
         }
         
         body[data-theme="royal"] { 
+            /* الثيم الملكي */
             --bg-color: #0f1115; --card-bg: #1a1d24; --text-main: #f4e8c1; --text-muted: #8e9aab; 
             --primary-color: #d4af37; --primary-hover: #b5952f; --border-color: #2d3340; --box-bg: #222731; 
             --sidebar-bg: #15181e; --shadow: 0 10px 30px rgba(0,0,0,0.5);
             --glow: 0 0 20px rgba(212, 175, 55, 0.3);
+            --tag-bg: #d4af37; --tag-text: #000;
+        }
+
+        body[data-theme="emerald"] { 
+            /* الثيم الزمردي الجديد */
+            --bg-color: #061a16; --card-bg: #0c2b23; --text-main: #e2f5f0; --text-muted: #85b5a9; 
+            --primary-color: #20c997; --primary-hover: #1ba87e; --border-color: #164d40; --box-bg: #10382e; 
+            --sidebar-bg: #09211b; --shadow: 0 10px 30px rgba(0,0,0,0.6);
+            --glow: 0 0 20px rgba(32, 201, 151, 0.3);
+            --tag-bg: #20c997; --tag-text: #000;
         }
 
         /* ================= الحركات ================= */
@@ -48,9 +61,9 @@
         .ticker span { margin: 0 30px; display: inline-flex; align-items: center; gap: 8px;}
 
         /* الهيدر */
-        .header-bar { position: fixed; top: 40px; right: 0; width: 100%; height: 70px; background: var(--card-bg); display: flex; justify-content: space-between; align-items: center; padding: 0 20px; z-index: 999; box-shadow: var(--shadow);}
-        .header-bar .logo { font-size: 24px; font-weight: 900; color: var(--primary-color); display: flex; align-items: center; gap: 10px;}
-        .menu-toggle { background: var(--box-bg); border: 1px solid var(--border-color); border-radius: 8px; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; font-size: 20px; cursor: pointer; color: var(--text-main); transition: 0.3s;}
+        .header-bar { position: fixed; top: 40px; right: 0; width: 100%; height: 70px; background: var(--card-bg); display: flex; justify-content: space-between; align-items: center; padding: 0 15px; z-index: 999; box-shadow: var(--shadow);}
+        .header-bar .logo { font-size: clamp(14px, 4vw, 20px); font-weight: 900; color: var(--primary-color); display: flex; align-items: center; gap: 8px; line-height: 1.2;}
+        .menu-toggle { background: var(--box-bg); border: 1px solid var(--border-color); border-radius: 8px; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; font-size: 20px; cursor: pointer; color: var(--text-main); transition: 0.3s; flex-shrink: 0;}
         .menu-toggle:hover { background: var(--primary-color); color: white; }
 
         /* القائمة الجانبية */
@@ -60,7 +73,7 @@
         .sidebar { position: fixed; top: 0; right: -320px; width: 300px; height: 100vh; background: var(--sidebar-bg); z-index: 10000; box-shadow: -10px 0 30px rgba(0,0,0,0.2); transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column; overflow: hidden;}
         .sidebar.open { right: 0; }
         .sidebar-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid var(--border-color); background: var(--card-bg);}
-        .sidebar .logo { font-size: 22px; font-weight: 900; color: var(--primary-color); }
+        .sidebar .logo { font-size: 18px; font-weight: 900; color: var(--primary-color); line-height: 1.2;}
         .close-sidebar { background: none; border: none; font-size: 28px; cursor: pointer; color: var(--text-main); transition: 0.3s;}
         .close-sidebar:hover { color: #dc3545; transform: rotate(90deg);}
         
@@ -81,8 +94,7 @@
         .theme-btn:hover { transform: scale(1.2); }
         .theme-btn[data-theme-val="gold"] { background: #c59b27; }
         .theme-btn[data-theme-val="royal"] { background: #d4af37; }
-        .theme-btn[data-theme-val="classic"] { background: #b8860b; }
-        .theme-btn[data-theme-val="silver"] { background: #95a5a6; }
+        .theme-btn[data-theme-val="emerald"] { background: #20c997; }
         .theme-btn::after { content: '\f1b9'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: #fff; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 14px;}
 
         .sidebar-footer { padding: 20px; border-top: 1px solid var(--border-color); text-align: center; background: var(--card-bg);}
@@ -96,9 +108,9 @@
         .hero { position: relative; height: 280px; margin: 0 5% 30px 5%; border-radius: 24px; overflow: hidden; background: url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=1200') center/cover; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow);}
         .hero::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 100%); }
         .hero-content { position: relative; z-index: 2; text-align: center; color: white; animation: slideDown 0.8s ease; padding: 0 20px;}
-        .hero-content h1 { font-size: 38px; font-weight: 900; margin-bottom: 15px; text-shadow: 0 4px 15px rgba(0,0,0,0.6);}
+        .hero-content h1 { font-size: 32px; font-weight: 900; margin-bottom: 15px; text-shadow: 0 4px 15px rgba(0,0,0,0.6);}
         .hero-content h1 span { color: var(--primary-color); }
-        .hero-content p { font-size: 16px; margin-bottom: 0; text-shadow: 0 2px 5px rgba(0,0,0,0.6); max-width: 500px; margin: 0 auto;}
+        .hero-content p { font-size: 15px; margin-bottom: 0; text-shadow: 0 2px 5px rgba(0,0,0,0.6); max-width: 500px; margin: 0 auto;}
 
         /* ================= قسم البحث والفلاتر ================= */
         .search-wrapper { margin: 0 5% 25px 5%; background: var(--card-bg); padding: 20px; border-radius: 20px; box-shadow: var(--shadow); border: 1px solid var(--border-color);}
@@ -120,18 +132,18 @@
 
         /* أقسام الماركات */
         .brand-section { margin-bottom: 40px; }
-        .brand-title { font-size: 24px; font-weight: 900; color: var(--text-main); margin: 0 5% 20px 5%; display: flex; align-items: center; gap: 12px;}
+        .brand-title { font-size: 22px; font-weight: 900; color: var(--text-main); margin: 0 5% 20px 5%; display: flex; align-items: center; gap: 12px;}
         .brand-title::before { content: ''; display: block; width: 6px; height: 30px; background: var(--primary-color); border-radius: 10px;}
         
         /* ================= شريط السيارات الأفقي ================= */
         .cars-row { display: flex; flex-direction: row; overflow-x: auto; gap: 20px; padding: 10px 5% 30px 5%; scroll-snap-type: x mandatory; scrollbar-width: none;}
         .cars-row::-webkit-scrollbar { display: none; }
         
-        /* البطاقة المزينة */
-        .car-card { flex: 0 0 auto; width: 85vw; max-width: 320px; height: 380px; background: var(--card-bg); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.06); border: 1px solid var(--border-color); display: flex; flex-direction: column; position: relative; scroll-snap-align: center; transition: all 0.4s ease;}
+        /* البطاقة المزينة (التصميم الجديد) */
+        .car-card { flex: 0 0 auto; width: 85vw; max-width: 340px; height: auto; background: var(--card-bg); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.06); border: 1px solid var(--border-color); display: flex; flex-direction: column; position: relative; scroll-snap-align: center; transition: all 0.4s ease;}
         .car-card:hover { transform: translateY(-8px); box-shadow: var(--glow); border-color: var(--primary-color); }
         
-        .car-images { width: 100%; height: 200px; position: relative; background: #000; overflow: hidden;}
+        .car-images { width: 100%; height: 220px; position: relative; background: #000; overflow: hidden;}
         .car-images img { width: 100%; height: 100%; object-fit: cover; position: absolute; transition: opacity 0.5s; }
         
         .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: white; border: none; padding: 6px 10px; cursor: pointer; border-radius: 50%; z-index: 2; font-size: 12px; backdrop-filter: blur(3px); transition: 0.3s;}
@@ -141,20 +153,23 @@
         .dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: 0.3s;}
         .dot.active { background: var(--primary-color); transform: scale(1.3);}
         
+        /* وسم العرض ووسم السيارة */
         .offer-badge { position: absolute; top: 15px; right: 15px; background: #ff4757; color: white; padding: 5px 12px; border-radius: 8px; font-weight: bold; font-size: 12px; z-index: 2; animation: pulseGold 2s infinite; box-shadow: 0 4px 10px rgba(255, 71, 87, 0.4); display: flex; align-items: center; gap: 5px;}
+        .car-tag { position: absolute; top: 15px; left: 15px; background: var(--tag-bg); color: var(--tag-text); padding: 5px 12px; border-radius: 8px; font-weight: bold; font-size: 12px; z-index: 2; box-shadow: 0 4px 10px rgba(0,0,0,0.2);}
 
-        .car-details { width: 100%; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; flex: 1;}
-        .car-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px; margin-bottom: 10px;}
-        .car-title { font-size: 17px; font-weight: 800; color: var(--text-main); line-height: 1.4;}
-        .car-price { font-size: 19px; font-weight: 900; color: var(--primary-color); background: var(--box-bg); padding: 2px 8px; border-radius: 6px;}
-        .car-meta { color: var(--text-muted); font-size: 12px; margin-top: 5px; display: flex; gap: 12px; font-weight: 600;}
+        .car-details { width: 100%; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; flex: 1;}
+        .car-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px dashed var(--border-color); padding-bottom: 12px; margin-bottom: 12px;}
+        .car-title { font-size: 18px; font-weight: 900; color: var(--text-main); line-height: 1.4;}
+        .car-title span { font-size: 14px; color: var(--primary-color); display: block; margin-top: 4px; font-weight: 700;}
+        .car-price { font-size: 20px; font-weight: 900; color: var(--primary-color); background: var(--box-bg); padding: 4px 10px; border-radius: 8px; border: 1px solid var(--border-color);}
+        .car-meta { color: var(--text-muted); font-size: 13px; margin-top: 5px; display: flex; gap: 15px; font-weight: 600;}
         
-        .car-specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;}
-        .spec-item { background: var(--box-bg); padding: 6px; border-radius: 8px; text-align: center; font-size: 12px; border: 1px solid var(--border-color);}
-        .spec-label { color: var(--text-muted); font-size: 10px; display: block; margin-bottom: 2px; font-weight: 600;}
-        .spec-value { font-weight: 800; color: var(--text-main); }
+        .car-specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px;}
+        .spec-item { background: var(--box-bg); padding: 8px; border-radius: 10px; text-align: center; font-size: 12px; border: 1px solid var(--border-color);}
+        .spec-label { color: var(--text-muted); font-size: 11px; display: block; margin-bottom: 3px; font-weight: 600;}
+        .spec-value { font-weight: 800; color: var(--text-main); font-size: 13px;}
         
-        .btn-details { width: 100%; padding: 12px; border-radius: 10px; background: var(--primary-color); color: white; font-weight: bold; text-align: center; border: none; cursor: pointer; font-size: 14px; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px;}
+        .btn-details { width: 100%; padding: 14px; border-radius: 10px; background: var(--primary-color); color: white; font-weight: bold; text-align: center; border: none; cursor: pointer; font-size: 15px; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px;}
         .btn-details:hover { background: var(--primary-hover); transform: scale(1.02);}
 
         /* النوافذ المنبثقة */
@@ -182,7 +197,7 @@
         .btn-success:hover { background: #157347; transform: scale(1.02);}
         .btn-warning { background: #ffc107; color: #000; border: none; padding: 12px 20px; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s;}
 
-        /* ================= تفاصيل السيارة (المحدثة) ================= */
+        /* ================= تفاصيل السيارة ================= */
         #carDetailsModal .modal-content { max-width: 900px; padding: 0; overflow: hidden;}
         .details-header-img { width: 100%; height: 300px; object-fit: cover;}
         .details-body { padding: 30px; }
@@ -191,22 +206,14 @@
         .details-gallery img:hover { transform: scale(1.05); box-shadow: var(--shadow);}
         .details-specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 25px;}
         
-        /* زر التواصل في أعلى التفاصيل */
+        /* زر التواصل */
         .whatsapp-action-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            padding: 15px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            width: 100%; padding: 15px;
             background: linear-gradient(135deg, #25d366 0%, #128C7E 100%);
-            color: white;
-            font-weight: 900;
-            font-size: 18px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
-            transition: transform 0.3s;
+            color: white; font-weight: 900; font-size: 18px;
+            border-radius: 12px; margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); transition: transform 0.3s;
         }
         .whatsapp-action-btn:hover { transform: scale(1.02); }
 
@@ -240,27 +247,27 @@
 
     <div class="ticker-wrapper" id="ticker-bar">
         <div class="ticker" id="ticker-content">
-            <span>🚗 أهلاً بكم في معرض العالمية - وجهتكم الأولى للسيارات الفاخرة</span>
+            <span>🚗 أهلاً بكم في معرض العالمية للبيع وشراء السيارات</span>
             <span>🔥 عروض حصرية وأسعار لا تقبل المنافسة</span>
             <span>📞 للتواصل مع الإدارة: 777772778</span>
         </div>
     </div>
 
-    <!-- التنبيه العائم بتصميم فاخر -->
+    <!-- التنبيه العائم -->
     <div class="toast-notification" id="offerToast" onclick="this.classList.remove('show')">
         <i class="fa-solid fa-crown"></i>
         <span>عروض حصرية وصلت! تفقد أحدث السيارات الآن.</span>
     </div>
 
     <div class="header-bar" id="header-bar">
-        <div class="logo"><i class="fa-solid fa-car-side"></i> العالمية</div>
+        <div class="logo"><i class="fa-solid fa-car-side"></i> معرض العالمية للبيع وشراء السيارات</div>
         <button class="menu-toggle" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
     </div>
 
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <div class="logo"><i class="fa-solid fa-car-side"></i> العالمية</div>
+            <div class="logo">معرض العالمية للبيع وشراء السيارات</div>
             <button class="close-sidebar" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></button>
         </div>
         
@@ -283,8 +290,7 @@
             <div class="theme-switcher">
                 <div class="theme-btn" data-theme-val="gold" title="الذهبي الفاخر"></div>
                 <div class="theme-btn" data-theme-val="royal" title="الأسود الملكي"></div>
-                <div class="theme-btn" data-theme-val="classic" title="الأبيض الذهبي"></div>
-                <div class="theme-btn" data-theme-val="silver" title="الفضي الحديث"></div>
+                <div class="theme-btn" data-theme-val="emerald" title="الزمردي"></div>
             </div>
         </div>
     </div>
@@ -384,8 +390,8 @@
                 <form id="addCarForm">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <div class="form-group">
-                            <label>الماركة (اكتب اسم ماركة جديدة لإضافتها)</label>
-                            <input type="text" id="add-brand" required placeholder="مثال: تويوتا أو شيري..." list="brands-list">
+                            <label>اسم السيارة (الماركة)</label>
+                            <input type="text" id="add-brand" required placeholder="مثال: تويوتا كورولا أو شيري" list="brands-list">
                             <datalist id="brands-list">
                                 <option value="تويوتا">تويوتا</option><option value="هوندا">هوندا</option>
                                 <option value="نيسان">نيسان</option><option value="لكزس">لكزس</option>
@@ -394,19 +400,22 @@
                                 <option value="فورد">فورد</option><option value="شفروليه">شفروليه</option>
                             </datalist>
                         </div>
-                        <div class="form-group"><label>الموديل</label><input type="text" id="add-model" required placeholder="كامري..."></div>
+                        <div class="form-group"><label>الموديل (سنة الصنع)</label><input type="number" id="add-year" required placeholder="2020" min="1990" max="2025"></div>
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="form-group"><label>وسم السيارة (اختياري)</label><input type="text" id="add-tag" placeholder="مثال: فل كامل، وارد الوكالة، VIP"></div>
                         <div class="form-group"><label>السعر (أرقام فقط)</label><input type="number" id="add-price" required placeholder="25000"></div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <div class="form-group"><label>رقم اللوحة</label><input type="text" id="add-plate" required placeholder="1234 أ ب ج"></div>
+                        <div class="form-group"><label>الممشى (كم)</label><input type="text" id="add-mileage" required placeholder="0"></div>
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
                         <div class="form-group"><label>الحالة</label><select id="add-status"><option value="جديد">جديد</option><option value="مستعمل">مستعمل</option></select></div>
-                        <div class="form-group"><label>الممشى</label><input type="text" id="add-mileage" required placeholder="0 km"></div>
                         <div class="form-group"><label>الوقود</label><input type="text" id="add-fuel" required placeholder="بنزين"></div>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
                         <div class="form-group"><label>ناقل الحركة</label><input type="text" id="add-gear" required placeholder="اوتوماتيك"></div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <div class="form-group"><label>اللون الخارجي</label><input type="text" id="add-ext-color" required placeholder="أبيض"></div>
                         <div class="form-group"><label>اللون الداخلي</label><input type="text" id="add-int-color" required placeholder="بيج"></div>
                     </div>
@@ -415,7 +424,7 @@
                         <label><input type="checkbox" id="add-is-offer" style="width: auto; margin-left: 5px;"> عرض خاص (تظهر شارة نار)</label>
                     </div>
 
-                    <!-- تصميم جديد لرفع الصور ليكون أسرع -->
+                    <!-- تصميم رفع الصور -->
                     <div class="form-group" style="border: 2px dashed var(--primary-color); padding: 20px; border-radius: 12px; background: var(--box-bg); text-align: center;">
                         <label style="font-size: 16px; color: var(--primary-color); font-weight: bold; margin-bottom: 10px; display: block;">
                             <i class="fa-solid fa-cloud-arrow-up"></i> صور السيارة (يتم ضغطها وحفظها تلقائياً)
@@ -585,7 +594,7 @@
             if(cars.length > 0) {
                 const latestCar = cars[0];
                 document.getElementById('ticker-content').innerHTML = `
-                    <span>🚗 أحدث إضافة: ${latestCar.brand} ${latestCar.model} - السعر: ${latestCar.price} دولار</span>
+                    <span>🚗 أحدث إضافة: ${latestCar.brand} ${latestCar.year || ''} - السعر: ${latestCar.price} دولار</span>
                     <span>🔥 عروض حصرية وأسعار لا تقبل المنافسة</span>
                     <span>📞 للتواصل مع الإدارة: 777772778</span>
                 `;
@@ -633,7 +642,7 @@
             container.innerHTML = '';
 
             let filteredCars = cars.filter(car => {
-                const matchText = car.brand.toLowerCase().includes(currentFilters.text) || car.model.toLowerCase().includes(currentFilters.text);
+                const matchText = car.brand.toLowerCase().includes(currentFilters.text) || (car.model && car.model.toLowerCase().includes(currentFilters.text));
                 const matchStatus = currentFilters.status === 'all' || car.status === currentFilters.status;
                 const matchBrand = currentFilters.brand === 'all' || car.brand === currentFilters.brand;
                 return matchText && matchStatus && matchBrand;
@@ -703,16 +712,20 @@
             
             let imgArray = Array.isArray(car.images) && car.images.length > 0 ? car.images : [defaultImage];
             let imagesHtml = imgArray.map((img, index) => 
-                `<img src="${img}" class="car-img-${car.id}" style="opacity: ${index === 0 ? 1 : 0}; z-index: ${index === 0 ? 1 : 0};" alt="${car.model}">`
+                `<img src="${img}" class="car-img-${car.id}" style="opacity: ${index === 0 ? 1 : 0}; z-index: ${index === 0 ? 1 : 0};" alt="${car.brand}">`
             ).join('');
             let dotsHtml = imgArray.map((_, index) => 
                 `<div class="dot ${index === 0 ? 'active' : ''}" onclick="goToImage('${car.id}', ${index})"></div>`
             ).join('');
+            
             const offerBadge = car.isOffer ? `<div class="offer-badge"><i class="fa-solid fa-fire"></i> عرض</div>` : '';
+            const tagBadge = car.tag ? `<div class="car-tag">${car.tag}</div>` : '';
+            const yearText = car.year ? `<span>موديل ${car.year}</span>` : '';
 
             card.innerHTML = `
                 <div class="car-images">
                     ${offerBadge}
+                    ${tagBadge}
                     ${imgArray.length > 1 ? `<button class="slider-btn prev" onclick="changeImage('${car.id}', -1)"><i class="fa-solid fa-chevron-right"></i></button>` : ''}
                     ${imagesHtml}
                     ${imgArray.length > 1 ? `<button class="slider-btn next" onclick="changeImage('${car.id}', 1)"><i class="fa-solid fa-chevron-left"></i></button>` : ''}
@@ -720,11 +733,11 @@
                 </div>
                 <div class="car-details">
                     <div class="car-header">
-                        <div class="car-title">${car.brand} ${car.model}</div>
+                        <div class="car-title">${car.brand} ${yearText}</div>
                         <div class="car-price">${car.price}</div>
                     </div>
                     <div class="car-meta">
-                        <span><i class="fa-solid fa-gauge"></i> ${car.mileage}</span>
+                        <span><i class="fa-solid fa-gauge"></i> ${car.mileage} كم</span>
                         <span><i class="fa-solid fa-tag"></i> ${car.status}</span>
                     </div>
                     <div class="car-specs-grid">
@@ -767,25 +780,28 @@
             
             let mainImg = (car.images && car.images.length > 0) ? car.images[0] : defaultImage;
             document.getElementById('details-main-img').src = mainImg;
-            document.getElementById('details-title').innerText = `${car.brand} ${car.model}`;
+            document.getElementById('details-title').innerText = `${car.brand} ${car.year ? '(موديل ' + car.year + ')' : ''}`;
             document.getElementById('details-price').innerText = `${car.price} دولار`;
             document.getElementById('details-meta').innerHTML = `
                 <span><i class="fa-solid fa-tag"></i> ${car.status}</span>
-                <span><i class="fa-solid fa-gauge"></i> ${car.mileage}</span>
+                <span><i class="fa-solid fa-gauge"></i> ${car.mileage} كم</span>
+                ${car.tag ? `<span><i class="fa-solid fa-star"></i> ${car.tag}</span>` : ''}
             `;
 
-            document.getElementById('whatsapp-btn').href = `https://wa.me/967777772778?text=مرحباً، أستفسر عن سيارة ${car.brand} ${car.model} المعروضة في الموقع.`;
+            document.getElementById('whatsapp-btn').href = `https://wa.me/967777772778?text=مرحباً، أستفسر عن سيارة ${car.brand} ${car.year || ''} المعروضة في الموقع.`;
 
             let galleryImages = (car.images && car.images.length > 0) ? car.images : [defaultImage];
             document.getElementById('details-gallery').innerHTML = galleryImages.map(img => `<img src="${img}" onclick="document.getElementById('details-main-img').src='${img}'">`).join('');
             document.getElementById('details-specs').innerHTML = `
                 <div class="spec-item"><span class="spec-label">الحالة</span><span class="spec-value">${car.status}</span></div>
                 <div class="spec-item"><span class="spec-label">رقم اللوحة</span><span class="spec-value">${car.plate}</span></div>
-                <div class="spec-item"><span class="spec-label">الممشى</span><span class="spec-value">${car.mileage}</span></div>
+                <div class="spec-item"><span class="spec-label">الموديل</span><span class="spec-value">${car.year || 'غير محدد'}</span></div>
+                <div class="spec-item"><span class="spec-label">الممشى</span><span class="spec-value">${car.mileage} كم</span></div>
                 <div class="spec-item"><span class="spec-label">الوقود</span><span class="spec-value">${car.fuel}</span></div>
                 <div class="spec-item"><span class="spec-label">ناقل الحركة</span><span class="spec-value">${car.gear}</span></div>
                 <div class="spec-item"><span class="spec-label">اللون الخارجي</span><span class="spec-value">${car.extColor}</span></div>
                 <div class="spec-item"><span class="spec-label">اللون الداخلي</span><span class="spec-value">${car.intColor}</span></div>
+                ${car.tag ? `<div class="spec-item"><span class="spec-label">الوسم</span><span class="spec-value">${car.tag}</span></div>` : ''}
             `;
             document.getElementById('carDetailsModal').style.display = 'flex';
         }
@@ -795,7 +811,7 @@
             const term = document.getElementById('admin-search-input').value.toLowerCase();
             const list = document.getElementById('admin-cars-list');
             list.innerHTML = '';
-            const filtered = cars.filter(c => c.brand.toLowerCase().includes(term) || c.model.toLowerCase().includes(term) || c.plate.includes(term));
+            const filtered = cars.filter(c => c.brand.toLowerCase().includes(term) || (c.model && c.model.toLowerCase().includes(term)) || c.plate.includes(term));
 
             if(filtered.length === 0) { list.innerHTML = '<p style="text-align:center; color:var(--text-muted);">لا توجد نتائج.</p>'; return; }
 
@@ -804,7 +820,7 @@
                 div.className = 'admin-car-item';
                 div.innerHTML = `
                     <div class="admin-car-info">
-                        <strong>${car.brand} ${car.model}</strong><br>
+                        <strong>${car.brand} ${car.year || ''}</strong><br>
                         <span style="font-size:13px; color:var(--text-muted);">لوحة: ${car.plate} | السعر: ${car.price}</span>
                     </div>
                     <div class="admin-car-actions">
@@ -826,7 +842,8 @@
             if(!car) return;
             editingCarId = id;
             document.getElementById('add-brand').value = car.brand;
-            document.getElementById('add-model').value = car.model;
+            document.getElementById('add-year').value = car.year || '';
+            document.getElementById('add-tag').value = car.tag || '';
             document.getElementById('add-price').value = car.price;
             document.getElementById('add-plate').value = car.plate;
             document.getElementById('add-status').value = car.status;
@@ -933,7 +950,8 @@
 
                 const carData = {
                     brand: document.getElementById('add-brand').value, 
-                    model: document.getElementById('add-model').value,
+                    year: document.getElementById('add-year').value,
+                    tag: document.getElementById('add-tag').value,
                     price: document.getElementById('add-price').value, 
                     plate: document.getElementById('add-plate').value,
                     status: document.getElementById('add-status').value, 
@@ -963,38 +981,38 @@
             }
         });
 
-        // بيانات تجريبية بصور مختلفة (محدثة بـ 30 رابط فريد)
+        // بيانات تجريبية بصور مختلفة (محدثة)
         const uniqueCarsData = [
-            { brand: "تويوتا", model: "كامري", img: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&q=80&w=800" },
-            { brand: "تويوتا", model: "لاندكروزر", img: "https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&q=80&w=800" },
-            { brand: "تويوتا", model: "كورولا", img: "https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=800" },
-            { brand: "هوندا", model: "أكورد", img: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800" },
-            { brand: "هوندا", model: "سيفيك", img: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&q=80&w=800" },
-            { brand: "هوندا", model: "CR-V", img: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=800" },
-            { brand: "نيسان", model: "باترول", img: "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&q=80&w=800" },
-            { brand: "نيسان", model: "التيما", img: "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&q=80&w=800" },
-            { brand: "نيسان", model: "صني", img: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800" },
-            { brand: "لكزس", model: "ES", img: "https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&q=80&w=800" },
-            { brand: "لكزس", model: "LX", img: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&q=80&w=800" },
-            { brand: "لكزس", model: "IS", img: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=800" },
-            { brand: "هيونداي", model: "سوناتا", img: "https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&q=80&w=800" },
-            { brand: "هيونداي", model: "توسان", img: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&q=80&w=800" },
-            { brand: "هيونداي", model: "أكسنت", img: "https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=800" },
-            { brand: "كيا", model: "سبورتاج", img: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&q=80&w=800" },
-            { brand: "كيا", model: "سيراتو", img: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&q=80&w=800" },
-            { brand: "كيا", model: "K5", img: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&q=80&w=800" },
-            { brand: "مرسيدس", model: "S-Class", img: "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&q=80&w=800" },
-            { brand: "مرسيدس", model: "G-Class", img: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&q=80&w=800" },
-            { brand: "مرسيدس", model: "C-Class", img: "https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&q=80&w=800" },
-            { brand: "بي إم دبليو", model: "X5", img: "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=800" },
-            { brand: "بي إم دبليو", model: "M4", img: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&q=80&w=800" },
-            { brand: "بي إم دبليو", model: "Series 7", img: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=800" },
-            { brand: "فورد", model: "موستانج", img: "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&q=80&w=800" },
-            { brand: "فورد", model: "F-150", img: "https://images.unsplash.com/photo-1485291571150-772bcfc10da5?auto=format&fit=crop&q=80&w=800" },
-            { brand: "فورد", model: "تورس", img: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800&sat=-100" },
-            { brand: "شفروليه", model: "تاهو", img: "https://images.unsplash.com/photo-1517672651691-24622a91b550?auto=format&fit=crop&q=80&w=800" },
-            { brand: "شفروليه", model: "كامارو", img: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&q=80&w=800" },
-            { brand: "شفروليه", model: "ماليبو", img: "https://images.unsplash.com/photo-1616422285623-13ff0162193c?auto=format&fit=crop&q=80&w=800" }
+            { brand: "تويوتا كورولا", year: "2022", tag: "فل كامل", img: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&q=80&w=800" },
+            { brand: "تويوتا لاندكروزر", year: "2021", tag: "وارد الوكالة", img: "https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&q=80&w=800" },
+            { brand: "تويوتا كامري", year: "2020", tag: "نظيف", img: "https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=800" },
+            { brand: "هوندا أكورد", year: "2019", tag: "VIP", img: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800" },
+            { brand: "هوندا سيفيك", year: "2023", tag: "جديد", img: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&q=80&w=800" },
+            { brand: "هوندا CR-V", year: "2018", tag: "عائلية", img: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=800" },
+            { brand: "نيسان باترول", year: "2022", tag: "بلاتينيوم", img: "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&q=80&w=800" },
+            { brand: "نيسان التيما", year: "2021", tag: "اقتصادية", img: "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&q=80&w=800" },
+            { brand: "نيسان صني", year: "2020", tag: "ممتازة", img: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800" },
+            { brand: "لكزس ES", year: "2023", tag: "فاخرة", img: "https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&q=80&w=800" },
+            { brand: "لكزس LX", year: "2021", tag: "وحش الطرق", img: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&q=80&w=800" },
+            { brand: "لكزس IS", year: "2019", tag: "رياضية", img: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=800" },
+            { brand: "هيونداي سوناتا", year: "2022", tag: "عائلية", img: "https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&q=80&w=800" },
+            { brand: "هيونداي توسان", year: "2021", tag: "فل كامل", img: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&q=80&w=800" },
+            { brand: "هيونداي أكسنت", year: "2020", tag: "اقتصادية", img: "https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=800" },
+            { brand: "كيا سبورتاج", year: "2022", tag: "جديدة", img: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&q=80&w=800" },
+            { brand: "كيا سيراتو", year: "2021", tag: "شبابية", img: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&q=80&w=800" },
+            { brand: "كيا K5", year: "2023", tag: "VIP", img: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&q=80&w=800" },
+            { brand: "مرسيدس S-Class", year: "2022", tag: "فخامة", img: "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&q=80&w=800" },
+            { brand: "مرسيدس G-Class", year: "2021", tag: "أسطوري", img: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&q=80&w=800" },
+            { brand: "مرسيدس C-Class", year: "2020", tag: "أنيق", img: "https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&q=80&w=800" },
+            { brand: "بي إم دبليو X5", year: "2022", tag: "رياضية", img: "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=800" },
+            { brand: "بي إم دبليو M4", year: "2023", tag: "وحش", img: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&q=80&w=800" },
+            { brand: "بي إم دبليو Series 7", year: "2021", tag: "فخامة", img: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=800" },
+            { brand: "فورد موستانج", year: "2020", tag: "عضلات", img: "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&q=80&w=800" },
+            { brand: "فورد F-150", year: "2022", tag: "بيك أب", img: "https://images.unsplash.com/photo-1485291571150-772bcfc10da5?auto=format&fit=crop&q=80&w=800" },
+            { brand: "فورد تورس", year: "2019", tag: "عائلية", img: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800&sat=-100" },
+            { brand: "شفروليه تاهو", year: "2021", tag: "عائلية", img: "https://images.unsplash.com/photo-1517672651691-24622a91b550?auto=format&fit=crop&q=80&w=800" },
+            { brand: "شفروليه كامارو", year: "2022", tag: "رياضية", img: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&q=80&w=800" },
+            { brand: "شفروليه ماليبو", year: "2020", tag: "اقتصادية", img: "https://images.unsplash.com/photo-1616422285623-13ff0162193c?auto=format&fit=crop&q=80&w=800" }
         ];
 
         window.addDummyData = async () => {
@@ -1010,7 +1028,7 @@
                 uniqueCarsData.forEach((car, index) => {
                     const newDocRef = doc(collection(db, "cars"));
                     batch.set(newDocRef, {
-                        brand: car.brand, model: car.model, 
+                        brand: car.brand, year: car.year, tag: car.tag, 
                         price: `${15000 + (index * 1000)}`,
                         plate: `و ه م ${index + 1}`,
                         status: index % 2 === 0 ? "جديد" : "مستعمل", 
